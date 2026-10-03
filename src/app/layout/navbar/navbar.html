@@ -1,0 +1,64 @@
+<header class="axis-navbar">
+  <!-- Marca -->
+  <div class="axis-navbar-brand">
+    <!-- Logo -->
+    <div class="axis-navbar-logo">
+      <mat-icon>how_to_vote</mat-icon>
+    </div>
+    <!-- Título -->
+    <span class="axis-navbar-title">Votaciones.Axis</span>
+  </div>
+  <!-- Acciones derecha -->
+  <div class="axis-navbar-actions">
+    <!-- Elección -->
+    @if (eleccion()) {
+      <div class="axis-navbar-election">
+        <span class="axis-navbar-election-label">Elección</span>
+        <button mat-button type="button" class="axis-navbar-election-button"
+                [matMenuTriggerFor]="eleccionesMenu">
+          <span>{{ eleccion()?.nombreEleccion }}</span>
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+      </div>
+    }
+    <mat-menu #eleccionesMenu="matMenu">
+      @for (item of elecciones(); track item.idEleccion) {
+        <button mat-menu-item type="button" (click)="seleccionarEleccion(item)">
+          <mat-icon>how_to_vote</mat-icon>
+          <span>{{ item.nombreEleccion }}</span>
+        </button>
+      }
+    </mat-menu>
+    <!-- Usuario -->
+    <div class="axis-navbar-user">
+      <div class="axis-navbar-user-icon">
+        <mat-icon>person</mat-icon>
+      </div>
+      <div class="axis-navbar-user-info">
+        <span class="axis-navbar-user-name">{{ usuario?.nombreUsuario }}</span>
+        <span class="axis-navbar-user-role"> {{ usuario?.nombreRol }}</span>
+      </div>
+      <!-- MENU USUARIO -->
+      <button mat-icon-button type="button" [matMenuTriggerFor]="userMenu"
+              aria-label="Opciones de usuario">
+        <mat-icon>
+          keyboard_arrow_down
+        </mat-icon>
+      </button>
+    </div>
+  </div>
+</header>
+<!-- MENÚ DEL USUARIO -->
+<mat-menu #userMenu="matMenu">
+  <!-- Información del usuario -->
+  <div class="axis-user-menu-info">
+    <div class="axis-user-menu-name">{{ usuario?.nombreUsuario ?? 'Usuario' }}</div>
+    <div class="axis-user-menu-role">{{ usuario?.nombreRol ?? 'Sin rol' }}</div>
+  </div>
+  <mat-divider></mat-divider>
+  <!-- Cerrar sesión -->
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Cerrar sesión</span>
+  </button>
+</mat-menu>

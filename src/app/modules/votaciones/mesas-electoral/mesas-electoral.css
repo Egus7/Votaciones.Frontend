@@ -1,0 +1,17 @@
+.mesa-ubicacion-zona {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.mesa-ubicacion-detalle {
+  display: flex;
+  gap: 12px;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+.mesa-ubicacion-detalle strong, .mesa-ubicacion-provincia strong {
+  font-weight: 600;
+}
+.mesa-ubicacion-provincia {
+  margin-top: 3px;
+  font-size: 0.85rem;
+}

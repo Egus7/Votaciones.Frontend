@@ -1,0 +1,48 @@
+.bitacora-fecha {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bitacora-fecha small {
+  color: var(--color-text-disabled);
+  font-size: 12px;
+}
+
+.bitacora-accion {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.bitacora-accion-creacion {
+  background: rgba(34, 197, 94, 0.12);
+  color: #16a34a;
+}
+.bitacora-accion-edicion {
+  background: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+}
+
+.bitacora-registro {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/** user **/
+.axis-table-user {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.axis-table-user strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+}
+.axis-table-user small {
+  font-size: 12px;
+  color: #6b7280;
+}

@@ -1,0 +1,280 @@
+/* SIDEBAR */
+.axis-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  overflow-x: visible;
+  background: var(--color-sidebar);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  transition: width var(--transition-normal), min-width var(--transition-normal);
+}
+/** Cabecera menu **/
+.axis-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 72px;
+  padding: 12px 14px;
+}
+.axis-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  overflow: visible;
+}
+.axis-sidebar-brand-title {
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--color-sidebar-text);
+}
+/**************************/
+/* Logo / botón de menú */
+.axis-navbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--color-sidebar-hover), #2563eb);
+}
+/* Botón menú */
+.axis-navbar-menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 12px;
+  color: #ffffff;
+}
+/* Hover */
+.axis-navbar-menu-button:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+/* Icono menú */
+.axis-navbar-menu-button mat-icon {
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+  line-height: 24px;
+}
+/**************************/
+/* Navegación */
+.axis-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 12px 10px;
+  min-height: 0;
+}
+/* SECCIONES PRINCIPALES */
+.axis-sidebar-section {
+  margin-top: var(--space-lg);
+}
+
+/* Títulos de secciones */
+.axis-sidebar-section-title {
+  display: block;
+  margin: 20px 10px 8px;
+  color: var(--color-sidebar-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/*!* SUBSECCIONES *!*/
+.axis-sidebar-subsection {
+  margin-top: var(--space-sm);
+}
+
+/* Submenús */
+.axis-sidebar-subsection-title {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  color: var(--color-sidebar-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+.axis-sidebar-subsection-title mat-icon {
+  color: var(--color-sidebar-muted);
+}
+
+/* Elementos del menú */
+.axis-sidebar-item {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  margin-bottom: 3px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--color-sidebar-text);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+.axis-sidebar-item mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  color: var(--color-sidebar-muted);
+  flex-shrink: 0;
+}
+.axis-sidebar-item span {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+/* ITEMS DE SUBSECCIONES */
+.axis-sidebar-item-sub {
+  padding-left: calc(var(--space-sm) + 28px);
+}
+
+/* HOVER */
+.axis-sidebar-item:hover {
+  background: var(--color-sidebar-hover);
+  color: #ffffff;
+}
+.axis-sidebar-item:hover mat-icon {
+  color: #ffffff;
+}
+/* ITEM ACTIVO */
+.axis-sidebar-item-active {
+  background: var(--color-sidebar-active);
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(36, 120, 243, 0.22);
+}
+.axis-sidebar-item-active span {
+  color: #ffffff;
+  font-weight: 600;
+}
+.axis-sidebar-item-active mat-icon {
+  color: #ffffff;
+}
+
+/* Separadores */
+.axis-sidebar-divider {
+  height: 1px;
+  margin: 14px 0;
+  background: rgba(255, 255, 255, 0.10);
+}
+/* Cerrar sesión */
+.axis-sidebar-logout {
+  width: 100%;
+  background: transparent;
+  color: var(--color-sidebar-text);
+}
+.axis-sidebar-logout:hover {
+  background: var(--color-sidebar-hover);
+  color: #ffffff;
+}
+
+/* SIDEBAR COLAPSADO */
+.axis-sidebar-collapsed {
+  width: 72px;
+  min-width: 72px;
+}
+/* Cabecera cuando el menú está contraído */
+.axis-sidebar-collapsed .axis-sidebar-header {
+  gap: 8px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 4px;
+}
+.axis-sidebar-collapsed .axis-sidebar-brand {
+  justify-content: center;
+}
+.axis-sidebar-collapsed .axis-navbar-logo {
+  width: 36px;
+  height: 36px;
+  flex-basis: 36px;
+  border-radius: 10px;
+}
+.axis-sidebar-collapsed .axis-navbar-menu-button {
+  width: 36px;
+  height: 36px;
+}
+/* TOOLTIP DEL BOTÓN MENÚ CUANDO EL SIDEBAR ESTÁ COLAPSADO */
+.axis-sidebar-collapsed .axis-navbar-menu-button {
+  position: relative;
+}
+
+/* NAVEGACIÓN COLAPSADA */
+.axis-sidebar-collapsed .axis-sidebar-nav {
+  padding-left: var(--space-sm);
+  padding-right: var(--space-sm);
+}
+/* ITEMS COLAPSADOS */
+.axis-sidebar-collapsed .axis-sidebar-item {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+  position: relative;
+}
+/* SUBSECCIONES COLAPSADAS */
+.axis-sidebar-collapsed .axis-sidebar-subsection {
+  margin-top: var(--space-xs);
+}
+/* Ocultar título de la subsección */
+.axis-sidebar-collapsed .axis-sidebar-subsection-title {
+  display: none;
+}
+/* OCULTAR TEXTOS */
+.axis-sidebar-collapsed .axis-sidebar-item span {
+  display: none;
+}
+/* OCULTAR TÍTULOS PRINCIPALES */
+.axis-sidebar-collapsed .axis-sidebar-section-title {
+  display: none;
+}
+ ESPACIADO DE SECCIONES COLAPSADAS
+.axis-sidebar-collapsed .axis-sidebar-section {
+  margin-top: var(--space-sm);
+}
+
+/* ITEMS DE SUBSECCIONES COLAPSADOS */
+.axis-sidebar-collapsed .axis-sidebar-item-sub {
+  padding-left: 0;
+}
+
+/* TOOLTIP */
+.axis-sidebar-collapsed .axis-sidebar-item::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 10px;
+  background-color: var(--color-text);
+  color: #ffffff;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+  z-index: 100;
+}
+
+/* MOSTRAR TOOLTIP */
+.axis-sidebar-collapsed .axis-sidebar-item:hover::after {
+  opacity: 1;
+  visibility: visible;
+}

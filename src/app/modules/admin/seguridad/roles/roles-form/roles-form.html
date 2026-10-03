@@ -1,0 +1,120 @@
+<div class="axis-card-content">
+  <!-- Encabezado -->
+  <div class="axis-page-header">
+    <h2 class="axis-page-title">{{ esEdicion ? 'Editar rol' : 'Nuevo rol' }}</h2>
+    <p class="axis-page-subtitle">{{ esEdicion ? 'Modifique la información y los permisos del rol.'
+      : 'Registre el rol y configure sus permisos.' }}
+    </p>
+  </div>
+  @if (cargando()) {
+    <div class="axis-table-empty">
+      <mat-icon>hourglass_empty</mat-icon> Cargando información del rol...
+    </div>
+  } @else {
+    <form class="axis-form" (ngSubmit)="guardarFormulario()">
+      <!-- Datos generales -->
+      <!-- Fila 1 -->
+      <div class="axis-form-row">
+        <!-- Nombre rol -->
+        <div class="axis-form-col axis-form-col-6">
+          <div class="axis-form-group">
+            <label class="axis-form-label" for="nombreRol">Nombre del rol</label>
+            <input id="nombreRol" class="axis-form-input" type="text" placeholder="Ingrese el nombre del rol"
+                   [(ngModel)]="rol.nombreRol" name="nombreRol" required>
+          </div>
+        </div>
+        <!-- Descripcion rol -->
+        <div class="axis-form-col axis-form-col-6">
+          <div class="axis-form-group">
+            <label class="axis-form-label" for="descripcionRol">Descripción</label>
+            <input id="descripcionRol" class="axis-form-input" type="text" placeholder="Describa la función del rol"
+                   [(ngModel)]="rol.descripcionRol" name="descripcionRol">
+          </div>
+        </div>
+      </div>
+      <!-- Permisos -->
+      <div class="rol-permisos-section">
+        <!-- Encabezado -->
+        <div class="rol-permisos-header">
+          <div class="rol-permisos-titulo">
+            <div class="rol-permisos-icon">
+              <mat-icon>admin_panel_settings</mat-icon>
+            </div>
+            <div>
+              <h3>Permisos del sistema</h3>
+              <p>Configure los módulos y las acciones permitidas para este rol.</p>
+            </div>
+          </div>
+          <!-- Acciones -->
+          <div class="rol-permisos-acciones">
+            <button type="button" class="axis-button axis-button-secondary" (click)="cambiarTodosLosPermisos(true)">
+              <mat-icon>done_all</mat-icon> Seleccionar todos
+            </button>
+            <button type="button" class="axis-button axis-button-secondary" (click)="cambiarTodosLosPermisos(false)">
+              <mat-icon>remove_done</mat-icon> Limpiar
+            </button>
+          </div>
+        </div>
+        <!-- Módulos -->
+        <div class="rol-permisos-lista">
+          @for (modulo of modulosPermisos; track modulo.codigo) {
+            <section class="rol-permiso-modulo" [class.rol-permiso-modulo-abierto]="moduloAbierto(modulo.codigo)">
+              <!-- Cabecera módulo -->
+              <div class="rol-permiso-modulo-header">
+                <!-- Área para abrir/cerrar -->
+                <button type="button" class="rol-permiso-modulo-trigger" (click)="toggleModulo(modulo.codigo)">
+                  <div class="rol-permiso-modulo-icon">
+                    <mat-icon>{{ moduloAbierto(modulo.codigo) ? 'folder_open' : 'folder' }}</mat-icon>
+                  </div>
+                  <div class="rol-permiso-modulo-info">
+                    <h4>{{ modulo.nombre }}</h4>
+                    <span>{{ cantidadPermisosSeleccionados(modulo) }} de {{ modulo.permisos.length }}
+                      permisos seleccionados
+                    </span>
+                  </div>
+                  <mat-icon class="rol-permiso-chevron">{{ moduloAbierto(modulo.codigo) ?
+                    'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+                  </mat-icon>
+                </button>
+                <!-- Seleccionar módulo -->
+                <label class="rol-permiso-modulo-check" (click)="$event.stopPropagation()">
+                  <input type="checkbox" [checked]="moduloCompleto(modulo)" [disabled]="esRolAdministrador"
+                         (change)="cambiarPermisosModulo(modulo, $any($event.target).checked)">
+                  <span>Todo</span>
+                </label>
+              </div>
+              <!-- Opciones -->
+              @if (moduloAbierto(modulo.codigo)) {
+                <div class="rol-permiso-opciones">
+                  @for (permiso of modulo.permisos; track permiso.codigo) {
+                    <label class="rol-permiso-opcion">
+                      <input type="checkbox" [checked]="tienePermiso(permiso.codigo)" [disabled]="esRolAdministrador"
+                             (change)="cambiarPermiso(permiso.codigo, $any($event.target).checked)">
+                      <span class="rol-permiso-check">
+                        <mat-icon>{{ tienePermiso(permiso.codigo)
+                          ? 'check_circle' : 'radio_button_unchecked' }}
+                        </mat-icon>
+                      </span>
+                      <span class="rol-permiso-nombre">{{ permiso.nombre }}</span>
+                    </label>
+                  }
+                </div>
+              }
+            </section>
+          }
+        </div>
+      </div>
+      <!-- Acciones -->
+      <div class="axis-form-row">
+        <div class="axis-form-actions">
+          <button type="button" class="axis-button axis-button-secondary" (click)="cancelarFormulario()">
+            <mat-icon>close</mat-icon> Cancelar
+          </button>
+          <button type="submit" class="axis-button axis-button-primary" [disabled]="guardando()">
+            <mat-icon>save</mat-icon>{{ guardando() ? 'Guardando...' : esEdicion ? 'Actualizar' : 'Guardar' }}
+          </button>
+        </div>
+      </div>
+    </form>
+  }
+</div>

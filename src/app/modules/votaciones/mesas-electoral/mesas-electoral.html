@@ -1,0 +1,129 @@
+<div class="axis-page">
+  <div class="axis-container">
+    <!-- Encabezado -->
+    <div class="axis-page-header">
+      <h1 class="axis-page-title">Mesas electorales</h1>
+      <p class="axis-page-subtitle">Administre las mesas electorales de la elección.</p>
+    </div>
+    <!-- Acciones -->
+    <div class="axis-toolbar">
+      <div></div>
+      <button mat-flat-button color="primary" type="button" (click)="nuevaMesa()">
+        <mat-icon>add</mat-icon> Nueva mesa
+      </button>
+      <!-- Regresar -->
+      <button type="button" class="axis-button axis-button-secondary"
+              routerLink="/votaciones">
+        <mat-icon>arrow_back</mat-icon> Regresar a votaciones
+      </button>
+    </div>
+    <!-- Filtros -->
+    <div class="axis-table-filters">
+      <!-- Buscar -->
+      <div class="axis-table-filter axis-table-filter-search">
+        <input type="text" class="axis-form-input" placeholder="Buscar mesa..."
+               [(ngModel)]="busqueda" (keyup.enter)="buscar()">
+      </div>
+      <!-- Tipo de mesa -->
+      <div class="axis-table-filter axis-table-filter-select">
+        <label class="axis-form-label">Tipo Mesa (Sexo)</label>
+        <select class="axis-form-select" [(ngModel)]="tipoMesa">
+          <option [ngValue]="undefined">Todos los tipos</option>
+          <option value="Femenina">Femenina</option>
+          <option value="Masculina">Masculina</option>
+        </select>
+      </div>
+      <!-- Acciones -->
+      <div class="axis-filtros-actions">
+        <button type="button" class="axis-button axis-button-primary" (click)="buscar()">
+          <mat-icon>search</mat-icon> Buscar
+        </button>
+        <button type="button" class="axis-button axis-button-secondary" (click)="limpiarFiltros()">
+          <mat-icon>clear</mat-icon> Limpiar
+        </button>
+      </div>
+    </div>
+    <!-- Tabla -->
+    <div class="axis-table-container">
+      @if (cargando()) {
+        <div class="axis-table-empty">Cargando mesas...</div>
+      } @else if (mesas().length === 0) {
+        <div class="axis-table-empty">No existen mesas electorales registradas.</div>
+      } @else {
+        <table class="axis-table">
+          <thead>
+          <tr>
+            <th>Mesa</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+            <th>Zona</th>
+            <th class="center">Estado</th>
+            <th class="right">Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (mesa of mesas(); track mesa.idMesaElectoral) {
+              <tr>
+                <!-- Mesa -->
+                <td><strong>{{ mesa.codigoMesa }}</strong></td>
+                <!-- Tipo -->
+                <td>{{ mesa.tipoMesa }}</td>
+                <!-- Descripción -->
+                <td>{{ mesa.descripcion }}</td>
+                <!-- Ubicación -->
+                <td>
+                  <div class="mesa-ubicacion-zona">{{ mesa.zona }}</div>
+                  <div class="mesa-ubicacion-detalle">
+                    <span><strong>Parroquia:</strong> {{ mesa.parroquia }}</span>
+                    <span><strong>Cantón:</strong> {{ mesa.canton }}</span>
+                  </div>
+                  <div class="mesa-ubicacion-provincia">
+                    <strong>Provincia:</strong> {{ mesa.provincia }}
+                  </div>
+                </td>
+                <!-- Estado -->
+                <td class="center">
+                  @if (mesa.activa) {
+                    <span class="axis-status axis-status-success">Activa</span>
+                  } @else {
+                    <span class="axis-status axis-status-danger">Cerrada</span>
+                  }
+                </td>
+                <!-- Acciones -->
+                <td>
+                  <div class="axis-table-actions">
+                    <!-- Editar -->
+                    <button type="button" class="axis-icon-button" title="Editar"
+                            (click)="editarMesa(mesa.idMesaElectoral)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <!-- Activar / Desactivar -->
+                    @if (mesa.activa) {
+                      <button type="button" class="axis-icon-button axis-icon-button-danger"
+                              title="Desactivar" (click)="cambiarEstadoMesa(mesa)">
+                        <mat-icon>block</mat-icon>
+                      </button>
+                    } @else {
+                      <button type="button" class="axis-icon-button" title="Activar"
+                              (click)="cambiarEstadoMesa(mesa)">
+                        <mat-icon>check_circle</mat-icon>
+                      </button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        <!-- Paginación -->
+        <app-paginacion
+          [paginaActual]="paginaActual"
+          [pageSize]="pageSize"
+          [totalPages]="totalPages"
+          [totalRegistros]="totalRegistros"
+          (paginaCambio)="cambiarPagina($event)">
+        </app-paginacion>
+      }
+    </div>
+  </div>
+</div>

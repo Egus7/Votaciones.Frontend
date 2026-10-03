@@ -1,0 +1,81 @@
+<aside class="axis-sidebar" [class.axis-sidebar-collapsed]="!abierto()">
+  <!-- Cabecera menu -->
+  <div class="axis-sidebar-header">
+    <div class="axis-sidebar-brand">
+      <div class="axis-navbar-logo">
+        <!-- Botón menú -->
+        <button mat-icon-button type="button" class="axis-navbar-menu-button" matTooltip="Menú"
+                matTooltipPosition="right" (click)="menuToggle.emit()" aria-label="Abrir o cerrar menú">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Navegación -->
+  <nav class="axis-sidebar-nav">
+    <!-- INICIO -->
+    <a [routerLink]="Enlace.Home" routerLinkActive="axis-sidebar-item-active"
+       [routerLinkActiveOptions]="{ exact: true }" class="axis-sidebar-item" data-tooltip="Inicio">
+      <mat-icon>home</mat-icon>
+      <span>Inicio</span>
+    </a>
+    <!-- ADMINISTRACIÓN -->
+    <div class="axis-sidebar-section">
+      <span class="axis-sidebar-section-title">Administración</span>
+      <!-- Configuración -->
+      <div class="axis-sidebar-subsection">
+        <div class="axis-sidebar-subsection-title">
+          <mat-icon>settings</mat-icon>
+          <span>Configuración</span>
+        </div>
+        <a [routerLink]="[Enlace.Admin, EnlaceSub.Parametros]" routerLinkActive="axis-sidebar-item-active"
+          class="axis-sidebar-item axis-sidebar-item-sub" data-tooltip="Parámetros">
+          <mat-icon>tune</mat-icon>
+          <span>Parámetros</span>
+        </a>
+        <a [routerLink]="[Enlace.Admin, EnlaceSub.Seguridad, EnlaceSub.Bitacora]"
+           routerLinkActive="axis-sidebar-item-active" class="axis-sidebar-item axis-sidebar-item-sub"
+           data-tooltip="Bitácora">
+          <mat-icon>history</mat-icon>
+          <span>Bitácora</span>
+        </a>
+      </div>
+      <!-- Seguridad -->
+      <div class="axis-sidebar-subsection">
+        <div class="axis-sidebar-subsection-title">
+          <mat-icon>security</mat-icon>
+          <span>Seguridad</span>
+        </div>
+        <a [routerLink]="[Enlace.Admin, EnlaceSub.Seguridad, EnlaceSub.Usuarios]"
+          routerLinkActive="axis-sidebar-item-active" class="axis-sidebar-item axis-sidebar-item-sub"
+          data-tooltip="Usuarios">
+          <mat-icon>people</mat-icon>
+          <span>Usuarios</span>
+        </a>
+        <a [routerLink]="[Enlace.Admin, EnlaceSub.Seguridad, EnlaceSub.Roles]"
+           routerLinkActive="axis-sidebar-item-active" class="axis-sidebar-item axis-sidebar-item-sub"
+           data-tooltip="Roles">
+          <mat-icon>admin_panel_settings</mat-icon>
+          <span>Roles</span>
+        </a>
+      </div>
+    </div>
+    <!-- VOTACIONES -->
+    <div class="axis-sidebar-section">
+      <span class="axis-sidebar-section-title">Votaciones</span>
+      <a [routerLink]="[Enlace.Votaciones, EnlaceSub.Listas]" routerLinkActive="axis-sidebar-item-active"
+         class="axis-sidebar-item" data-tooltip="Lista electoral">
+        <mat-icon>list_alt</mat-icon>
+        <span>Lista electoral</span>
+      </a>
+    </div>
+    <!-- SEPARADOR -->
+    <div class="axis-sidebar-divider"></div>
+    <!-- CUENTA -->
+    <button type="button" class="axis-sidebar-item axis-sidebar-xlogout"
+      data-tooltip="Cerrar sesión" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Cerrar sesión</span>
+    </button>
+  </nav>
+</aside>

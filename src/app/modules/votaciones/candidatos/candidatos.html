@@ -1,0 +1,150 @@
+<div class="axis-page">
+  <div class="axis-container">
+    <!-- Encabezado -->
+    <div class="axis-page-header">
+      <h1 class="axis-page-title">Candidatos</h1>
+      <p class="axis-page-subtitle">Administre los candidatos registrados.</p>
+    </div>
+    <!-- Acciones -->
+    <div class="axis-toolbar">
+      <div></div>
+      <!-- Nuevo -->
+      <button mat-flat-button color="primary" type="button" (click)="nuevoCandidato()">
+        <mat-icon>add</mat-icon> Nuevo candidato
+      </button>
+      <!-- Regresar -->
+      <button type="button" class="axis-button axis-button-secondary"
+              routerLink="/votaciones">
+        <mat-icon>arrow_back</mat-icon> Regresar a votaciones
+      </button>
+    </div>
+    <!-- Filtros -->
+    <div class="axis-table-filters">
+      <!-- Buscar -->
+      <div class="axis-table-filter axis-table-filter-search">
+        <input type="text" class="axis-form-input" placeholder="Buscar candidato..."
+               [(ngModel)]="busqueda" (keyup.enter)="buscar()">
+      </div>
+      <!-- Tipo -->
+      <div class="axis-table-filter axis-table-filter-select">
+        <label class="axis-form-label">Tipo Candidato</label>
+        <select id="tipoCandidato" class="axis-form-select" [(ngModel)]="tipoCandidato" name="tipoCandidato">
+          <option [ngValue]="undefined">Todos los tipos candidatos</option>
+          @for (tipo of tiposCandidato; track tipo) {
+            <option [ngValue]="tipo">{{ nombreTipoCandidato(tipo) }}</option>
+          }
+        </select>
+      </div>
+      <!-- Lista -->
+      <div class="axis-table-filter axis-table-filter-select">
+        <label class="axis-form-label">Lista Electoral</label>
+        <select class="axis-form-select" [(ngModel)]="listaElectoralId">
+          <option value="">Todas las listas</option>
+          @for (lista of listas(); track lista.idListaElectoral) {
+            <option [value]="lista.idListaElectoral">
+              {{ lista.numeroLista }} - {{ lista.nombreLista }}
+            </option>
+          }
+        </select>
+      </div>
+      <!-- Acciones de filtros -->
+      <div class="axis-filtros-actions">
+        <button type="button" class="axis-button axis-button-primary" (click)="buscar()">
+          <mat-icon>search</mat-icon> Buscar
+        </button>
+        <button type="button" class="axis-button axis-button-secondary" (click)="limpiarFiltros()">
+          <mat-icon>clear</mat-icon> Limpiar
+        </button>
+      </div>
+    </div>
+    <!-- Tabla -->
+    <div class="axis-table-container">
+      @if (cargando()) {
+        <div class="axis-table-empty">
+          Cargando candidatos...
+        </div>
+      } @else if (candidatos().length === 0) {
+        <div class="axis-table-empty">
+          No existen candidatos registrados.
+        </div>
+      } @else {
+        <table class="axis-table">
+          <thead>
+          <tr>
+            <th>Candidato</th>
+            <th>Lista electoral</th>
+            <th>Tipo Candidato</th>
+            <th class="center">Orden</th>
+            <th class="center">Estado</th>
+            <th class="right">Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (candidato of candidatos(); track candidato.idCandidato) {
+              <tr>
+                <!-- Candidato -->
+                <td><strong>{{ candidato.nombreCandidato }}</strong></td>
+                <!-- Listas -->
+                <td>
+                  <div class="candidato-listas">
+                    @for (lista of candidato.listasCandidato; track lista.listaElectoralId) {
+                      <span class="candidato-lista" [class.candidato-lista-principal]="lista.esPrincipal">
+                        <span class="candidato-lista-numero">{{ lista.numeroLista }}</span>
+                        <span class="candidato-lista-nombre">{{ lista.nombreLista }}</span>
+                        @if (lista.esPrincipal) {
+                          <span class="candidato-lista-principal-label">Principal</span>
+                        }
+                      </span>
+                    }
+                  </div>
+                </td>
+                <!-- Tipo -->
+                <td>{{ candidato.tipoCandidato }}</td>
+                <!-- Orden -->
+                <td class="center">{{ candidato.orden ?? '—' }}</td>
+                <!-- Estado -->
+                <td class="center">
+                  @if (candidato.activo) {
+                    <span class="axis-status axis-status-success">Activo</span>
+                  } @else {
+                    <span class="axis-status axis-status-danger">Inactivo</span>
+                  }
+                </td>
+                <!-- Acciones -->
+                <td>
+                  <div class="axis-table-actions">
+                    <!-- Editar -->
+                    <button type="button" class="axis-icon-button" title="Editar"
+                            (click)="editarCandidato(candidato.idCandidato)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <!-- Activar / Desactivar -->
+                    @if (candidato.activo) {
+                      <button type="button" class="axis-icon-button axis-icon-button-danger"
+                              title="Desactivar" (click)="cambiarEstadoCandidato(candidato)">
+                        <mat-icon>block</mat-icon>
+                      </button>
+                    } @else {
+                      <button type="button" class="axis-icon-button" title="Activar"
+                              (click)="cambiarEstadoCandidato(candidato)">
+                        <mat-icon>check_circle</mat-icon>
+                      </button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        <!-- Paginación -->
+        <app-paginacion
+          [paginaActual]="paginaActual"
+          [pageSize]="pageSize"
+          [totalPages]="totalPages"
+          [totalRegistros]="totalRegistros"
+          (paginaCambio)="cambiarPagina($event)">
+        </app-paginacion>
+      }
+    </div>
+  </div>
+</div>

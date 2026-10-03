@@ -1,0 +1,64 @@
+<div class="login-page">
+  <!-- Panel izquierdo -->
+  <div class="login-brand">
+    <div class="brand-content">
+      <div class="brand-icon">
+        <mat-icon>how_to_vote</mat-icon>
+      </div>
+      <h1>Votaciones.Axis</h1>
+      <p>Sistema de gestión y resultados electorales</p>
+      <div class="brand-divider"></div>
+      <div class="brand-info">
+        <span>Gestión electoral</span>
+        <span>Conteo de votos</span>
+        <span>Resultados en tiempo real</span>
+      </div>
+    </div>
+  </div>
+  <!-- Panel derecho -->
+  <div class="login-content">
+    <div class="login-card axis-card">
+      <div class="login-header">
+        <h2 class="axis-title">Iniciar sesión</h2>
+        <p class="axis-text-secondary">Ingrese sus credenciales para acceder al sistema.</p>
+      </div>
+      <form class="axis-form">
+        <!-- Usuario -->
+        <mat-form-field appearance="outline" class="login-field">
+          <mat-label>Usuario</mat-label>
+          <input matInput type="text" [(ngModel)]="loginDto.usuario" name="usuario" autocomplete="username">
+        </mat-form-field>
+        <!-- Contraseña -->
+        <mat-form-field appearance="outline" class="login-field">
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="mostrarPassword() ? 'text' : 'password'" [(ngModel)]="loginDto.password"
+            name="password" autocomplete="current-password">
+          <button type="button" class="password-toggle" (click)="mostrarPassword.set(!mostrarPassword())"
+            [attr.aria-label]="mostrarPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+            <mat-icon>{{ mostrarPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- Error -->
+        @if (errorLogin()) {
+          <div class="login-error">
+            <mat-icon>error_outline</mat-icon>
+            <span>{{ errorLogin() }}</span>
+          </div>
+        }
+        <div class="d-flex justify-content-end">
+          <button mat-flat-button color="primary" type="button" class="login-button" [disabled]="cargando()"
+                  (click)="iniciarSesion()">
+            @if (cargando()) {
+              Iniciando sesión...
+            } @else {
+              Iniciar sesión
+            }
+          </button>
+        </div>
+      </form>
+      <div class="login-footer">
+        <span>Votaciones.Axis</span>
+      </div>
+    </div>
+  </div>
+</div>

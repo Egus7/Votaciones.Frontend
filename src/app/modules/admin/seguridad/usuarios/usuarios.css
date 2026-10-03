@@ -1,0 +1,14 @@
+.axis-table-user {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.axis-table-user strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+.axis-table-user small {
+  font-size: 12px;
+  color: #6b7280;
+}

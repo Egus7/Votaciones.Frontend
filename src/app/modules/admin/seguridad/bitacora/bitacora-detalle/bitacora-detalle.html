@@ -1,0 +1,108 @@
+<div class="bitacora-detalle">
+  <!-- Encabezado -->
+  <div class="bitacora-detalle-header">
+    <div class="bitacora-detalle-titulo">
+      <div class="bitacora-detalle-icono">
+        <mat-icon>description</mat-icon>
+      </div>
+      <div>
+        <h2>Detalle de la bitácora</h2>
+        <p>Información del registro y cambios realizados.</p>
+      </div>
+    </div>
+    <button type="button" class="bitacora-cerrar-icono" title="Cerrar" aria-label="Cerrar detalle"
+            (click)="cerrar()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <!-- Información general -->
+  <div class="bitacora-detalle-info">
+    <!-- Fecha -->
+    <div class="bitacora-info-item">
+      <mat-icon class="bitacora-info-icon">calendar_month</mat-icon>
+      <div class="bitacora-info-contenido">
+        <span class="bitacora-info-label">Fecha y hora</span>
+        <strong>{{ data.fechaRegistro | date:'dd/MM/yyyy HH:mm:ss' }}</strong>
+      </div>
+    </div>
+    <!-- Acción -->
+    <div class="bitacora-info-item">
+      <mat-icon class="bitacora-info-icon">sync</mat-icon>
+      <div class="bitacora-info-contenido">
+        <span class="bitacora-info-label">Acción</span>
+        @if (data.accion === 'INSERT') {
+          <span class="bitacora-accion bitacora-accion-creacion">
+            <mat-icon>add_circle</mat-icon> Crear
+          </span>
+        } @else if (data.accion === 'UPDATE') {
+          <span class="bitacora-accion bitacora-accion-edicion">
+            <mat-icon>edit</mat-icon> Modificar
+          </span>
+        } @else {
+          <strong>{{ data.accion }}</strong>
+        }
+      </div>
+    </div>
+    <!-- Usuario -->
+    <div class="bitacora-info-item">
+      <mat-icon class="bitacora-info-icon">person_outline</mat-icon>
+      <div class="bitacora-info-contenido">
+        <span class="bitacora-info-label">Usuario</span>
+        <strong>{{ data.usuario }}</strong>
+        @if (data.correoUsuario) {
+          <small>{{ data.correoUsuario }}</small>
+        }
+      </div>
+    </div>
+    <!-- Módulo -->
+    <div class="bitacora-info-item">
+      <mat-icon class="bitacora-info-icon">grid_view</mat-icon>
+      <div class="bitacora-info-contenido">
+        <span class="bitacora-info-label">Módulo</span>
+        <strong>{{ obtenerNombreModulo(data.tabla!) }}</strong>
+      </div>
+    </div>
+    <!-- Descripción -->
+    <div class="bitacora-info-item bitacora-info-descripcion">
+      <mat-icon class="bitacora-info-icon">description</mat-icon>
+      <div class="bitacora-info-contenido">
+        <span class="bitacora-info-label">Descripción del registro</span>
+        <p>{{ data.descripcion || 'Sin descripción disponible.' }}</p>
+      </div>
+    </div>
+  </div>
+  <!-- Valores anteriores y nuevos -->
+  <div class="bitacora-detalle-valores">
+    <!-- Valores anteriores -->
+    <section class="bitacora-valor-panel bitacora-valor-anterior">
+      <div class="bitacora-valor-header">
+        <mat-icon>history</mat-icon>
+        <h3>Valores anteriores</h3>
+      </div>
+      @if (data.valoresAnteriores) {
+        <pre>{{ obtenerJson(data.valoresAnteriores) | json }}</pre>
+      } @else {
+        <div class="bitacora-valor-vacio">No existían valores anteriores.</div>
+      }
+    </section>
+    <!-- Valores nuevos -->
+    <section class="bitacora-valor-panel bitacora-valor-nuevo">
+      <div class="bitacora-valor-header">
+        <mat-icon>add_circle_outline</mat-icon>
+        <h3>Valores nuevos</h3>
+      </div>
+      @if (data.valoresNuevos) {
+        <pre>{{ obtenerJson(data.valoresNuevos) | json }}</pre>
+      } @else {
+        <div class="bitacora-valor-vacio">No hay valores nuevos disponibles.</div>
+      }
+    </section>
+  </div>
+  <!-- Acciones -->
+  <div class="bitacora-detalle-footer">
+    <button mat-flat-button type="button" color="primary" (click)="cerrar()">
+      Cerrar
+    </button>
+  </div>
+</div>
+

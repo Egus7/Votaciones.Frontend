@@ -1,0 +1,126 @@
+<div class="axis-card-content">
+  <!-- Encabezado -->
+  @if (!esEdicion) {
+    <div class="axis-page-header">
+      <h2 class="axis-page-title">Nuevo candidato</h2>
+      <p class="axis-page-subtitle">Registre la información del candidato.</p>
+    </div>
+  } @else {
+    <div class="axis-page-header">
+      <h2 class="axis-page-title">Editar candidato</h2>
+      <p class="axis-page-subtitle">Modifique la información del candidato.</p>
+    </div>
+  }
+  @if (cargando()) {
+    <div class="axis-table-empty">
+      <mat-icon>hourglass_empty</mat-icon>
+      <div>Cargando información del candidato...</div>
+    </div>
+  } @else {
+    <form class="axis-form" (ngSubmit)="guardarFormulario()">
+      <div class="axis-form-row">
+        <div class="axis-form-col axis-form-col-6">
+          <div class="axis-form-group">
+            <label class="axis-form-label" for="nombreCandidato">Nombre del candidato</label>
+            <input id="nombreCandidato" type="text" class="axis-form-input"
+                   placeholder="Ingrese el nombre del candidato"
+                   [(ngModel)]="candidato.nombreCandidato" name="nombreCandidato" required>
+          </div>
+        </div>
+        <div class="axis-form-col axis-form-col-3">
+          <div class="axis-form-group">
+            <label class="axis-form-label" for="tipoCandidato">Tipo de candidato</label>
+            <select id="tipoCandidato" class="axis-form-select"
+                    [(ngModel)]="candidato.tipoCandidato" name="tipoCandidato" required>
+              <option [ngValue]="undefined">Seleccione un tipo</option>
+              @for (tipo of tiposCandidato; track tipo) {
+                <option [ngValue]="tipo">{{ nombreTipoCandidato(tipo) }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="axis-form-col axis-form-col-3">
+          <div class="axis-form-group">
+            <label class="axis-form-label" for="orden">Orden</label>
+            <input id="orden" type="number" class="axis-form-input" placeholder="Ingrese el orden"
+                   [(ngModel)]="candidato.orden" name="orden" min="1">
+          </div>
+        </div>
+        <div class="axis-form-col axis-form-col-6">
+          <div class="axis-form-group">
+            <label class="axis-form-label">Listas electorales</label>
+            <div class="candidato-listas-header">
+              <button type="button" class="axis-button axis-button-secondary"
+                      (click)="abrirModalListas()">
+                <mat-icon>search</mat-icon> Agregar listas electorales
+              </button>
+            </div>
+            @if (listasSeleccionadasInfo.length > 0) {
+              <div class="candidato-listas-seleccionadas">
+                @for (lista of listasSeleccionadasInfo; track lista.idListaElectoral) {
+                  <div class="candidato-lista-item">
+                    <div class="candidato-lista-info">
+                      <div class="candidato-lista-datos">
+                        <strong>{{ lista.numeroLista }}</strong>
+                        <span>{{ lista.nombreLista }}</span>
+                        @if (lista.siglas) {
+                          <span class="axis-text-secondary">({{ lista.siglas }})</span>
+                        }
+                        @if (esListaPrincipal(lista.idListaElectoral)) {
+                          <span class="axis-status axis-status-info">Principal</span>
+                        }
+                      </div>
+                    </div>
+                    <div class="candidato-lista-acciones">
+                      @if (listasSeleccionadasInfo.length > 1 &&
+                          !esListaPrincipal(lista.idListaElectoral)) {
+                        <button type="button" class="axis-icon-button" title="Establecer como principal"
+                                (click)="establecerPrincipal(lista.idListaElectoral!)">
+                          <mat-icon>star_outline</mat-icon>
+                        </button>
+                      }
+                      <button type="button" class="axis-icon-button axis-icon-button-danger"
+                              title="Quitar lista" (click)="quitarLista(lista.idListaElectoral!)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                }
+              </div>
+            } @else {
+              <div class="candidato-listas-vacio">
+                No se han agregado listas electorales.
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="axis-form-actions">
+        <button type="button" class="axis-button axis-button-secondary" (click)="cancelarFormulario()">
+          <mat-icon>close</mat-icon> Cancelar
+        </button>
+        <button type="submit" class="axis-button axis-button-primary">
+          <mat-icon>save</mat-icon>{{ esEdicion ? 'Actualizar' : 'Guardar' }}
+        </button>
+      </div>
+    </form>
+  }
+  @if (mostrarModalListas) {
+    <app-modal
+      titulo="Seleccionar listas electorales"
+      subtitulo="Seleccione una o varias listas electorales."
+      [ancho]="'900px'"
+      [mostrarFooter]="true"
+      textoCancelar="Cancelar"
+      textoConfirmar="Agregar seleccionados"
+      (cerrar)="cerrarModalListas()"
+      (cancelar)="cerrarModalListas()"
+      (confirmar)="confirmarListas()">
+      <app-lista-electoral-modal
+        [listasSeleccionadas]="listasSeleccionadas.map(lista => ({
+          idListaElectoral: lista.listaElectoralId
+        }))">
+      </app-lista-electoral-modal>
+    </app-modal>
+  }
+</div>

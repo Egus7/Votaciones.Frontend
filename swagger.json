@@ -1,0 +1,3293 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Votaciones API",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:7141"
+    }
+  ],
+  "paths": {
+    "/api/Actas/paginacion": {
+      "get": {
+        "tags": ["Actas"],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 7
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaDTOPaginacionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaDTOPaginacionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaDTOPaginacionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Actas/{id}": {
+      "get": {
+        "tags": ["Actas"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Actas"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActaEleccion"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActaEleccion"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActaEleccion"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Actas/mesa/{mesaId}": {
+      "get": {
+        "tags": ["Actas"],
+        "parameters": [
+          {
+            "name": "mesaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Actas": {
+      "post": {
+        "tags": ["Actas"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActaEleccion"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActaEleccion"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActaEleccion"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaEleccion"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaEleccion"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActaEleccion"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Actas/cambiarEstado/{id}": {
+      "put": {
+        "tags": ["Actas"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "nuevoEstado",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/EstadoActa"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Bitacora/paginacion": {
+      "get": {
+        "tags": ["Bitacora"],
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 7
+            }
+          },
+          {
+            "name": "fechaDesde",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fechaHasta",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "usuarioId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "accion",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tabla",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BitacoraDTOPaginacionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BitacoraDTOPaginacionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BitacoraDTOPaginacionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Bitacora/id": {
+      "get": {
+        "tags": ["Bitacora"],
+        "parameters": [
+          {
+            "name": "bitacoraId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BitacoraDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BitacoraDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BitacoraDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Bitacora/registro": {
+      "get": {
+        "tags": ["Bitacora"],
+        "parameters": [
+          {
+            "name": "tabla",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idRegistro",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BitacoraDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BitacoraDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BitacoraDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Candidatos/paginacion": {
+      "get": {
+        "tags": ["Candidatos"],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 7
+            }
+          },
+          {
+            "name": "busqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
+            }
+          },
+          {
+            "name": "listaElectoralId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CandidatoDTOPaginacionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CandidatoDTOPaginacionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CandidatoDTOPaginacionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Candidatos/{id}": {
+      "get": {
+        "tags": ["Candidatos"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CandidatoDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CandidatoDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CandidatoDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Candidatos"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Candidato"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Candidato"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Candidato"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Candidatos": {
+      "post": {
+        "tags": ["Candidatos"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Candidato"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Candidato"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Candidato"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Candidato"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Candidato"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Candidato"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Candidatos/cambiarEstado/{id}": {
+      "put": {
+        "tags": ["Candidatos"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Elecciones": {
+      "get": {
+        "tags": ["Elecciones"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Eleccion"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Eleccion"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Eleccion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Elecciones"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Eleccion"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Eleccion"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Eleccion"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Eleccion"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Eleccion"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Eleccion"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Elecciones/{id}": {
+      "get": {
+        "tags": ["Elecciones"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Eleccion"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Eleccion"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Eleccion"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Elecciones"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Eleccion"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Eleccion"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Eleccion"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ListasElectoral/paginacion": {
+      "get": {
+        "tags": ["ListasElectoral"],
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 7
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "jurisdiccion",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Jurisdiccion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaElectoralPaginacionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaElectoralPaginacionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaElectoralPaginacionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ListasElectoral/{id}": {
+      "get": {
+        "tags": ["ListasElectoral"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaElectoral"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaElectoral"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaElectoral"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["ListasElectoral"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListaElectoral"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListaElectoral"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListaElectoral"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/ListasElectoral": {
+      "post": {
+        "tags": ["ListasElectoral"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListaElectoral"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListaElectoral"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListaElectoral"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaElectoral"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaElectoral"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaElectoral"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ListasElectoral/cambiarEstado/{id}": {
+      "put": {
+        "tags": ["ListasElectoral"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/MesasElectoral/paginacion": {
+      "get": {
+        "tags": ["MesasElectoral"],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "pagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 7
+            }
+          },
+          {
+            "name": "busqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tipoMesa",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoMesa"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoralDTOPaginacionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoralDTOPaginacionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoralDTOPaginacionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MesasElectoral/{id}": {
+      "get": {
+        "tags": ["MesasElectoral"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoralDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoralDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoralDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["MesasElectoral"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MesaElectoral"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MesaElectoral"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MesaElectoral"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/MesasElectoral/codigo-mesa": {
+      "get": {
+        "tags": ["MesasElectoral"],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "zonaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipoMesa",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoMesa"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/MesasElectoral": {
+      "post": {
+        "tags": ["MesasElectoral"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MesaElectoral"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MesaElectoral"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MesaElectoral"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoral"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoral"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoral"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MesasElectoral/lote": {
+      "post": {
+        "tags": ["MesasElectoral"],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "zonaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cantidadFemeninas",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "cantidadMasculinas",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoral"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoral"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MesaElectoral"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MesasElectoral/cambiarEstado/{id}": {
+      "put": {
+        "tags": ["MesasElectoral"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Resultados/eleccion": {
+      "get": {
+        "tags": ["Resultados"],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
+            }
+          },
+          {
+            "name": "tipoResultado",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoResultado"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Resultados/eleccion/canton": {
+      "get": {
+        "tags": ["Resultados"],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cantonId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
+            }
+          },
+          {
+            "name": "tipoResultado",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoResultado"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Resultados/eleccion/parroquia": {
+      "get": {
+        "tags": ["Resultados"],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "parroquiaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
+            }
+          },
+          {
+            "name": "tipoResultado",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoResultado"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Resultados/eleccion/zona": {
+      "get": {
+        "tags": ["Resultados"],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "zonaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
+            }
+          },
+          {
+            "name": "tipoResultado",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoResultado"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Roles/paginacion": {
+      "get": {
+        "tags": ["Roles"],
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 7
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolDTOPaginacionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolDTOPaginacionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolDTOPaginacionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Roles/{id}": {
+      "get": {
+        "tags": ["Roles"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Roles"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Roles": {
+      "post": {
+        "tags": ["Roles"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RolDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Roles/cambiarEstado/{id}": {
+      "put": {
+        "tags": ["Roles"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Usuarios/paginacion": {
+      "get": {
+        "tags": ["Usuarios"],
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 7
+            }
+          },
+          {
+            "name": "buscar",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDTOPaginacionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDTOPaginacionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDTOPaginacionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Usuarios/{id}": {
+      "get": {
+        "tags": ["Usuarios"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Usuarios"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdmUsuario"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdmUsuario"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdmUsuario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Usuarios/permisos": {
+      "get": {
+        "tags": ["Usuarios"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Usuarios": {
+      "post": {
+        "tags": ["Usuarios"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdmUsuario"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdmUsuario"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdmUsuario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdmUsuario"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdmUsuario"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdmUsuario"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Usuarios/cambiarEstado/{id}": {
+      "put": {
+        "tags": ["Usuarios"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Zonas/provincias": {
+      "get": {
+        "tags": ["Zonas"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Provincia"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Provincia"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Provincia"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Zonas/cantones": {
+      "get": {
+        "tags": ["Zonas"],
+        "parameters": [
+          {
+            "name": "provinciaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Canton"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Canton"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Canton"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Zonas/parroquias": {
+      "get": {
+        "tags": ["Zonas"],
+        "parameters": [
+          {
+            "name": "cantonId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Parroquia"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Parroquia"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Parroquia"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Zonas/zonas": {
+      "get": {
+        "tags": ["Zonas"],
+        "parameters": [
+          {
+            "name": "parroquiaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Zona"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Zona"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Zona"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActaDTO": {
+        "type": "object",
+        "properties": {
+          "idActa": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tipoCandidato": {
+            "$ref": "#/components/schemas/TipoCandidato"
+          },
+          "fechaRegistro": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eleccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionEleccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoMesa": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionMesa": {
+            "type": "string",
+            "nullable": true
+          },
+          "canton": {
+            "type": "string",
+            "nullable": true
+          },
+          "parroquia": {
+            "type": "string",
+            "nullable": true
+          },
+          "zona": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "$ref": "#/components/schemas/EstadoActa"
+          },
+          "votosBlancos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "votosNulos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalVotos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actasDetalle": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActaDetalleDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActaDTOPaginacionDTO": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActaDTO"
+            },
+            "nullable": true
+          },
+          "pageActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRegistros": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActaDetalle": {
+        "required": ["actaId", "listaElectoralId", "votos"],
+        "type": "object",
+        "properties": {
+          "idActaDetalle": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "actaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "listaElectoralId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "candidatoId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "votos": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActaDetalleDTO": {
+        "type": "object",
+        "properties": {
+          "candidatoId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "candidato": {
+            "type": "string",
+            "nullable": true
+          },
+          "listaElectoralId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lista": {
+            "type": "string",
+            "nullable": true
+          },
+          "numeroLista": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "votos": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActaEleccion": {
+        "required": ["estado", "fechaRegistro", "totalVotos", "votosBlancos", "votosNulos"],
+        "type": "object",
+        "properties": {
+          "idActa": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eleccionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "mesaElectoralId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tipoCandidato": {
+            "$ref": "#/components/schemas/TipoCandidato"
+          },
+          "fechaRegistro": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "usuarioRegistroId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "votosBlancos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "votosNulos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalVotos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "$ref": "#/components/schemas/EstadoActa"
+          },
+          "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "usuarioModificacionId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "actaDetalles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActaDetalle"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AdmUsuario": {
+        "required": ["estado", "nombreUsuario"],
+        "type": "object",
+        "properties": {
+          "idUsuario": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreUsuario": {
+            "maxLength": 400,
+            "minLength": 1,
+            "type": "string"
+          },
+          "emailUsuario": {
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "rolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BitacoraDTO": {
+        "type": "object",
+        "properties": {
+          "idBitacora": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fechaRegistro": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "usuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "correoUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "accion": {
+            "type": "string",
+            "nullable": true
+          },
+          "tabla": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "valoresAnteriores": {
+            "type": "string",
+            "nullable": true
+          },
+          "valoresNuevos": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BitacoraDTOPaginacionDTO": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BitacoraDTO"
+            },
+            "nullable": true
+          },
+          "pageActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRegistros": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Candidato": {
+        "required": ["nombreCandidato"],
+        "type": "object",
+        "properties": {
+          "idCandidato": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eleccionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreCandidato": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "tipoCandidato": {
+            "$ref": "#/components/schemas/TipoCandidato"
+          },
+          "orden": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "listaCandidatos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ListaCandidato"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CandidatoDTO": {
+        "type": "object",
+        "properties": {
+          "idCandidato": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eleccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionEleccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreCandidato": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoCandidato": {
+            "$ref": "#/components/schemas/TipoCandidato"
+          },
+          "orden": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "listasCandidato": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ListaCandidatoDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CandidatoDTOPaginacionDTO": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CandidatoDTO"
+            },
+            "nullable": true
+          },
+          "pageActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRegistros": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Canton": {
+        "required": ["activo", "nombreCanton", "provinciaId"],
+        "type": "object",
+        "properties": {
+          "idCanton": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "provinciaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreCanton": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Eleccion": {
+        "required": ["fechaEleccion", "nombreEleccion"],
+        "type": "object",
+        "properties": {
+          "idEleccion": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreEleccion": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "descripcion": {
+            "maxLength": 500,
+            "type": "string",
+            "nullable": true
+          },
+          "fechaEleccion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "estado": {
+            "$ref": "#/components/schemas/EstadoEleccion"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EstadoActa": {
+        "enum": ["Registrada", "EnRevision", "ConInconsistencia", "Validada", "Anulada"],
+        "type": "string"
+      },
+      "EstadoEleccion": {
+        "enum": ["Planificada", "Activa", "Cerrada"],
+        "type": "string"
+      },
+      "Jurisdiccion": {
+        "enum": ["Nacional", "Provincial", "Cantonal", "Circunscripcion"],
+        "type": "string"
+      },
+      "ListaCandidato": {
+        "type": "object",
+        "properties": {
+          "idListaCandidato": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "candidatoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "listaElectoralId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "listaPrincipal": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListaCandidatoDTO": {
+        "type": "object",
+        "properties": {
+          "listaElectoralId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "numeroLista": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreLista": {
+            "type": "string",
+            "nullable": true
+          },
+          "esPrincipal": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListaElectoral": {
+        "required": ["nombreLista", "numeroLista"],
+        "type": "object",
+        "properties": {
+          "idListaElectoral": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "numeroLista": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreLista": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "siglas": {
+            "type": "string",
+            "nullable": true
+          },
+          "jurisdiccion": {
+            "$ref": "#/components/schemas/Jurisdiccion"
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ListaElectoralPaginacionDTO": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ListaElectoral"
+            },
+            "nullable": true
+          },
+          "pageActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRegistros": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginDTO": {
+        "type": "object",
+        "properties": {
+          "usuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LoginResponseDTO": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiracionToken": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "idUsuario": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "rolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreRol": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MesaElectoral": {
+        "required": ["activa", "tipoMesa", "zonaId"],
+        "type": "object",
+        "properties": {
+          "idMesaElectoral": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eleccionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "zonaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "codigoMesa": {
+            "maxLength": 20,
+            "type": "string",
+            "nullable": true
+          },
+          "tipoMesa": {
+            "$ref": "#/components/schemas/TipoMesa"
+          },
+          "descripcion": {
+            "maxLength": 200,
+            "type": "string",
+            "nullable": true
+          },
+          "activa": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MesaElectoralDTO": {
+        "type": "object",
+        "properties": {
+          "idMesaElectoral": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "eleccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionEleccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoMesa": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoMesa": {
+            "$ref": "#/components/schemas/TipoMesa"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "zona": {
+            "type": "string",
+            "nullable": true
+          },
+          "parroquia": {
+            "type": "string",
+            "nullable": true
+          },
+          "canton": {
+            "type": "string",
+            "nullable": true
+          },
+          "provincia": {
+            "type": "string",
+            "nullable": true
+          },
+          "activa": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MesaElectoralDTOPaginacionDTO": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MesaElectoralDTO"
+            },
+            "nullable": true
+          },
+          "pageActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRegistros": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Parroquia": {
+        "required": ["activo", "cantonId", "nombreParroquia"],
+        "type": "object",
+        "properties": {
+          "idParroquia": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cantonId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreParroquia": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Provincia": {
+        "required": ["activo", "codigoProvincia", "nombreProvincia"],
+        "type": "object",
+        "properties": {
+          "idProvincia": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "codigoProvincia": {
+            "maxLength": 2,
+            "minLength": 1,
+            "type": "string"
+          },
+          "nombreProvincia": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResultadoDetalleDTO": {
+        "type": "object",
+        "properties": {
+          "candidatoId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "candidato": {
+            "type": "string",
+            "nullable": true
+          },
+          "listaElectoralId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lista": {
+            "type": "string",
+            "nullable": true
+          },
+          "numeroLista": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "votos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "porcentaje": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResultadoEleccionDTO": {
+        "type": "object",
+        "properties": {
+          "mesasRegistradas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mesasEnRevision": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mesasConInconsistencia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mesasValidadas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalMesas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalVotosBlancos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalVotosNulos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalVotos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalVotosValidos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resultados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResultadoDetalleDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RolDTO": {
+        "type": "object",
+        "properties": {
+          "idRol": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreRol": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionRol": {
+            "type": "string",
+            "nullable": true
+          },
+          "permisos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RolDTOPaginacionDTO": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RolDTO"
+            },
+            "nullable": true
+          },
+          "pageActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRegistros": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TipoCandidato": {
+        "enum": ["Presidente", "Prefecto", "Alcalde", "ConcejalUrbano", "ConcejalRural"],
+        "type": "string"
+      },
+      "TipoMesa": {
+        "enum": ["Femenina", "Masculina"],
+        "type": "string"
+      },
+      "TipoResultado": {
+        "enum": ["Oficial", "Preliminar"],
+        "type": "string"
+      },
+      "UsuarioDTO": {
+        "type": "object",
+        "properties": {
+          "idUsuario": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "emailUsuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "rolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreRol": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UsuarioDTOPaginacionDTO": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsuarioDTO"
+            },
+            "nullable": true
+          },
+          "pageActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRegistros": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Zona": {
+        "required": ["activo", "nombreZona", "parroquiaId"],
+        "type": "object",
+        "properties": {
+          "idZona": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parroquiaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreZona": {
+            "maxLength": 150,
+            "minLength": 1,
+            "type": "string"
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Ingrese el token JWT.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Actas"
+    },
+    {
+      "name": "Auth"
+    },
+    {
+      "name": "Bitacora"
+    },
+    {
+      "name": "Candidatos"
+    },
+    {
+      "name": "Elecciones"
+    },
+    {
+      "name": "ListasElectoral"
+    },
+    {
+      "name": "MesasElectoral"
+    },
+    {
+      "name": "Resultados"
+    },
+    {
+      "name": "Roles"
+    },
+    {
+      "name": "Usuarios"
+    },
+    {
+      "name": "Zonas"
+    }
+  ]
+}

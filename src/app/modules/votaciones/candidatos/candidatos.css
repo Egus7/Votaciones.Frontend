@@ -1,0 +1,44 @@
+.candidato-listas {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+}
+
+.candidato-lista {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  max-width: 100%;
+  padding: 4px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+}
+
+.candidato-lista-principal {
+  background-color: var(--color-primary-light);
+}
+
+.candidato-lista-numero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 4px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  font-weight: 600;
+}
+
+.candidato-lista-nombre {
+  font-weight: 500;
+}
+
+.candidato-lista-principal-label {
+  padding-left: var(--space-xs);
+  font-weight: 600;
+}

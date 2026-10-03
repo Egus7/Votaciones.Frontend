@@ -1,0 +1,4 @@
+
+npx ng-openapi-gen --input https://votaciones-axis.com/swagger/v1/swagger.json --output src/app/api ng-openapi-gen --input https://api-beta.mileniumweb.com/swagger/v1/swagger.json --output src/app/api
+
+npx ng-openapi-gen --input swagger.json --output src/app/api --services true

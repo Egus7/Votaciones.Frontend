@@ -1,0 +1,219 @@
+<div class="axis-card-content">
+  <!-- Encabezado -->
+  @if (!esEdicion) {
+    <div class="axis-page-header">
+      <h2 class="axis-page-title">Nueva mesa electoral</h2>
+      <p class="axis-page-subtitle">Registre la información de la mesa electoral.</p>
+    </div>
+  } @else {
+    <div class="axis-page-header">
+      <h2 class="axis-page-title">Editar mesa electoral</h2>
+      <p class="axis-page-subtitle">Modifique la información de la mesa electoral.</p>
+    </div>
+  }
+  @if (cargando()) {
+    <div class="axis-table-empty">
+      <mat-icon>hourglass_empty</mat-icon>
+      <div>Cargando información de la mesa...</div>
+    </div>
+  } @else {
+    <form class="axis-form" (ngSubmit)="guardarFormulario()">
+      <div class="axis-form-row">
+        <!-- Forma de registro -->
+        @if (!esEdicion) {
+          <div class="axis-form-col axis-form-col-6">
+            <div class="axis-form-group">
+              <label class="axis-form-label">Forma de registro</label>
+              <div class="mesa-modo-selector">
+                <label class="mesa-modo-option" [class.mesa-modo-option-active]="modoCreacion === 'individual'">
+                  <input type="radio" name="modoCreacion" value="individual" [(ngModel)]="modoCreacion"
+                         (ngModelChange)="cambioModoCreacion()">
+                  <div class="mesa-modo-icon">
+                    <mat-icon>how_to_vote</mat-icon>
+                  </div>
+                  <div class="mesa-modo-info">
+                    <strong>Una mesa</strong>
+                    <span>Registrar una mesa electoral individual.</span>
+                  </div>
+                  <div class="mesa-modo-check">
+                    <mat-icon>{{ modoCreacion === 'individual' ? 'radio_button_checked' : 'radio_button_unchecked' }}</mat-icon>
+                  </div>
+                </label>
+                <label class="mesa-modo-option" [class.mesa-modo-option-active]="modoCreacion === 'lote'">
+                  <input type="radio" name="modoCreacion" value="lote" [(ngModel)]="modoCreacion"
+                         (ngModelChange)="cambioModoCreacion()">
+                  <div class="mesa-modo-icon">
+                    <mat-icon>library_add</mat-icon>
+                  </div>
+                  <div class="mesa-modo-info">
+                    <strong>Varias mesas</strong>
+                    <span>Registrar varias mesas femeninas y masculinas.</span>
+                  </div>
+                  <div class="mesa-modo-check">
+                    <mat-icon>{{ modoCreacion === 'lote' ? 'radio_button_checked' : 'radio_button_unchecked' }}</mat-icon>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+      <!-- Fila 2 -->
+      <div class="axis-form-row">
+        <!-- Provincia -->
+        <div class="axis-form-col axis-form-col-6">
+          <div class="axis-form-group">
+            <label class="axis-form-label" for="provinciaId">Provincia</label>
+            <select id="provinciaId" class="axis-form-select" [(ngModel)]="provinciaId" name="provinciaId"
+                    (ngModelChange)="cargarCantones()" required>
+              <option [ngValue]="undefined">Seleccione una provincia</option>
+              @for (provincia of provincias; track provincia.idProvincia) {
+                <option [ngValue]="provincia.idProvincia">{{ provincia.nombreProvincia }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <!-- Cantón -->
+        <div class="axis-form-col axis-form-col-6">
+          <div class="axis-form-group">
+            <label class="axis-form-label" for="cantonId">Cantón</label>
+            <select id="cantonId" class="axis-form-select" [(ngModel)]="cantonId" name="cantonId"
+                    (ngModelChange)="cargarParroquias()" [disabled]="!provinciaId" required>
+              <option [ngValue]="undefined">Seleccione un cantón</option>
+              @for (canton of cantones; track canton.idCanton) {
+                <option [ngValue]="canton.idCanton">{{ canton.nombreCanton }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <!-- Parroquia -->
+        <div class="axis-form-col axis-form-col-6">
+          <div class="axis-form-group">
+            <label class="axis-form-label" for="parroquiaId">Parroquia</label>
+            <select id="parroquiaId" class="axis-form-select" [(ngModel)]="parroquiaId" name="parroquiaId"
+                    (ngModelChange)="cargarZonas()" [disabled]="!cantonId" required>
+              <option [ngValue]="undefined">Seleccione una parroquia</option>
+              @for (parroquia of parroquias; track parroquia.idParroquia) {
+                <option [ngValue]="parroquia.idParroquia">{{ parroquia.nombreParroquia }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <!-- Zona -->
+        <div class="axis-form-col axis-form-col-6">
+          <div class="axis-form-group">
+            <label class="axis-form-label" for="zonaId">Zona</label>
+            <select id="zonaId" class="axis-form-select" [(ngModel)]="mesaElectoral.zonaId" name="zonaId"
+                    (ngModelChange)="actualizarPreview()" [disabled]="!parroquiaId" required>
+              <option [ngValue]="undefined">Seleccione una zona</option>
+              @for (zona of zonas; track zona.idZona) {
+                <option [ngValue]="zona.idZona">{{ zona.nombreZona }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        @if (esEdicion || modoCreacion === 'individual') {
+          <!-- Tipo de mesa -->
+          <div class="axis-form-col axis-form-col-6">
+            <div class="axis-form-group">
+              <label class="axis-form-label" for="tipoMesa">Tipo de mesa</label>
+              <select id="tipoMesa" class="axis-form-select" [(ngModel)]="mesaElectoral.tipoMesa"
+                      name="tipoMesa" (ngModelChange)="actualizarPreview()" required>
+                <option [ngValue]="undefined">Seleccione un tipo</option>
+                @for (tipo of tiposMesa; track tipo) {
+                  <option [ngValue]="tipo">{{ tipo }}</option>
+                }
+              </select>
+            </div>
+          </div>
+        }
+        @if (!esEdicion && modoCreacion === 'lote') {
+          <!-- Cantidad femeninas -->
+          <div class="axis-form-col axis-form-col-6">
+            <div class="axis-form-group">
+              <label class="axis-form-label" for="cantidadFemeninas">Mesas femeninas</label>
+              <input id="cantidadFemeninas" type="number" class="axis-form-input"
+                     [(ngModel)]="cantidadFemeninas" name="cantidadFemeninas" min="0">
+            </div>
+          </div>
+          <!-- Cantidad masculinas -->
+          <div class="axis-form-col axis-form-col-6">
+            <div class="axis-form-group">
+              <label class="axis-form-label" for="cantidadMasculinas">Mesas masculinas</label>
+              <input id="cantidadMasculinas" type="number" class="axis-form-input"
+                     [(ngModel)]="cantidadMasculinas" name="cantidadMasculinas" min="0">
+            </div>
+          </div>
+        }
+      </div>
+      @if (esEdicion || modoCreacion === 'individual') {
+        <!-- Previsualización -->
+        <div class="mesa-preview">
+          <div class="mesa-preview-header">
+            <mat-icon>confirmation_number</mat-icon>
+            <div>
+              <strong>Identificación de la mesa</strong>
+              <span>El código y la descripción se generan automáticamente.</span>
+            </div>
+          </div>
+          <div class="mesa-preview-content">
+            <!-- Código -->
+            <div class="mesa-preview-item">
+              <span>Código de mesa</span>
+              @if (cargandoPreview()) {
+                <strong>Calculando...</strong>
+              } @else {
+                <strong>{{ codigoMesaPreview || '—' }}</strong>
+              }
+            </div>
+            <!-- Descripción -->
+            <div class="mesa-preview-item">
+              <span>Descripción</span>
+              @if (cargandoPreview()) {
+                <strong>Calculando...</strong>
+              } @else {
+                <strong>{{ descripcionMesaPreview || '—' }}</strong>
+              }
+            </div>
+          </div>
+        </div>
+      }
+      @if (!esEdicion && modoCreacion === 'lote') {
+        <!-- Resumen -->
+        <div class="mesa-preview">
+          <div class="mesa-preview-header">
+            <mat-icon>confirmation_number</mat-icon>
+            <div>
+              <strong>Resumen de mesas</strong>
+              <span>Se crearán las mesas indicadas para la zona seleccionada.</span>
+            </div>
+          </div>
+          <div class="mesa-preview-content">
+            <div class="mesa-preview-item">
+              <span>Mesas femeninas</span>
+              <strong>{{ cantidadFemeninas }}</strong>
+            </div>
+            <div class="mesa-preview-item">
+              <span>Mesas masculinas</span>
+              <strong>{{ cantidadMasculinas }}</strong>
+            </div>
+            <div class="mesa-preview-item">
+              <span>Total de mesas</span>
+              <strong>{{ totalMesas }}</strong>
+            </div>
+          </div>
+        </div>
+      }
+      <!-- Acciones -->
+      <div class="axis-form-actions">
+        <button type="button" class="axis-button axis-button-secondary" (click)="cancelarFormulario()">
+          <mat-icon>close</mat-icon> Cancelar
+        </button>
+        <button type="submit" class="axis-button axis-button-primary"
+                [disabled]="guardando || cargandoPreview()">
+          <mat-icon>save</mat-icon> {{ esEdicion ? 'Actualizar' : 'Guardar' }}
+        </button>
+      </div>
+    </form>
+  }
+</div>

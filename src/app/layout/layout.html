@@ -1,0 +1,12 @@
+<div class="axis-layout" [class.axis-layout-collapsed]="!menuAbierto()">
+  <!-- Menú lateral desde el borde superior -->
+  <app-menu class="axis-layout-sidebar" [class.is-collapsed]="!menuAbierto()"
+            [abierto]="menuAbierto()" (menuToggle)="toggleMenu()" />
+  <!-- Navbar y contenido a la derecha -->
+  <div class="axis-layout-main">
+    <app-navbar />
+    <main class="axis-main">
+      <router-outlet />
+    </main>
+  </div>
+</div>

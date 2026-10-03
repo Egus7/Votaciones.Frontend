@@ -1,0 +1,85 @@
+<div class="selector-roles">
+  <!-- Búsqueda -->
+  <div class="selector-roles-filtros">
+    <div class="axis-form-group">
+      <label class="axis-form-label" for="buscarRol">Buscar rol</label>
+      <div class="selector-roles-busqueda">
+        <mat-icon>search</mat-icon>
+        <input id="buscarRol" type="text" class="axis-form-input" placeholder="Nombre del rol"
+               [(ngModel)]="busqueda" name="buscarRol" (keyup.enter)="buscar()">
+        <button type="button" class="axis-button axis-button-secondary" (click)="buscar()">
+          <mat-icon>search</mat-icon> Buscar
+        </button>
+        <button type="button" class="axis-button axis-button-secondary" (click)="limpiarBusqueda()">
+          <mat-icon>clear</mat-icon> Limpiar
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Información -->
+  <div class="selector-roles-resumen">
+    <span class="axis-text-secondary">{{ totalRegistros }} roles encontrados</span>
+    @if (rolSeleccionado) {
+      <span class="axis-status axis-status-info">Rol seleccionado</span>
+    }
+  </div>
+  <!-- Cargando -->
+  @if (cargando()) {
+    <div class="axis-table-empty">
+      <mat-icon>hourglass_empty</mat-icon>
+      <div>Cargando roles...</div>
+    </div>
+  } @else {
+    <!-- Tabla -->
+    <div class="axis-table-container">
+      <table class="axis-table">
+        <thead>
+        <tr>
+          <th class="center">Seleccionar</th>
+          <th>Rol</th>
+          <th>Descripción</th>
+          <th class="center">Estado</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (rol of roles; track rol.idRol) {
+            <tr class="selector-rol-row" [class.selector-rol-seleccionado]="estaSeleccionado(rol.idRol)"
+                (click)="seleccionar(rol)">
+              <!-- Seleccionar -->
+              <td class="center">
+                <input type="radio" name="rol" [value]="rol.idRol" [checked]="estaSeleccionado(rol.idRol)"
+                       (click)="$event.stopPropagation()" (change)="seleccionar(rol)">
+              </td>
+              <!-- Rol -->
+              <td><strong>{{ rol.nombreRol }}</strong></td>
+              <!-- Descripción -->
+              <td>{{ rol.descripcionRol || '-' }}</td>
+              <!-- Estado -->
+              <td class="center">
+                @if (rol.activo) {
+                  <span class="axis-status axis-status-success">Activo</span>
+                } @else {
+                  <span class="axis-status axis-status-danger">Inactivo</span>
+                }
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="axis-table-empty">No se encontraron roles.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <!-- Paginación -->
+    @if (totalPages > 0) {
+      <app-paginacion
+        [paginaActual]="paginaActual"
+        [pageSize]="pageSize"
+        [totalPages]="totalPages"
+        [totalRegistros]="totalRegistros"
+        (paginaCambio)="cambiarPagina($event)">
+      </app-paginacion>
+    }
+  }
+</div>

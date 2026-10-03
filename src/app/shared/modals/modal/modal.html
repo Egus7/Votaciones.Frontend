@@ -1,0 +1,34 @@
+<div class="axis-modal-backdrop">
+  <div class="axis-modal" [style.max-width]="ancho">
+    <!-- Header -->
+    <div class="axis-modal-header">
+      <div class="axis-modal-header-content">
+        @if (titulo) {
+          <h2 class="axis-modal-title">{{ titulo }}</h2>
+        }
+        @if (subtitulo) {
+          <p class="axis-modal-subtitle">{{ subtitulo }}</p>
+        }
+      </div>
+      <button type="button" class="axis-icon-button" title="Cerrar" (click)="cerrarModal()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <!-- Contenido -->
+    <div class="axis-modal-content">
+      <ng-content></ng-content>
+    </div>
+    <!-- Footer -->
+    @if (mostrarFooter) {
+      <div class="axis-modal-footer">
+        <button type="button" class="axis-button axis-button-secondary" (click)="cancelarModal()">
+          <mat-icon>close</mat-icon> {{ textoCancelar }}
+        </button>
+        <button type="button" class="axis-button axis-button-primary" (click)="confirmarModal()">
+          <mat-icon>check</mat-icon> {{ textoConfirmar }}
+        </button>
+      </div>
+    }
+  </div>
+</div>
+

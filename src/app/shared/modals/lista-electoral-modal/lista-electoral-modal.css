@@ -1,0 +1,79 @@
+.selector-listas {
+  width: 100%;
+}
+/* Filtros */
+.selector-listas-filtros {
+  margin-bottom: var(--space-md);
+}
+/* Contenedor de búsqueda */
+.selector-listas-busqueda {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+/* Contenedor del input + ícono */
+.selector-listas-busqueda {
+  position: relative;
+}
+/* Ícono de búsqueda dentro del input */
+.selector-listas-busqueda > mat-icon {
+  position: absolute;
+  left: var(--space-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-secondary);
+  pointer-events: none;
+  z-index: 1;
+}
+/* Input */
+.selector-listas-busqueda .axis-form-input {
+  flex: 1;
+  padding-left: 40px;
+}
+/* Botón Buscar */
+.selector-listas-busqueda .axis-button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+/* Resumen */
+.selector-listas-resumen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+/* Filas de la tabla */
+.selector-lista-row {
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+.selector-lista-row:hover {
+  background-color: var(--color-primary-light) !important;
+}
+.selector-lista-seleccionada {
+  background-color: #f5f9ff;
+}
+.selector-lista-seleccionada:hover {
+  background-color: var(--color-primary-light) !important;
+}
+/* Checkbox */
+.selector-lista-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .selector-listas-busqueda {
+    flex-wrap: wrap;
+  }
+  .selector-listas-busqueda .axis-form-input {
+    width: 100%;
+  }
+  .selector-listas-busqueda .axis-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

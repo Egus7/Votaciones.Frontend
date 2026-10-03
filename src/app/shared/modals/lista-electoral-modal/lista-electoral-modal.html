@@ -1,0 +1,81 @@
+<div class="selector-listas">
+  <!-- Búsqueda -->
+  <div class="selector-listas-filtros">
+    <div class="axis-form-group">
+      <label class="axis-form-label" for="buscarLista">Buscar lista electoral</label>
+      <div class="selector-listas-busqueda">
+        <mat-icon>search</mat-icon>
+        <input id="buscarLista" type="text" class="axis-form-input"
+               placeholder="Número, nombre o siglas" [(ngModel)]="busqueda" name="buscarLista"
+               (keyup.enter)="buscar()">
+        <button type="button" class="axis-button axis-button-secondary" (click)="buscar()">
+          <mat-icon>search</mat-icon> Buscar
+        </button>
+        <button type="button" class="axis-button axis-button-secondary"
+                (click)="limpiarBusqueda()">
+          <mat-icon>clear</mat-icon> Limpiar
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Información -->
+  <div class="selector-listas-resumen">
+    <span class="axis-text-secondary">{{ totalRegistros }} listas encontradas</span>
+    <span class="axis-status axis-status-info">{{ seleccionadas.size }} seleccionadas</span>
+  </div>
+  <!-- Cargando -->
+  @if (cargando()) {
+    <div class="axis-table-empty">
+      <mat-icon>hourglass_empty</mat-icon>
+      <div>Cargando listas electorales...</div>
+    </div>
+  }
+  @else {
+    <!-- Tabla -->
+    <div class="axis-table-container">
+      <table class="axis-table">
+        <thead>
+        <tr>
+          <th class="center">Seleccionar</th>
+          <th>Lista</th>
+          <th>Nombre</th>
+          <th>Siglas</th>
+          <th>Jurisdicción</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (lista of listas; track lista.idListaElectoral) {
+            <tr class="selector-lista-row"
+                [class.selector-lista-seleccionada]="estaSeleccionada(lista.idListaElectoral)"
+                (click)="seleccionar(lista)">
+              <td class="center">
+                <input type="checkbox" [checked]="estaSeleccionada(lista.idListaElectoral)"
+                       (click)="$event.stopPropagation()" (change)="seleccionar(lista)">
+              </td>
+              <td><strong>{{ lista.numeroLista }}</strong></td>
+              <td>{{ lista.nombreLista }}</td>
+              <td>{{ lista.siglas || '-' }}</td>
+              <td>{{ lista.jurisdiccion || '-' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="axis-table-empty">
+                No se encontraron listas electorales.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <!-- Paginación -->
+    @if (totalPages > 0) {
+      <app-paginacion
+        [paginaActual]="paginaActual"
+        [pageSize]="pageSize"
+        [totalPages]="totalPages"
+        [totalRegistros]="totalRegistros"
+        (paginaCambio)="cambiarPagina($event)">
+      </app-paginacion>
+    }
+  }
+</div>

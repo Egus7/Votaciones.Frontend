@@ -1,0 +1,298 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.bitacora-detalle {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  color: var(--color-primary, #1e293b);
+}
+
+/* Encabezado */
+.bitacora-detalle-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 26px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.bitacora-detalle-titulo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.bitacora-detalle-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: #eaf2ff;
+  color: #0969da;
+}
+
+.bitacora-detalle-icono mat-icon {
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+}
+
+.bitacora-detalle-titulo h2 {
+  margin: 0 0 5px;
+  font-size: 23px;
+  line-height: 1.3;
+  font-weight: 700;
+  color: #172b4d;
+}
+
+.bitacora-detalle-titulo p {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.bitacora-cerrar-icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.bitacora-cerrar-icono:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+/* Información general */
+.bitacora-detalle-info {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px 24px;
+  padding: 24px;
+  margin: 16px 26px 20px;
+  border: 1px solid #dbe5f2;
+  border-radius: 9px;
+  background: #fbfdff;
+}
+
+.bitacora-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+/* Icono */
+.bitacora-info-icon {
+  display: block;
+  grid-column: 1;
+  grid-row: 1;
+  width: 25px;
+  height: 25px;
+  font-size: 25px;
+  line-height: 25px;
+  color: #29466f;
+  flex-shrink: 0;
+}
+
+.bitacora-info-contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.bitacora-info-label {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #29466f;
+}
+
+.bitacora-info-item strong {
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+  color: #263c60;
+}
+
+.bitacora-info-item small {
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  color: #7186a6;
+}
+
+.bitacora-info-descripcion {
+  grid-column: auto;
+}
+
+.bitacora-info-descripcion p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+  color: #526783;
+}
+
+/* Acción */
+.bitacora-accion {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.bitacora-accion mat-icon {
+  width: 19px;
+  height: 19px;
+  font-size: 19px;
+}
+
+.bitacora-accion-creacion {
+  background: #d7f5e4;
+  color: #07833d;
+}
+
+.bitacora-accion-edicion {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* Paneles de valores */
+.bitacora-detalle-valores {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  padding: 0 26px;
+}
+
+.bitacora-valor-panel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dbe5f2;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.bitacora-valor-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 17px;
+  border-bottom: 1px solid #e2eaf4;
+}
+
+.bitacora-valor-header mat-icon {
+  flex-shrink: 0;
+}
+
+.bitacora-valor-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #263c60;
+}
+
+.bitacora-valor-anterior .bitacora-valor-header mat-icon {
+  color: #29466f;
+}
+
+.bitacora-valor-nuevo .bitacora-valor-header mat-icon {
+  color: #159447;
+}
+
+.bitacora-valor-panel pre {
+  margin: 12px 14px 14px;
+  padding: 15px;
+  max-height: 280px;
+  overflow: auto;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #29466f;
+  background: #f1f6fc;
+}
+.bitacora-valor-nuevo pre {
+  background: #effaf4;
+}
+.bitacora-valor-vacio {
+  padding: 24px 16px;
+  font-size: 13px;
+  color: #64748b;
+}
+/* Pie */
+.bitacora-detalle-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 26px;
+  margin-top: 24px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Adaptación a pantallas pequeñas */
+@media (max-width: 760px) {
+  .bitacora-detalle-header {
+    padding: 18px;
+  }
+  .bitacora-detalle-titulo h2 {
+    font-size: 19px;
+  }
+  .bitacora-detalle-titulo p {
+    font-size: 12px;
+  }
+  .bitacora-detalle-info {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 14px;
+    padding: 18px;
+    margin: 14px 18px 18px;
+  }
+  .bitacora-info-descripcion {
+    grid-column: 1 / -1;
+  }
+  .bitacora-detalle-valores {
+    grid-template-columns: 1fr;
+    padding: 0 18px;
+  }
+  .bitacora-detalle-footer {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .bitacora-detalle-info {
+    grid-template-columns: 1fr;
+  }
+  .bitacora-info-descripcion {
+    grid-column: auto;
+  }
+}
+

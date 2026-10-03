@@ -1,0 +1,188 @@
+.mesa-modo-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.mesa-modo-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-background);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.mesa-modo-option:hover {
+  border-color: var(--color-primary);
+}
+
+.mesa-modo-option-active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+.mesa-modo-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mesa-modo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--color-background);
+  color: var(--color-text-secondary);
+}
+
+.mesa-modo-option-active .mesa-modo-icon {
+  color: var(--color-primary);
+}
+
+.mesa-modo-icon mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.mesa-modo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.mesa-modo-info strong {
+  font-size: 0.95rem;
+}
+
+.mesa-modo-info span {
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  line-height: 1.35;
+}
+
+.mesa-modo-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+}
+
+.mesa-modo-option-active .mesa-modo-check {
+  color: var(--color-primary);
+}
+
+.mesa-modo-check mat-icon {
+  font-size: 21px;
+  width: 21px;
+  height: 21px;
+}
+
+/* preview */
+.mesa-preview {
+  margin-top: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--color-background);
+}
+.mesa-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+.mesa-preview-header mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+.mesa-preview-header div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.mesa-preview-header strong {
+  font-size: 0.95rem;
+}
+.mesa-preview-header span {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.mesa-preview-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+.mesa-preview-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mesa-preview-item span {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.mesa-preview-item strong {
+  font-size: 1rem;
+}
+
+/* Forma de registro */
+.axis-radio-group {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 42px;
+}
+
+.axis-radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.axis-radio-group input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Resumen de lote */
+.mesa-preview-lote .mesa-preview-content {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mesa-preview-content {
+    grid-template-columns: 1fr;
+  }
+
+  .axis-radio-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .mesa-modo-selector {
+    grid-template-columns: 1fr;
+  }
+
+}

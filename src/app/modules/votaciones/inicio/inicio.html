@@ -1,0 +1,79 @@
+<div class="axis-page">
+  <div class="axis-container">
+    <!-- Encabezado -->
+    <div class="axis-page-header">
+      <div>
+        <h1 class="axis-page-title">{{ eleccion()?.nombreEleccion }}</h1>
+        <p class="axis-page-subtitle">Seleccione una opción para continuar.</p>
+      </div>
+    </div>
+    <!-- Contexto de la elección -->
+    @if (eleccion()) {
+      <div class="election-summary">
+        <div class="election-summary-icon">
+          <mat-icon>how_to_vote</mat-icon>
+        </div>
+        <div class="election-summary-content">
+          <div class="election-summary-header">
+            <span class="election-summary-label">Elección seleccionada</span>
+            <span class="axis-status axis-status-success">{{ eleccion()?.estado }}</span>
+          </div>
+          <h4>{{ eleccion()?.descripcion }}</h4>
+          <p>Desde este panel puede administrar la información electoral,
+            registrar actas y consultar los resultados de esta elección.
+          </p>
+        </div>
+      </div>
+    }
+    <!-- Opciones -->
+    <div class="dashboard-options">
+      <!-- Candidatos -->
+      <button type="button" class="dashboard-option"
+              [routerLink]="['', Enlace.Votaciones, EnlaceSub.Candidatos]">
+        <div class="dashboard-option-icon">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="dashboard-option-content">
+          <h2>Candidatos</h2>
+          <p>Gestión de candidatos y listas electorales.</p>
+        </div>
+        <mat-icon class="dashboard-option-arrow">chevron_right</mat-icon>
+      </button>
+      <!-- Mesas -->
+      <button type="button" class="dashboard-option" [routerLink]="['', Enlace.Votaciones, EnlaceSub.Mesas]">
+        <div class="dashboard-option-icon">
+          <mat-icon>how_to_vote</mat-icon>
+        </div>
+        <div class="dashboard-option-content">
+          <h2>Mesas</h2>
+          <p>Consulta y gestión de mesas electorales.</p>
+        </div>
+        <mat-icon class="dashboard-option-arrow">chevron_right</mat-icon>
+      </button>
+      <!-- Actas -->
+      <button type="button" class="dashboard-option">
+        <div class="dashboard-option-icon">
+          <mat-icon>description</mat-icon>
+        </div>
+        <div class="dashboard-option-content">
+          <h2>Actas</h2>
+          <p>Registro, edición y validación de actas.</p>
+        </div>
+        <mat-icon class="dashboard-option-arrow">
+          chevron_right
+        </mat-icon>
+      </button>
+      <!-- Resultados -->
+      <button type="button" class="dashboard-option">
+        <div class="dashboard-option-icon">
+          <mat-icon>bar_chart</mat-icon>
+        </div>
+        <div class="dashboard-option-content">
+          <h2>Resultados</h2>
+          <p>Consulta de resultados electorales.</p>
+        </div>
+        <mat-icon class="dashboard-option-arrow">chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

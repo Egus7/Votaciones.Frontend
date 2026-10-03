@@ -1,0 +1,122 @@
+<div class="axis-page">
+  <div class="axis-container">
+    <!-- Encabezado -->
+    <div class="axis-page-header">
+      <h1 class="axis-page-title">Listas Electorales</h1>
+      <p class="axis-page-subtitle">Administre las listas electorales registradas.</p>
+    </div>
+    <!-- Acciones -->
+    <div class="axis-toolbar">
+      <div></div>
+      <button mat-flat-button color="primary" type="button" (click)="nuevaLista()">
+        <mat-icon>add</mat-icon> Nueva lista
+      </button>
+    </div>
+    <!-- Filtros -->
+    <div class="axis-table-filters">
+      <!-- Buscar -->
+      <div class="axis-table-filter axis-table-filter-search">
+        <input type="text" class="axis-form-input" placeholder="Buscar lista..."
+               [(ngModel)]="busqueda" (keyup.enter)="buscar()">
+      </div>
+      <!-- Tipo -->
+      <div class="axis-table-filter axis-table-filter-select">
+        <label class="axis-form-label">Jurisdicción</label>
+        <select id="jurisdiccion" class="axis-form-select"
+                [(ngModel)]="jurisdiccion" name="jurisdiccion">
+          <option [ngValue]="undefined">Todos las jurisdicciones</option>
+          @for (item of jurisdicciones; track item) {
+            <option [ngValue]="item">{{ item }}</option>
+          }
+        </select>
+      </div>
+      <!-- Acciones de filtros -->
+      <div class="axis-filtros-actions">
+        <button type="button" class="axis-button axis-button-primary" (click)="buscar()">
+          <mat-icon>search</mat-icon> Buscar
+        </button>
+        <button type="button" class="axis-button axis-button-secondary" (click)="limpiarFiltros()">
+          <mat-icon>clear</mat-icon> Limpiar
+        </button>
+      </div>
+    </div>
+    <!-- Tabla -->
+    <div class="axis-table-container">
+      @if (cargando()) {
+        <div class="axis-table-empty">
+          Cargando listas electorales...
+        </div>
+      } @else if (listas().length === 0) {
+        <div class="axis-table-empty">
+          No existen listas electorales registradas.
+        </div>
+      } @else {
+        <table class="axis-table">
+          <thead>
+          <tr>
+            <th>Lista electoral</th>
+            <th>Numero Lista</th>
+            <th class="center">Siglas</th>
+            <th class="center">Jurisdiccion</th>
+            <th class="center">Estado</th>
+            <th class="right">Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (lista of listas(); track lista.idListaElectoral) {
+              <tr>
+                <!-- Lista Electoral -->
+                <td><strong>{{ lista.nombreLista }}</strong></td>
+                <!-- Numero Lista -->
+                <td>{{ lista.numeroLista }}</td>
+                <!-- Siglas -->
+                <td class="center">{{ lista.siglas ?? '—' }}</td>
+                <!-- Jurisdiccion -->
+                <td class="center">{{ lista.jurisdiccion ?? '—' }}</td>
+                <!-- Estado -->
+                <td class="center">
+                  @if (lista.activo) {
+                    <span class="axis-status axis-status-success">Activo</span>
+                  } @else {
+                    <span class="axis-status axis-status-danger">Suspendido</span>
+                  }
+                </td>
+                <!-- Acciones -->
+                <td>
+                  <div class="axis-table-actions">
+                    <!-- Editar -->
+                    <button type="button" class="axis-icon-button" title="Editar"
+                            (click)="editarLista(lista.idListaElectoral)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <!-- Activar / Desactivar -->
+                    @if (lista.activo) {
+                      <button type="button" class="axis-icon-button axis-icon-button-danger"
+                              title="Suspender" (click)="cambiarEstadoLista(lista)">
+                        <mat-icon>block</mat-icon>
+                      </button>
+                    } @else {
+                      <button type="button" class="axis-icon-button" title="Activar"
+                              (click)="cambiarEstadoLista(lista)">
+                        <mat-icon>check_circle</mat-icon>
+                      </button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        <!-- Paginación -->
+        <app-paginacion
+          [paginaActual]="paginaActual"
+          [pageSize]="pageSize"
+          [totalPages]="totalPages"
+          [totalRegistros]="totalRegistros"
+          (paginaCambio)="cambiarPagina($event)">
+        </app-paginacion>
+      }
+    </div>
+  </div>
+</div>
+

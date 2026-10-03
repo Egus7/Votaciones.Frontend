@@ -1,0 +1,262 @@
+.axis-navbar {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-lg);
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  position: relative;
+  z-index: 10;
+}
+
+/* MARCA */
+.axis-navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+  flex-shrink: 1;
+}
+/* menu */
+.axis-navbar-menu-button {
+  color: var(--color-text-secondary);
+}
+.axis-navbar-menu-button:hover {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* logo */
+.axis-navbar-logo {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary);
+}
+.axis-navbar-logo mat-icon {
+  color: #ffffff;
+}
+.axis-navbar-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ACCIONES DERECHA */
+.axis-navbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  min-width: 0;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ELECCIÓN */
+.axis-navbar-election {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 300px;
+}
+.axis-navbar-election-label {
+  flex-shrink: 0;
+  margin-right: 6px;
+}
+.axis-navbar-election-button {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 6px !important;
+}
+.axis-navbar-election-button span {
+  display: block;
+  min-width: 0;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.axis-navbar-election-button mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+/* USUARIO */
+.axis-navbar-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-left: var(--space-lg);
+  border-left: 1px solid var(--color-border);
+  flex-shrink: 0;
+  margin-left: 0;
+}
+.axis-navbar-user-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+.axis-navbar-user-icon mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+}
+.axis-navbar-user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.axis-navbar-user-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.axis-navbar-user-role {
+  margin-top: 3px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+.axis-navbar-user > button {
+  color: var(--color-text-secondary);
+}
+.axis-navbar-user > button:hover {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+.axis-user-menu-info {
+  padding: 12px 16px;
+  min-width: 180px;
+}
+.axis-user-menu-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.axis-user-menu-role {
+  margin-top: 3px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+/* RESPONSIVE */
+/* Tablets */
+@media (max-width: 900px) {
+  .axis-navbar {
+    padding: 0 var(--space-md);
+  }
+  .axis-navbar-actions {
+    gap: var(--space-md);
+  }
+  .axis-navbar-election-button span {
+    max-width: 180px;
+  }
+  .axis-navbar-user {
+    padding-left: var(--space-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .axis-navbar {
+    padding: 0 var(--space-md);
+  }
+  .axis-navbar-actions {
+    gap: var(--space-sm);
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .axis-navbar-election {
+    width: 100%;
+    min-width: 0;
+  }
+  .axis-navbar-election-button {
+    flex: 1;
+    min-width: 0;
+  }
+  .axis-navbar-election-button span {
+    max-width: 150px;
+  }
+  .axis-navbar-user {
+    padding-left: var(--space-md);
+  }
+}
+/* Móviles */
+@media (max-width: 700px) {
+  .axis-navbar {
+    min-height: 60px;
+    padding: 0 var(--space-sm);
+  }
+  .axis-navbar-logo {
+    width: 38px;
+    height: 38px;
+  }
+  .axis-navbar-title {
+    font-size: var(--font-size-md);
+  }
+  .axis-navbar-actions {
+    gap: var(--space-sm);
+  }
+
+  /* Elección */
+  .axis-navbar-election-label {
+    display: none;
+  }
+  .axis-navbar-election-button {
+    min-height: 36px;
+    padding: 0 6px;
+  }
+  .axis-navbar-election-button span {
+    max-width: 150px;
+  }
+
+  /* Usuario */
+  .axis-navbar-user {
+    padding-left: var(--space-sm);
+  }
+  .axis-navbar-user-info {
+    display: none;
+  }
+  .axis-navbar-user-icon {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+  .axis-navbar-title {
+    display: none;
+  }
+  .axis-navbar-election-button {
+    max-width: 180px;
+  }
+  .axis-navbar-election-button span {
+    max-width: 130px;
+  }
+  .axis-navbar-election-label {
+    display: none;
+  }
+  .axis-navbar-actions {
+    gap: 4px;
+  }
+  .axis-navbar-user {
+    padding-left: 6px;
+  }
+
+}

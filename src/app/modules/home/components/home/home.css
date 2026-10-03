@@ -1,0 +1,196 @@
+/* Hero */
+.home-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 175px;
+  margin-bottom: var(--space-xl);
+  padding: var(--space-xl);
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-lg);
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+  box-shadow: var(--shadow-md);
+}
+
+.home-hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  max-width: 700px;
+}
+.home-hero-content h1 {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--font-size-xxl);
+  font-weight: 700;
+}
+.home-hero-content p {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--font-size-lg);
+  color: rgba(255, 255, 255, 0.9);
+}
+.home-hero-content span {
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Icono Hero */
+.home-hero-icon {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.home-hero-icon mat-icon {
+  width: 40px;
+  height: 40px;
+  font-size: 40px;
+  color: #ffffff;
+}
+
+/* Decoración */
+.home-hero-decoration {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+.home-hero-decoration-one {
+  width: 380px;
+  height: 380px;
+  top: -220px;
+  right: -120px;
+}
+.home-hero-decoration-two {
+  width: 260px;
+  height: 260px;
+  bottom: -180px;
+  left: 30%;
+}
+
+/* Encabezado */
+.home-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+/* Card elección */
+.election-card {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.election-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/*  Header card */
+.election-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+.election-card-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+.election-card-icon mat-icon {
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+}
+
+/* Contenido */
+.election-card-title {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.election-card-description {
+  min-height: 48px;
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+/* Información */
+.election-card-info {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+.election-card-label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+.election-card-value {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text);
+}
+/* Footer*/
+.election-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-lg);
+}
+
+/*  Responsive */
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: 200px;
+    padding: var(--space-lg);
+  }
+  .home-hero-content {
+    align-items: flex-start;
+  }
+  .home-hero-content h1 {
+    font-size: var(--font-size-xl);
+  }
+  .home-hero-content p {
+    font-size: var(--font-size-md);
+  }
+  .home-hero-icon {
+    width: 56px;
+    height: 56px;
+  }
+  .home-hero-icon mat-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 576px) {
+  .home-hero-content {
+    flex-direction: column;
+  }
+  .home-hero-icon {
+    margin-bottom: var(--space-sm);
+  }
+  .election-card-footer button {
+    width: 100%;
+  }
+
+}

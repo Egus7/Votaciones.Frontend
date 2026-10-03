@@ -1,0 +1,79 @@
+<div class="axis-page">
+  <div class="axis-container">
+    <!-- Hero / presentación -->
+    <section class="home-hero">
+      <div class="home-hero-content">
+        <div class="home-hero-icon">
+          <mat-icon>how_to_vote</mat-icon>
+        </div>
+        <div>
+          <h1>Resultado de Votaciones</h1>
+          <p>Gestión y seguimiento de procesos electorales</p>
+          <span>Seleccione una elección para continuar.</span>
+        </div>
+      </div>
+      <div class="home-hero-decoration home-hero-decoration-one"></div>
+      <div class="home-hero-decoration home-hero-decoration-two"></div>
+    </section>
+    <!-- Encabezado -->
+    <div class="axis-page-header home-section-header">
+      <div>
+        <h2 class="axis-page-title">
+          Elecciones disponibles
+        </h2>
+        <p class="axis-page-subtitle">
+          Seleccione la elección con la que desea trabajar.
+        </p>
+      </div>
+    </div>
+    <!-- Contenido -->
+    <div class="axis-page-content">
+      @if (cargando()) {
+        <div class="axis-card p-4 text-center">
+          Cargando elecciones...
+        </div>
+      } @else {
+        <div class="row g-4">
+          @for (eleccion of elecciones(); track eleccion.idEleccion) {
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="axis-card election-card h-100">
+                <div class="axis-card-content">
+                  <div class="election-card-header">
+                    <div class="election-card-icon">
+                      <mat-icon>how_to_vote</mat-icon>
+                    </div>
+                    <span class="axis-status axis-status-warning">{{ eleccion.estado }}</span>
+                  </div>
+                  <h3 class="election-card-title">{{ eleccion.nombreEleccion }}</h3>
+                  <p class="election-card-description">{{ eleccion.descripcion }}</p>
+                  <div class="election-card-info">
+                    <div>
+                      <span class="election-card-label">Fecha de elección</span>
+                      <span class="election-card-value">
+                        {{ eleccion.fechaEleccion | date:'dd/MM/yyyy' }}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="election-card-footer">
+                    <button mat-flat-button color="primary" type="button"
+                            (click)="seleccionarEleccion(eleccion)">
+                      Ingresar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } @empty {
+            <div class="col-12">
+              <div class="axis-card">
+                <div class="axis-table-empty">
+                  No existen elecciones disponibles.
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

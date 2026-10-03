@@ -1,0 +1,79 @@
+.selector-roles {
+  width: 100%;
+}
+/* Filtros */
+.selector-roles-filtros {
+  margin-bottom: var(--space-md);
+}
+/* Contenedor de búsqueda */
+.selector-roles-busqueda {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+/* Contenedor del input + ícono */
+.selector-roles-busqueda {
+  position: relative;
+}
+/* Ícono de búsqueda dentro del input */
+.selector-roles-busqueda > mat-icon {
+  position: absolute;
+  left: var(--space-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-secondary);
+  pointer-events: none;
+  z-index: 1;
+}
+/* Input */
+.selector-roles-busqueda .axis-form-input {
+  flex: 1;
+  padding-left: 40px;
+}
+/* Botón Buscar */
+.selector-roles-busqueda .axis-button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+/* Resumen */
+.selector-roles-resumen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+/* Filas de la tabla */
+.selector-roles-row {
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+.selector-roles-row:hover {
+  background-color: var(--color-primary-light) !important;
+}
+.selector-roles-seleccionado {
+  background-color: #f5f9ff;
+}
+.selector-roles-seleccionado:hover {
+  background-color: var(--color-primary-light) !important;
+}
+/* Checkbox */
+.selector-roles-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .selector-roles-busqueda {
+    flex-wrap: wrap;
+  }
+  .selector-roles-busqueda .axis-form-input {
+    width: 100%;
+  }
+  .selector-roles-busqueda .axis-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

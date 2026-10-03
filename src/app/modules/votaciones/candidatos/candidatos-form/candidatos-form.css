@@ -1,0 +1,79 @@
+/* Listas electorales */
+.candidato-listas-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+.candidato-listas-header .axis-button {
+  width: auto;
+}
+/* Contenedor de listas seleccionadas */
+.candidato-listas-seleccionadas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+}
+/* Item de lista */
+.candidato-lista-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: 48px;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+.candidato-lista-item:hover {
+  background-color: var(--color-background);
+  border-color: #c5ccd3;
+}
+
+/* Información */
+.candidato-lista-info {
+  flex: 1;
+  min-width: 0;
+}
+.candidato-lista-datos {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+.candidato-lista-datos strong {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+/* Acciones */
+.candidato-lista-acciones {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+/* Estado vacío */
+.candidato-listas-vacio {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text-secondary);
+  background-color: var(--color-background);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .candidato-lista-item {
+    align-items: flex-start;
+  }
+  .candidato-lista-acciones {
+    align-self: center;
+  }
+
+}

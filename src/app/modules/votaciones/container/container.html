@@ -1,0 +1,8 @@
+@if (inicializado()) {
+  <router-outlet></router-outlet>
+} @else {
+  <div class="axis-container-loading">
+    <mat-icon>hourglass_empty</mat-icon>
+    <span>Cargando información de la elección...</span>
+  </div>
+}

@@ -1,0 +1,42 @@
+<div class="axis-pagination">
+  <div class="axis-pagination-info">
+    @if (totalRegistros > 0) {
+      Mostrando {{ inicioRegistro }}–{{ finRegistro }} de {{ totalRegistros }} registros
+    } @else {
+      No hay registros
+    }
+  </div>
+  <div class="axis-pagination-controls">
+    <!-- Primera página -->
+    <button type="button" class="axis-pagination-button" title="Primera página"
+            [disabled]="paginaActual <= 1" (click)="irPrimeraPagina()">
+      <mat-icon>first_page</mat-icon>
+    </button>
+    <!-- Página anterior -->
+    <button type="button" class="axis-pagination-button" title="Página anterior"
+            [disabled]="paginaActual <= 1" (click)="paginaAnterior()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <!-- Números de página -->
+    @for (pagina of paginas; track $index) {
+      @if (pagina === '...') {
+        <span class="axis-pagination-ellipsis">…</span>
+      } @else {
+        <button type="button" class="axis-pagination-button axis-pagination-page"
+                [class.axis-pagination-page-active]="pagina === paginaActual" (click)="irPagina(pagina)">
+          {{ pagina }}
+        </button>
+      }
+    }
+    <!-- Página siguiente -->
+    <button type="button" class="axis-pagination-button" title="Página siguiente"
+            [disabled]="paginaActual >= totalPages || totalPages === 0" (click)="paginaSiguiente()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+    <!-- Última página -->
+    <button type="button" class="axis-pagination-button" title="Última página"
+            [disabled]="paginaActual >= totalPages || totalPages === 0" (click)="irUltimaPagina()">
+      <mat-icon>last_page</mat-icon>
+    </button>
+  </div>
+</div>
