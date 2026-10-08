@@ -7,14 +7,26 @@ import { Router } from '@angular/router';
 import { MensajeService } from '../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../core/mensajes/manejo-mensajes-error';
 import { FormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { Paginacion } from '../../../shared/paginacion/paginacion';
 import { JURISDICCION } from '../../../api/models/jurisdiccion-array';
+import { MatFormField, MatInputModule, MatLabel } from '@angular/material/input';
+import { MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-listas-electoral',
-  imports: [FormsModule, MatButton, MatIcon, Paginacion],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatIcon,
+    Paginacion,
+    MatFormField,
+    MatLabel,
+    MatInputModule,
+    MatSelect,
+    MatOption,
+  ],
   templateUrl: './listas-electoral.html',
   styleUrl: './listas-electoral.css',
 })

@@ -7,10 +7,22 @@ import { ConfigPage } from '../../../Config';
 import { Paginacion } from '../../paginacion/paginacion';
 import { MensajeService } from '../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../core/mensajes/manejo-mensajes-error';
+import { MatButton } from '@angular/material/button';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-lista-electoral-modal',
-  imports: [MatIconModule, FormsModule, Paginacion],
+  imports: [
+    MatIconModule,
+    FormsModule,
+    Paginacion,
+    MatButton,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatCheckbox,
+  ],
   templateUrl: './lista-electoral-modal.html',
   styleUrl: './lista-electoral-modal.css',
 })
@@ -76,14 +88,12 @@ export class ListaElectoralModal implements OnInit {
       this.totalRegistros = response.totalRegistros ?? 0;
       this.totalPages = response.totalPages ?? 0;
       this.sincronizarSeleccionadasConPagina();
-
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       void this.swalMensaje.error('Error', mensajeError);
       this.listas = [];
       this.totalRegistros = 0;
       this.totalPages = 0;
-
     } finally {
       this.cargando.set(false);
     }

@@ -245,35 +245,13 @@
   pointer-events: none;
 }
 
-/* Icono checkbox */
-.rol-permiso-check {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-}
-
-.rol-permiso-check mat-icon {
-  width: 18px;
-  height: 18px;
-  font-size: 18px;
-  color: #a3acb9;
-}
 .rol-permiso-opcion:has(input[type="checkbox"]:checked) {
   border-color: #c7d8f5;
   background: #f5f8ff;
 }
 
-.rol-permiso-opcion:has(input[type="checkbox"]:checked)
-.rol-permiso-check mat-icon {
+.rol-permiso-opcion:has(input[type="checkbox"]:checked) {
   color: var(--color-primary, #1976d2);
-}
-
-/* Nombre permiso */
-.rol-permiso-nombre {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /* Responsive */
@@ -460,7 +438,7 @@
   }
 
   .rol-permiso-modulo-check {
-    margin-right: 3px;
+    margin-right: 1px;
     padding: 0 3px;
   }
 

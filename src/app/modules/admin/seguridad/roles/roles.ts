@@ -9,10 +9,20 @@ import { RolesService } from '../../../../api/services/roles.service';
 import { Router } from '@angular/router';
 import { MensajeService } from '../../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../../core/mensajes/manejo-mensajes-error';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 
 @Component({
   selector: 'app-roles',
-  imports: [MatButtonModule, MatIconModule, Paginacion, ReactiveFormsModule, FormsModule],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    Paginacion,
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+  ],
   templateUrl: './roles.html',
   styleUrl: './roles.css',
 })

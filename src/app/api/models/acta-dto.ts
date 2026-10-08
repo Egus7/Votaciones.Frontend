@@ -15,6 +15,7 @@ export interface ActaDto {
   fechaRegistro?: string;
   idActa?: string;
   parroquia?: string | null;
+  provincia?: string | null;
   tipoCandidato?: TipoCandidato;
   totalVotos?: number;
   votosBlancos?: number;

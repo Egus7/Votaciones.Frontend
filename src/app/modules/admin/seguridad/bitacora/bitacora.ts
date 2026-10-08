@@ -8,17 +8,71 @@ import { DatePipe } from '@angular/common';
 import { Paginacion } from '../../../../shared/paginacion/paginacion';
 import { BitacoraService } from '../../../../api/services/bitacora.service';
 import { UsuariosService } from '../../../../api/services/usuarios.service';
-import { Usuarios } from '../usuarios/usuarios';
 import { UsuarioDto } from '../../../../api/models/usuario-dto';
 import { BitacoraDto } from '../../../../api/models/bitacora-dto';
 import { MatDialog } from '@angular/material/dialog';
 import { BitacoraDetalle } from './bitacora-detalle/bitacora-detalle';
+import { MatFormField, MatInputModule, MatLabel } from '@angular/material/input';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatDatepickerModule, } from '@angular/material/datepicker';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatNativeDateModule,
+  NativeDateAdapter,
+} from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+
+export class AdaptadorFecha extends NativeDateAdapter {
+  override format(date: Date, displayFormat: Object): string {
+    if (!date || isNaN(date.getTime())) {
+      return '';
+    }
+
+    const dia = String(date.getDate()).padStart(2, '0');
+    const mes = String(date.getMonth() + 1).padStart(2, '0');
+    const anio = date.getFullYear();
+
+    return `${dia}/${mes}/${anio}`;
+  }
+}
+
+export const FORMATO_FECHA = {
+  parse: {
+    dateInput: 'dd/MM/yyyy',
+  },
+  display: {
+    dateInput: 'dd/MM/yyyy',
+    monthYearLabel: 'MMM yyyy',
+    dateA11yLabel: 'dd/MM/yyyy',
+    monthYearA11yLabel: 'MMMM yyyy',
+  },
+};
 
 @Component({
   selector: 'app-bitacora',
-  imports: [FormsModule, MatIconModule, DatePipe, Paginacion],
+  imports: [
+    FormsModule,
+    MatIconModule,
+    DatePipe,
+    Paginacion,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
   templateUrl: './bitacora.html',
   styleUrl: './bitacora.css',
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-EC' },
+    { provide: DateAdapter, useClass: AdaptadorFecha },
+    { provide: MAT_DATE_FORMATS, useValue: FORMATO_FECHA },
+  ],
 })
 export class Bitacora implements OnInit {
   // LISTADO
@@ -27,8 +81,8 @@ export class Bitacora implements OnInit {
   readonly cargando = signal(false);
 
   // FILTROS
-  fechaDesde: string | undefined = undefined;
-  fechaHasta: string | undefined = undefined;
+  fechaDesde: Date | undefined = undefined;
+  fechaHasta: Date | undefined = undefined;
   usuarioId: string | undefined = undefined;
   accion: string | undefined = undefined;
   modulo: string | undefined = undefined;
@@ -74,8 +128,8 @@ export class Bitacora implements OnInit {
       const response = await this.bitacoraService.apiBitacoraPaginacionGet$Json({
         pagina: this.paginaActual,
         pageSize: this.pageSize,
-        fechaDesde: this.fechaDesde!,
-        fechaHasta: this.fechaHasta!,
+        fechaDesde: this.formatearFecha(this.fechaDesde!),
+        fechaHasta: this.formatearFecha(this.fechaHasta!),
         usuarioId: this.usuarioId!,
         accion: this.accion!,
         tabla: this.modulo!,
@@ -109,6 +163,10 @@ export class Bitacora implements OnInit {
   }
 
   buscar(): void {
+    if (this.fechaDesde! > this.fechaHasta!) {
+      this.swalMensaje.advertencia('Fechas incorrectas', 'La fecha de inicio no puede ser mayor a la fecha final');
+      return;
+    }
     this.paginaActual = ConfigPage.page;
     void this.cargarBitacora();
   }
@@ -144,4 +202,15 @@ export class Bitacora implements OnInit {
     });
   }
 
+  private formatearFecha(fecha: Date | null): string | undefined {
+    if (!fecha) {
+      return undefined;
+    }
+
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+    const anio = fecha.getFullYear();
+
+    return `${anio}-${mes}-${dia}`;
+  }
 }

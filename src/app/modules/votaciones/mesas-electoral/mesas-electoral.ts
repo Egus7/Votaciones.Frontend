@@ -11,10 +11,22 @@ import { EleccionContexto } from '../../../core/services/eleccion-contexto';
 import { Router, RouterLink } from '@angular/router';
 import { MensajeService } from '../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../core/mensajes/manejo-mensajes-error';
+import { MatFormField, MatInputModule, MatLabel } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-mesas-electoral',
-  imports: [FormsModule, MatIconModule, MatButtonModule, Paginacion, RouterLink],
+  imports: [
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    Paginacion,
+    RouterLink,
+    MatFormField,
+    MatLabel,
+    MatInputModule,
+    MatSelectModule,
+  ],
   templateUrl: './mesas-electoral.html',
   styleUrl: './mesas-electoral.css',
 })

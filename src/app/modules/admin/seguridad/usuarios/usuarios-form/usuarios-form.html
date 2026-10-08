@@ -18,72 +18,63 @@
     </div>
   } @else {
     <form class="axis-form" (ngSubmit)="guardarFormulario()">
+      <!-- Fila 1 -->
       <div class="axis-form-row">
+        <!-- Nombre Usuario -->
         <div class="axis-form-col axis-form-col-4">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="nombreUsuario">Nombre de usuario</label>
-            <input id="nombreUsuario" type="text" class="axis-form-input" placeholder="Ingrese el nombre de usuario"
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Nombre Usuario</mat-label>
+            <input matInput type="text" placeholder="Ingrese el nombre de usuario"
                    [(ngModel)]="usuario.nombreUsuario" name="nombreUsuario" required>
-          </div>
+          </mat-form-field>
         </div>
-        <div class="axis-form-col axis-form-col-5">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="emailUsuario">Email</label>
-            <input id="emailUsuario" type="email" class="axis-form-input" placeholder="Ingrese el correo electrónico"
+        <!-- Email Usuario -->
+        <div class="axis-form-col axis-form-col-4">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="Ingrese el correo electrónico"
                    [(ngModel)]="usuario.emailUsuario" name="emailUsuario" required>
-          </div>
+          </mat-form-field>
         </div>
       </div>
+      <!-- Fila 2 -->
       <div class="axis-form-row">
         @if (!esEdicion) {
+          <!-- Contraseña -->
           <div class="axis-form-col axis-form-col-4">
-            <div class="axis-form-group">
-              <label class="axis-form-label" for="password">Contraseña</label>
+            <mat-form-field appearance="outline" class="axis-form-field">
+              <mat-label>Contraseña</mat-label>
               <div class="password-input-wrapper">
-                <input id="password" [type]="mostrarPassword() ? 'text' : 'password'" class="axis-form-input"
+                <input matInput [type]="mostrarPassword() ? 'text' : 'password'"
                        placeholder="Ingrese la contraseña" [(ngModel)]="usuario.password" name="password" required>
-                <button type="button" class="password-toggle" (click)="mostrarPassword.set(!mostrarPassword())"
+                <button mat-icon-button type="button" class="password-toggle" (click)="mostrarPassword.set(!mostrarPassword())"
                   [attr.aria-label]="mostrarPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
                   [attr.title]="mostrarPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
                   <mat-icon>{{ mostrarPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
                 </button>
               </div>
-            </div>
+            </mat-form-field>
           </div>
         }
+        <!-- Rol -->
         <div class="axis-form-col axis-form-col-3">
-          <div class="axis-form-group">
-            <label class="axis-form-label">Rol</label>
-            <div class="usuario-rol-header">
-              <button type="button" class="axis-button axis-button-secondary" (click)="abrirModalRol()">
-                <mat-icon>manage_accounts</mat-icon> Seleccionar rol
-              </button>
-            </div>
-            @if (rolSeleccionadoInfo) {
-              <div class="usuario-rol-seleccionado">
-                <div class="usuario-rol-info">
-                  <strong>{{ rolSeleccionadoInfo.nombreRol }}</strong>
-                  @if (rolSeleccionadoInfo.descripcionRol) {
-                    <span class="axis-text-secondary">{{ rolSeleccionadoInfo.descripcionRol }}</span>
-                  }
-                </div>
-                <button type="button" class="axis-icon-button axis-icon-button-danger" title="Quitar rol"
-                        (click)="rolSeleccionadoInfo = null; usuario.rolId = undefined">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
-            } @else {
-              <div class="usuario-rol-vacio">No se ha seleccionado un rol.</div>
-            }
-          </div>
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Rol</mat-label>
+            <input matInput [value]="rolSeleccionadoInfo?.nombreRol ?? ''"
+                   placeholder="Seleccione un rol" readonly required>
+            <button mat-icon-button matSuffix type="button" aria-label="Seleccionar rol"
+                    title="Seleccionar rol" (click)="abrirModalRol()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
         </div>
       </div>
       <div class="axis-form-row">
         <div class="axis-form-actions">
-          <button type="button" class="axis-button axis-button-secondary" (click)="cancelarFormulario()">
+          <button mat-raised-button type="button" class="axis-button-secondary" (click)="cancelarFormulario()">
             <mat-icon>close</mat-icon> Cancelar
           </button>
-          <button type="submit" class="axis-button axis-button-primary">
+          <button mat-flat-button type="submit" class="axis-button-primary">
             <mat-icon>save</mat-icon>{{ esEdicion ? 'Actualizar' : 'Guardar' }}
           </button>
         </div>

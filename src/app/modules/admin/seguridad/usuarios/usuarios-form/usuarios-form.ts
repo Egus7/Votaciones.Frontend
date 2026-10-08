@@ -12,10 +12,20 @@ import { RolDto } from '../../../../../api/models/rol-dto';
 import { RolesModal } from '../../../../../shared/modals/roles-modal/roles-modal';
 import { Modal } from '../../../../../shared/modals/modal/modal';
 import { Enlace, EnlaceSub } from '../../../../../Config';
+import { MatFormField, MatInputModule, MatLabel } from '@angular/material/input';
 
 @Component({
   selector: 'app-usuarios-form',
-  imports: [FormsModule, MatButtonModule, MatIconModule, Modal, RolesModal],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    Modal,
+    RolesModal,
+    MatFormField,
+    MatLabel,
+    MatInputModule,
+  ],
   templateUrl: './usuarios-form.html',
   styleUrl: './usuarios-form.css',
 })
@@ -84,12 +94,12 @@ export class UsuariosForm implements OnInit {
       // Cargar el rol actual del usuario
       if (response.rolId && response.nombreRol) {
         this.rolSeleccionadoInfo = {
-          idRol: response.rolId, nombreRol: response.nombreRol,
+          idRol: response.rolId,
+          nombreRol: response.nombreRol,
         };
       } else {
         this.rolSeleccionadoInfo = null;
       }
-
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);
@@ -184,11 +194,9 @@ export class UsuariosForm implements OnInit {
       }
       // regresar al list
       void this.router.navigate([`${Enlace.Admin}/${EnlaceSub.Seguridad}/${EnlaceSub.Usuarios}`]);
-
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);
-
     } finally {
       this.guardando = false;
     }

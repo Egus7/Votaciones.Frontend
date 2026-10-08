@@ -9,50 +9,64 @@
     <div class="axis-table-filters">
       <!-- Fecha desde -->
       <div class="axis-table-filter axis-table-filter-date">
-        <label class="axis-form-label">Fecha desde</label>
-        <input type="date" class="axis-form-input" [(ngModel)]="fechaDesde" name="fechaDesde">
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Fecha desde</mat-label>
+          <input matInput [matDatepicker]="pickerDesde" [(ngModel)]="fechaDesde" name="fechaDesde"/>
+          <mat-datepicker-toggle matIconSuffix [for]="pickerDesde"></mat-datepicker-toggle>
+          <mat-datepicker #pickerDesde></mat-datepicker>
+        </mat-form-field>
       </div>
       <!-- Fecha hasta -->
       <div class="axis-table-filter axis-table-filter-date">
-        <label class="axis-form-label">Fecha hasta</label>
-        <input type="date" class="axis-form-input" [(ngModel)]="fechaHasta" name="fechaHasta">
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Fecha hasta</mat-label>
+          <input matInput [matDatepicker]="pickerHasta" [(ngModel)]="fechaHasta" name="fechaHasta">
+          <mat-datepicker-toggle matIconSuffix [for]="pickerHasta"></mat-datepicker-toggle>
+          <mat-datepicker #pickerHasta></mat-datepicker>
+        </mat-form-field>
       </div>
       <!-- Usuario -->
       <div class="axis-table-filter axis-table-filter-select">
-        <label class="axis-form-label">Usuario</label>
-        <select class="axis-form-select" [(ngModel)]="usuarioId" name="usuarioId">
-          <option [ngValue]="undefined">Todos los usuarios</option>
-          @for (usuario of usuarios(); track usuario.idUsuario) {
-            <option [value]="usuario.idUsuario">{{ usuario.nombreUsuario }}</option>
-          }
-        </select>
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Usuario</mat-label>
+          <mat-select [(ngModel)]="usuarioId" name="usuarioId">
+            <mat-option [value]="undefined">Todos los usuarios</mat-option>
+            @for (usuario of usuarios(); track usuario.idUsuario) {
+              <mat-option [value]="usuario.idUsuario">{{ usuario.nombreUsuario }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
       </div>
       <!-- Acción -->
       <div class="axis-table-filter axis-table-filter-select ">
-        <label class="axis-form-label">Acción</label>
-        <select class="axis-form-select" [(ngModel)]="accion" name="accion">
-          <option [ngValue]="undefined">Todas las acciones</option>
-          @for (item of acciones; track item.valor) {
-            <option [ngValue]="item.valor">{{ item.nombre }}</option>
-          }
-        </select>
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Acción</mat-label>
+          <mat-select [(ngModel)]="accion" name="accion">
+            <mat-option [value]="undefined">Todas las acciones</mat-option>
+            @for (item of acciones; track item.valor) {
+              <mat-option [value]="item.valor">{{ item.nombre }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
       </div>
       <!-- Módulo -->
       <div class="axis-table-filter axis-table-filter-select ">
-        <label class="axis-form-label">Módulo</label>
-        <select class="axis-form-select" [(ngModel)]="modulo" name="modulo">
-          <option [ngValue]="undefined">Todos los módulos</option>
-          @for (item of modulos; track item.valor) {
-            <option [ngValue]="item.valor">{{ item.nombre }}</option>
-          }
-        </select>
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Módulo</mat-label>
+          <mat-select [(ngModel)]="modulo" name="modulo">
+            <mat-option [value]="undefined">Todos los módulos</mat-option>
+            @for (item of modulos; track item.valor) {
+              <mat-option [value]="item.valor">{{ item.nombre }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
       </div>
       <!-- Acciones de filtros -->
       <div class="axis-filtros-actions">
-        <button type="button" class="axis-button axis-button-primary" (click)="buscar()">
+        <button mat-flat-button type="button" class="axis-button-primary" (click)="buscar()">
           <mat-icon>search</mat-icon> Buscar
         </button>
-        <button type="button" class="axis-button axis-button-secondary" (click)="limpiarFiltros()">
+        <button mat-raised-button type="button" class="axis-button-secondary" (click)="limpiarFiltros()">
           <mat-icon>clear</mat-icon> Limpiar
         </button>
       </div>
@@ -109,7 +123,7 @@
                 <!-- Detalle -->
                 <td>
                   <div class="axis-table-actions">
-                    <button type="button" class="axis-icon-button" title="Ver detalle"
+                    <button mat-icon-button type="button" class="axis-icon-button" title="Ver detalle"
                             (click)="verDetalle(item)">
                       <mat-icon>visibility</mat-icon>
                     </button>

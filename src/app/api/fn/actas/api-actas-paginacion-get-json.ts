@@ -8,11 +8,20 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { ActaDtoPaginacionDto } from '../../models/acta-dto-paginacion-dto';
+import { EstadoActa } from '../../models/estado-acta';
+import { TipoCandidato } from '../../models/tipo-candidato';
 
 export interface ApiActasPaginacionGet$Json$Params {
   eleccionId?: string;
   pagina?: number;
   pageSize?: number;
+  provinciaId?: string;
+  cantonId?: string;
+  parroquiaId?: string;
+  zonaId?: string;
+  mesaId?: string;
+  estadoActa?: EstadoActa;
+  tipoCandidato?: TipoCandidato;
 }
 
 export function apiActasPaginacionGet$Json(http: HttpClient, rootUrl: string, params?: ApiActasPaginacionGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<ActaDtoPaginacionDto>> {
@@ -21,6 +30,13 @@ export function apiActasPaginacionGet$Json(http: HttpClient, rootUrl: string, pa
     rb.query('eleccionId', params.eleccionId, {});
     rb.query('pagina', params.pagina, {});
     rb.query('pageSize', params.pageSize, {});
+    rb.query('provinciaId', params.provinciaId, {});
+    rb.query('cantonId', params.cantonId, {});
+    rb.query('parroquiaId', params.parroquiaId, {});
+    rb.query('zonaId', params.zonaId, {});
+    rb.query('mesaId', params.mesaId, {});
+    rb.query('estadoActa', params.estadoActa, {});
+    rb.query('tipoCandidato', params.tipoCandidato, {});
   }
 
   return http.request(

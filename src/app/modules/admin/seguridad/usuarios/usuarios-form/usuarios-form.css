@@ -1,58 +1,3 @@
-/* Selección de rol */
-.usuario-rol-header {
-  display: flex;
-  align-items: center;
-  margin-top: 2px;
-}
-.usuario-rol-header .axis-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.usuario-rol-seleccionado {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 10px;
-  padding: 10px 12px;
-  border: 1px solid #d9dee7;
-  border-radius: 6px;
-  background: #f8fafc;
-}
-
-.usuario-rol-info {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-.usuario-rol-info strong {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-.usuario-rol-info .axis-text-secondary {
-  font-size: 12px;
-  color: #6b7280;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.usuario-rol-seleccionado .axis-icon-button {
-  flex-shrink: 0;
-}
-.usuario-rol-vacio {
-  margin-top: 10px;
-  padding: 10px 12px;
-  border: 1px dashed #d1d5db;
-  border-radius: 6px;
-  background: #f9fafb;
-  color: #6b7280;
-  font-size: 13px;
-}
-
 /** password **/
 .password-input-wrapper {
   position: relative;
@@ -81,16 +26,7 @@
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-.password-toggle:hover {
-  background-color: var(--color-background);
-  color: var(--color-primary);
-}
 .password-toggle:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--color-primary-light);
-}
-.password-toggle mat-icon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
 }

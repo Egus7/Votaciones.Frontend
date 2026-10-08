@@ -1,16 +1,17 @@
 <div class="selector-roles">
   <!-- Búsqueda -->
   <div class="selector-roles-filtros">
-    <div class="axis-form-group">
-      <label class="axis-form-label" for="buscarRol">Buscar rol</label>
-      <div class="selector-roles-busqueda">
-        <mat-icon>search</mat-icon>
-        <input id="buscarRol" type="text" class="axis-form-input" placeholder="Nombre del rol"
-               [(ngModel)]="busqueda" name="buscarRol" (keyup.enter)="buscar()">
-        <button type="button" class="axis-button axis-button-secondary" (click)="buscar()">
+    <div class="selector-roles-busqueda">
+      <mat-form-field appearance="outline" class="axis-form-field">
+        <mat-label>Buscar rol</mat-label>
+        <input matInput id="buscarRol" type="text" [(ngModel)]="busqueda" name="buscarRol"
+               (keyup.enter)="buscar()">
+      </mat-form-field>
+      <div class="selector-roles-button">
+        <button mat-flat-button type="button" class="axis-button-primary" (click)="buscar()">
           <mat-icon>search</mat-icon> Buscar
         </button>
-        <button type="button" class="axis-button axis-button-secondary" (click)="limpiarBusqueda()">
+        <button mat-raised-button type="button" class="axis-button-secondary" (click)="limpiarBusqueda()">
           <mat-icon>clear</mat-icon> Limpiar
         </button>
       </div>
@@ -47,8 +48,9 @@
                 (click)="seleccionar(rol)">
               <!-- Seleccionar -->
               <td class="center">
-                <input type="radio" name="rol" [value]="rol.idRol" [checked]="estaSeleccionado(rol.idRol)"
-                       (click)="$event.stopPropagation()" (change)="seleccionar(rol)">
+                <mat-radio-button type="radio" [value]="rol.idRol" [checked]="estaSeleccionado(rol.idRol)"
+                                  (click)="$event.stopPropagation()" (change)="seleccionar(rol)">
+                </mat-radio-button>
               </td>
               <!-- Rol -->
               <td><strong>{{ rol.nombreRol }}</strong></td>

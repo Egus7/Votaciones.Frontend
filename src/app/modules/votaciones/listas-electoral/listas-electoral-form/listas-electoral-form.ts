@@ -8,10 +8,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MensajeService } from '../../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../../core/mensajes/manejo-mensajes-error';
 import { Enlace, EnlaceSub } from '../../../../Config';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatOption, MatSelect } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-listas-electoral-form',
-  imports: [FormsModule, MatIconModule],
+  imports: [
+    FormsModule,
+    MatIconModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatSelect,
+    MatOption,
+    MatButtonModule,
+  ],
   templateUrl: './listas-electoral-form.html',
   styleUrl: './listas-electoral-form.css',
 })
@@ -41,7 +53,7 @@ export class ListasElectoralForm implements OnInit {
       if (this.esEdicion) {
         await this.cargarLista();
       } else {
-        this.inicializarNuevaLista()
+        this.inicializarNuevaLista();
       }
     } finally {
       this.cargando.set(false);
@@ -66,7 +78,6 @@ export class ListasElectoralForm implements OnInit {
       this.listaElectoral = await this.listasElectoralService.apiListasElectoralIdGet$Json({
         id: this.listaElectoralId,
       });
-
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);
@@ -82,25 +93,29 @@ export class ListasElectoralForm implements OnInit {
 
     if (!this.listaElectoral.nombreLista) {
       void this.swalMensaje.advertencia(
-        'Datos incompletos', 'Debe ingresar el nombre de la lista.'
+        'Datos incompletos',
+        'Debe ingresar el nombre de la lista.',
       );
       return;
     }
     if (!this.listaElectoral.numeroLista) {
       void this.swalMensaje.advertencia(
-        'Datos incompletos', 'Debe ingresar el numero de la lista.',
+        'Datos incompletos',
+        'Debe ingresar el numero de la lista.',
       );
       return;
     }
     if (!this.listaElectoral.siglas) {
       void this.swalMensaje.advertencia(
-        'Datos incompletos', 'Debe ingresar las siglas de la lista.',
+        'Datos incompletos',
+        'Debe ingresar las siglas de la lista.',
       );
       return;
     }
     if (!this.listaElectoral.jurisdiccion) {
       void this.swalMensaje.advertencia(
-        'Datos incompletos', 'Debe seleccionar la jurisdiccion de la lista.',
+        'Datos incompletos',
+        'Debe seleccionar la jurisdiccion de la lista.',
       );
       return;
     }
@@ -126,11 +141,9 @@ export class ListasElectoralForm implements OnInit {
       }
       // regresar al list
       void this.router.navigate([`${Enlace.Votaciones}/${EnlaceSub.Listas}`]);
-
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
-      await this.swalMensaje.error('Error', mensajeError)
-
+      await this.swalMensaje.error('Error', mensajeError);
     } finally {
       this.guardando = false;
     }
@@ -139,6 +152,4 @@ export class ListasElectoralForm implements OnInit {
   cancelarFormulario(): void {
     void this.router.navigate([`${Enlace.Votaciones}/${EnlaceSub.Listas}`]);
   }
-
-
 }

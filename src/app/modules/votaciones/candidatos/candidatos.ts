@@ -14,10 +14,22 @@ import { TIPO_CANDIDATO } from '../../../api/models/tipo-candidato-array';
 import { Router, RouterLink } from '@angular/router';
 import { MensajeService } from '../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../core/mensajes/manejo-mensajes-error';
+import { MatFormField, MatInputModule, MatLabel } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-candidatos',
-  imports: [MatButtonModule, MatIconModule, FormsModule, Paginacion, RouterLink],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    FormsModule,
+    Paginacion,
+    RouterLink,
+    MatFormField,
+    MatLabel,
+    MatInputModule,
+    MatSelectModule,
+  ],
   templateUrl: './candidatos.html',
   styleUrl: './candidatos.css',
 })
@@ -87,7 +99,11 @@ export class Candidatos {
 
   async cargarListas(): Promise<void> {
     try {
-      const response = await this.listaElectoralService.apiListasElectoralPaginacionGet$Json({});
+      const response =
+        await this.listaElectoralService.apiListasElectoralPaginacionGet$Json({
+          pagina: this.paginaActual,
+          pageSize: 100,
+        });
       this.listas.set(response.items ?? []);
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);

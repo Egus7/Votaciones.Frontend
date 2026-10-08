@@ -30,6 +30,12 @@
   flex: 1;
   padding-left: 40px;
 }
+.selector-listas-button {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: var(--space-md);
+}
 /* Botón Buscar */
 .selector-listas-busqueda .axis-button {
   flex-shrink: 0;

@@ -7,6 +7,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MensajeService } from '../../../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../../../core/mensajes/manejo-mensajes-error';
 import { RolesService } from '../../../../../api/services/roles.service';
+import { MatFormField, MatInputModule, MatLabel } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 interface Permiso {
   codigo: string;
@@ -20,7 +23,15 @@ interface ModuloPermiso {
 
 @Component({
   selector: 'app-roles-form',
-  imports: [MatIconModule, FormsModule],
+  imports: [
+    MatIconModule,
+    FormsModule,
+    MatFormField,
+    MatLabel,
+    MatInputModule,
+    MatButtonModule,
+    MatCheckboxModule,
+  ],
   templateUrl: './roles-form.html',
   styleUrl: './roles-form.css',
 })

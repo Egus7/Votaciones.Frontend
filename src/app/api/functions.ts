@@ -15,6 +15,10 @@ export type { ApiActasMesaMesaIdGet$Plain$Params as ApiActasMesaMesaIdGet$Plain$
 export { apiActasMesaMesaIdGet$Plain as apiActasMesaMesaIdGet$Plain } from './fn/actas/api-actas-mesa-mesa-id-get-plain';
 export type { ApiActasMesaMesaIdGet$Json$Params as ApiActasMesaMesaIdGet$Json$Params } from './fn/actas/api-actas-mesa-mesa-id-get-json';
 export { apiActasMesaMesaIdGet$Json as apiActasMesaMesaIdGet$Json } from './fn/actas/api-actas-mesa-mesa-id-get-json';
+export type { ApiActasCandidatosListasRegistroGet$Plain$Params as ApiActasCandidatosListasRegistroGet$Plain$Params } from './fn/actas/api-actas-candidatos-listas-registro-get-plain';
+export { apiActasCandidatosListasRegistroGet$Plain as apiActasCandidatosListasRegistroGet$Plain } from './fn/actas/api-actas-candidatos-listas-registro-get-plain';
+export type { ApiActasCandidatosListasRegistroGet$Json$Params as ApiActasCandidatosListasRegistroGet$Json$Params } from './fn/actas/api-actas-candidatos-listas-registro-get-json';
+export { apiActasCandidatosListasRegistroGet$Json as apiActasCandidatosListasRegistroGet$Json } from './fn/actas/api-actas-candidatos-listas-registro-get-json';
 export type { ApiActasPost$Plain$Params as ApiActasPost$Plain$Params } from './fn/actas/api-actas-post-plain';
 export { apiActasPost$Plain as apiActasPost$Plain } from './fn/actas/api-actas-post-plain';
 export type { ApiActasPost$Json$Params as ApiActasPost$Json$Params } from './fn/actas/api-actas-post-json';
@@ -93,6 +97,14 @@ export type { ApiMesasElectoralIdGet$Json$Params as ApiMesasElectoralIdGet$Json$
 export { apiMesasElectoralIdGet$Json as apiMesasElectoralIdGet$Json } from './fn/mesas-electoral/api-mesas-electoral-id-get-json';
 export type { ApiMesasElectoralIdPut$Params as ApiMesasElectoralIdPut$Params } from './fn/mesas-electoral/api-mesas-electoral-id-put';
 export { apiMesasElectoralIdPut as apiMesasElectoralIdPut } from './fn/mesas-electoral/api-mesas-electoral-id-put';
+export type { ApiMesasElectoralZonaGet$Plain$Params as ApiMesasElectoralZonaGet$Plain$Params } from './fn/mesas-electoral/api-mesas-electoral-zona-get-plain';
+export { apiMesasElectoralZonaGet$Plain as apiMesasElectoralZonaGet$Plain } from './fn/mesas-electoral/api-mesas-electoral-zona-get-plain';
+export type { ApiMesasElectoralZonaGet$Json$Params as ApiMesasElectoralZonaGet$Json$Params } from './fn/mesas-electoral/api-mesas-electoral-zona-get-json';
+export { apiMesasElectoralZonaGet$Json as apiMesasElectoralZonaGet$Json } from './fn/mesas-electoral/api-mesas-electoral-zona-get-json';
+export type { ApiMesasElectoralDisponiblePorZonaGet$Plain$Params as ApiMesasElectoralDisponiblePorZonaGet$Plain$Params } from './fn/mesas-electoral/api-mesas-electoral-disponible-por-zona-get-plain';
+export { apiMesasElectoralDisponiblePorZonaGet$Plain as apiMesasElectoralDisponiblePorZonaGet$Plain } from './fn/mesas-electoral/api-mesas-electoral-disponible-por-zona-get-plain';
+export type { ApiMesasElectoralDisponiblePorZonaGet$Json$Params as ApiMesasElectoralDisponiblePorZonaGet$Json$Params } from './fn/mesas-electoral/api-mesas-electoral-disponible-por-zona-get-json';
+export { apiMesasElectoralDisponiblePorZonaGet$Json as apiMesasElectoralDisponiblePorZonaGet$Json } from './fn/mesas-electoral/api-mesas-electoral-disponible-por-zona-get-json';
 export type { ApiMesasElectoralCodigoMesaGet$Params as ApiMesasElectoralCodigoMesaGet$Params } from './fn/mesas-electoral/api-mesas-electoral-codigo-mesa-get';
 export { apiMesasElectoralCodigoMesaGet as apiMesasElectoralCodigoMesaGet } from './fn/mesas-electoral/api-mesas-electoral-codigo-mesa-get';
 export type { ApiMesasElectoralPost$Plain$Params as ApiMesasElectoralPost$Plain$Params } from './fn/mesas-electoral/api-mesas-electoral-post-plain';

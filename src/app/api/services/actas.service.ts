@@ -9,11 +9,16 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { ActaDetalleDto } from '../models/acta-detalle-dto';
 import { ActaDto } from '../models/acta-dto';
 import { ActaDtoPaginacionDto } from '../models/acta-dto-paginacion-dto';
 import { ActaEleccion } from '../models/acta-eleccion';
 import { apiActasCambiarEstadoIdPut } from '../fn/actas/api-actas-cambiar-estado-id-put';
 import { ApiActasCambiarEstadoIdPut$Params } from '../fn/actas/api-actas-cambiar-estado-id-put';
+import { apiActasCandidatosListasRegistroGet$Json } from '../fn/actas/api-actas-candidatos-listas-registro-get-json';
+import { ApiActasCandidatosListasRegistroGet$Json$Params } from '../fn/actas/api-actas-candidatos-listas-registro-get-json';
+import { apiActasCandidatosListasRegistroGet$Plain } from '../fn/actas/api-actas-candidatos-listas-registro-get-plain';
+import { ApiActasCandidatosListasRegistroGet$Plain$Params } from '../fn/actas/api-actas-candidatos-listas-registro-get-plain';
 import { apiActasIdGet$Json } from '../fn/actas/api-actas-id-get-json';
 import { ApiActasIdGet$Json$Params } from '../fn/actas/api-actas-id-get-json';
 import { apiActasIdGet$Plain } from '../fn/actas/api-actas-id-get-plain';
@@ -203,6 +208,53 @@ export class ActasService extends BaseService {
   apiActasMesaMesaIdGet$Json(params: ApiActasMesaMesaIdGet$Json$Params, context?: HttpContext): Promise<ActaDto> {
     const resp = this.apiActasMesaMesaIdGet$Json$Response(params, context);
     return resp.then((r: StrictHttpResponse<ActaDto>): ActaDto => r.body);
+  }
+
+  /** Path part for operation `apiActasCandidatosListasRegistroGet()` */
+  static readonly ApiActasCandidatosListasRegistroGetPath = '/api/Actas/candidatos-listas-registro';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiActasCandidatosListasRegistroGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiActasCandidatosListasRegistroGet$Plain$Response(params?: ApiActasCandidatosListasRegistroGet$Plain$Params, context?: HttpContext): Promise<StrictHttpResponse<Array<ActaDetalleDto>>> {
+    const obs = apiActasCandidatosListasRegistroGet$Plain(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiActasCandidatosListasRegistroGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiActasCandidatosListasRegistroGet$Plain(params?: ApiActasCandidatosListasRegistroGet$Plain$Params, context?: HttpContext): Promise<Array<ActaDetalleDto>> {
+    const resp = this.apiActasCandidatosListasRegistroGet$Plain$Response(params, context);
+    return resp.then((r: StrictHttpResponse<Array<ActaDetalleDto>>): Array<ActaDetalleDto> => r.body);
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiActasCandidatosListasRegistroGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiActasCandidatosListasRegistroGet$Json$Response(params?: ApiActasCandidatosListasRegistroGet$Json$Params, context?: HttpContext): Promise<StrictHttpResponse<Array<ActaDetalleDto>>> {
+    const obs = apiActasCandidatosListasRegistroGet$Json(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiActasCandidatosListasRegistroGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiActasCandidatosListasRegistroGet$Json(params?: ApiActasCandidatosListasRegistroGet$Json$Params, context?: HttpContext): Promise<Array<ActaDetalleDto>> {
+    const resp = this.apiActasCandidatosListasRegistroGet$Json$Response(params, context);
+    return resp.then((r: StrictHttpResponse<Array<ActaDetalleDto>>): Array<ActaDetalleDto> => r.body);
   }
 
   /** Path part for operation `apiActasPost()` */

@@ -12,7 +12,9 @@
   "paths": {
     "/api/Actas/paginacion": {
       "get": {
-        "tags": ["Actas"],
+        "tags": [
+          "Actas"
+        ],
         "parameters": [
           {
             "name": "eleccionId",
@@ -38,6 +40,60 @@
               "type": "integer",
               "format": "int32",
               "default": 7
+            }
+          },
+          {
+            "name": "provinciaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cantonId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "parroquiaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "zonaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "mesaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "estadoActa",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/EstadoActa"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
             }
           }
         ],
@@ -67,7 +123,9 @@
     },
     "/api/Actas/{id}": {
       "get": {
-        "tags": ["Actas"],
+        "tags": [
+          "Actas"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -103,7 +161,9 @@
         }
       },
       "put": {
-        "tags": ["Actas"],
+        "tags": [
+          "Actas"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -143,7 +203,9 @@
     },
     "/api/Actas/mesa/{mesaId}": {
       "get": {
-        "tags": ["Actas"],
+        "tags": [
+          "Actas"
+        ],
         "parameters": [
           {
             "name": "mesaId",
@@ -179,9 +241,90 @@
         }
       }
     },
+    "/api/Actas/candidatos-listas-registro": {
+      "get": {
+        "tags": [
+          "Actas"
+        ],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
+            }
+          },
+          {
+            "name": "provinciaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cantonId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "parroquiaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActaDetalleDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActaDetalleDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActaDetalleDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Actas": {
       "post": {
-        "tags": ["Actas"],
+        "tags": [
+          "Actas"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -227,7 +370,9 @@
     },
     "/api/Actas/cambiarEstado/{id}": {
       "put": {
-        "tags": ["Actas"],
+        "tags": [
+          "Actas"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -255,7 +400,9 @@
     },
     "/api/Auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -301,7 +448,9 @@
     },
     "/api/Bitacora/paginacion": {
       "get": {
-        "tags": ["Bitacora"],
+        "tags": [
+          "Bitacora"
+        ],
         "parameters": [
           {
             "name": "pagina",
@@ -386,7 +535,9 @@
     },
     "/api/Bitacora/id": {
       "get": {
-        "tags": ["Bitacora"],
+        "tags": [
+          "Bitacora"
+        ],
         "parameters": [
           {
             "name": "bitacoraId",
@@ -423,7 +574,9 @@
     },
     "/api/Bitacora/registro": {
       "get": {
-        "tags": ["Bitacora"],
+        "tags": [
+          "Bitacora"
+        ],
         "parameters": [
           {
             "name": "tabla",
@@ -475,7 +628,9 @@
     },
     "/api/Candidatos/paginacion": {
       "get": {
-        "tags": ["Candidatos"],
+        "tags": [
+          "Candidatos"
+        ],
         "parameters": [
           {
             "name": "eleccionId",
@@ -552,7 +707,9 @@
     },
     "/api/Candidatos/{id}": {
       "get": {
-        "tags": ["Candidatos"],
+        "tags": [
+          "Candidatos"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -588,7 +745,9 @@
         }
       },
       "put": {
-        "tags": ["Candidatos"],
+        "tags": [
+          "Candidatos"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -628,7 +787,9 @@
     },
     "/api/Candidatos": {
       "post": {
-        "tags": ["Candidatos"],
+        "tags": [
+          "Candidatos"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -674,7 +835,9 @@
     },
     "/api/Candidatos/cambiarEstado/{id}": {
       "put": {
-        "tags": ["Candidatos"],
+        "tags": [
+          "Candidatos"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -695,7 +858,9 @@
     },
     "/api/Elecciones": {
       "get": {
-        "tags": ["Elecciones"],
+        "tags": [
+          "Elecciones"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -729,7 +894,9 @@
         }
       },
       "post": {
-        "tags": ["Elecciones"],
+        "tags": [
+          "Elecciones"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -775,7 +942,9 @@
     },
     "/api/Elecciones/{id}": {
       "get": {
-        "tags": ["Elecciones"],
+        "tags": [
+          "Elecciones"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -811,7 +980,9 @@
         }
       },
       "put": {
-        "tags": ["Elecciones"],
+        "tags": [
+          "Elecciones"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -851,7 +1022,9 @@
     },
     "/api/ListasElectoral/paginacion": {
       "get": {
-        "tags": ["ListasElectoral"],
+        "tags": [
+          "ListasElectoral"
+        ],
         "parameters": [
           {
             "name": "pagina",
@@ -912,7 +1085,9 @@
     },
     "/api/ListasElectoral/{id}": {
       "get": {
-        "tags": ["ListasElectoral"],
+        "tags": [
+          "ListasElectoral"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -948,7 +1123,9 @@
         }
       },
       "put": {
-        "tags": ["ListasElectoral"],
+        "tags": [
+          "ListasElectoral"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -988,7 +1165,9 @@
     },
     "/api/ListasElectoral": {
       "post": {
-        "tags": ["ListasElectoral"],
+        "tags": [
+          "ListasElectoral"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1034,7 +1213,9 @@
     },
     "/api/ListasElectoral/cambiarEstado/{id}": {
       "put": {
-        "tags": ["ListasElectoral"],
+        "tags": [
+          "ListasElectoral"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1055,7 +1236,9 @@
     },
     "/api/MesasElectoral/paginacion": {
       "get": {
-        "tags": ["MesasElectoral"],
+        "tags": [
+          "MesasElectoral"
+        ],
         "parameters": [
           {
             "name": "eleccionId",
@@ -1124,7 +1307,9 @@
     },
     "/api/MesasElectoral/{id}": {
       "get": {
-        "tags": ["MesasElectoral"],
+        "tags": [
+          "MesasElectoral"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1160,7 +1345,9 @@
         }
       },
       "put": {
-        "tags": ["MesasElectoral"],
+        "tags": [
+          "MesasElectoral"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1198,9 +1385,130 @@
         }
       }
     },
+    "/api/MesasElectoral/zona": {
+      "get": {
+        "tags": [
+          "MesasElectoral"
+        ],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "zonaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MesaElectoralDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MesaElectoralDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MesaElectoralDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MesasElectoral/disponible-por-zona": {
+      "get": {
+        "tags": [
+          "MesasElectoral"
+        ],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "zonaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MesaElectoralDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MesaElectoralDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MesaElectoralDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/MesasElectoral/codigo-mesa": {
       "get": {
-        "tags": ["MesasElectoral"],
+        "tags": [
+          "MesasElectoral"
+        ],
         "parameters": [
           {
             "name": "eleccionId",
@@ -1235,7 +1543,9 @@
     },
     "/api/MesasElectoral": {
       "post": {
-        "tags": ["MesasElectoral"],
+        "tags": [
+          "MesasElectoral"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1281,7 +1591,9 @@
     },
     "/api/MesasElectoral/lote": {
       "post": {
-        "tags": ["MesasElectoral"],
+        "tags": [
+          "MesasElectoral"
+        ],
         "parameters": [
           {
             "name": "eleccionId",
@@ -1342,7 +1654,9 @@
     },
     "/api/MesasElectoral/cambiarEstado/{id}": {
       "put": {
-        "tags": ["MesasElectoral"],
+        "tags": [
+          "MesasElectoral"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1363,7 +1677,9 @@
     },
     "/api/Resultados/eleccion": {
       "get": {
-        "tags": ["Resultados"],
+        "tags": [
+          "Resultados"
+        ],
         "parameters": [
           {
             "name": "eleccionId",
@@ -1414,7 +1730,9 @@
     },
     "/api/Resultados/eleccion/canton": {
       "get": {
-        "tags": ["Resultados"],
+        "tags": [
+          "Resultados"
+        ],
         "parameters": [
           {
             "name": "eleccionId",
@@ -1473,7 +1791,9 @@
     },
     "/api/Resultados/eleccion/parroquia": {
       "get": {
-        "tags": ["Resultados"],
+        "tags": [
+          "Resultados"
+        ],
         "parameters": [
           {
             "name": "eleccionId",
@@ -1532,7 +1852,9 @@
     },
     "/api/Resultados/eleccion/zona": {
       "get": {
-        "tags": ["Resultados"],
+        "tags": [
+          "Resultados"
+        ],
         "parameters": [
           {
             "name": "eleccionId",
@@ -1591,7 +1913,9 @@
     },
     "/api/Roles/paginacion": {
       "get": {
-        "tags": ["Roles"],
+        "tags": [
+          "Roles"
+        ],
         "parameters": [
           {
             "name": "pagina",
@@ -1645,7 +1969,9 @@
     },
     "/api/Roles/{id}": {
       "get": {
-        "tags": ["Roles"],
+        "tags": [
+          "Roles"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1681,7 +2007,9 @@
         }
       },
       "put": {
-        "tags": ["Roles"],
+        "tags": [
+          "Roles"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1721,7 +2049,9 @@
     },
     "/api/Roles": {
       "post": {
-        "tags": ["Roles"],
+        "tags": [
+          "Roles"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1767,7 +2097,9 @@
     },
     "/api/Roles/cambiarEstado/{id}": {
       "put": {
-        "tags": ["Roles"],
+        "tags": [
+          "Roles"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1788,7 +2120,9 @@
     },
     "/api/Usuarios/paginacion": {
       "get": {
-        "tags": ["Usuarios"],
+        "tags": [
+          "Usuarios"
+        ],
         "parameters": [
           {
             "name": "pagina",
@@ -1842,7 +2176,9 @@
     },
     "/api/Usuarios/{id}": {
       "get": {
-        "tags": ["Usuarios"],
+        "tags": [
+          "Usuarios"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1878,7 +2214,9 @@
         }
       },
       "put": {
-        "tags": ["Usuarios"],
+        "tags": [
+          "Usuarios"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1918,7 +2256,9 @@
     },
     "/api/Usuarios/permisos": {
       "get": {
-        "tags": ["Usuarios"],
+        "tags": [
+          "Usuarios"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1954,7 +2294,9 @@
     },
     "/api/Usuarios": {
       "post": {
-        "tags": ["Usuarios"],
+        "tags": [
+          "Usuarios"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2000,7 +2342,9 @@
     },
     "/api/Usuarios/cambiarEstado/{id}": {
       "put": {
-        "tags": ["Usuarios"],
+        "tags": [
+          "Usuarios"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -2021,7 +2365,9 @@
     },
     "/api/Zonas/provincias": {
       "get": {
-        "tags": ["Zonas"],
+        "tags": [
+          "Zonas"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2057,7 +2403,9 @@
     },
     "/api/Zonas/cantones": {
       "get": {
-        "tags": ["Zonas"],
+        "tags": [
+          "Zonas"
+        ],
         "parameters": [
           {
             "name": "provinciaId",
@@ -2103,7 +2451,9 @@
     },
     "/api/Zonas/parroquias": {
       "get": {
-        "tags": ["Zonas"],
+        "tags": [
+          "Zonas"
+        ],
         "parameters": [
           {
             "name": "cantonId",
@@ -2149,7 +2499,9 @@
     },
     "/api/Zonas/zonas": {
       "get": {
-        "tags": ["Zonas"],
+        "tags": [
+          "Zonas"
+        ],
         "parameters": [
           {
             "name": "parroquiaId",
@@ -2226,6 +2578,10 @@
             "type": "string",
             "nullable": true
           },
+          "provincia": {
+            "type": "string",
+            "nullable": true
+          },
           "canton": {
             "type": "string",
             "nullable": true
@@ -2293,7 +2649,11 @@
         "additionalProperties": false
       },
       "ActaDetalle": {
-        "required": ["actaId", "listaElectoralId", "votos"],
+        "required": [
+          "actaId",
+          "listaElectoralId",
+          "votos"
+        ],
         "type": "object",
         "properties": {
           "idActaDetalle": {
@@ -2328,7 +2688,7 @@
             "format": "uuid",
             "nullable": true
           },
-          "candidato": {
+          "nombreCandidato": {
             "type": "string",
             "nullable": true
           },
@@ -2336,7 +2696,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "lista": {
+          "nombreLista": {
             "type": "string",
             "nullable": true
           },
@@ -2352,7 +2712,13 @@
         "additionalProperties": false
       },
       "ActaEleccion": {
-        "required": ["estado", "fechaRegistro", "totalVotos", "votosBlancos", "votosNulos"],
+        "required": [
+          "estado",
+          "fechaRegistro",
+          "totalVotos",
+          "votosBlancos",
+          "votosNulos"
+        ],
         "type": "object",
         "properties": {
           "idActa": {
@@ -2414,7 +2780,10 @@
         "additionalProperties": false
       },
       "AdmUsuario": {
-        "required": ["estado", "nombreUsuario"],
+        "required": [
+          "estado",
+          "nombreUsuario"
+        ],
         "type": "object",
         "properties": {
           "idUsuario": {
@@ -2521,7 +2890,9 @@
         "additionalProperties": false
       },
       "Candidato": {
-        "required": ["nombreCandidato"],
+        "required": [
+          "nombreCandidato"
+        ],
         "type": "object",
         "properties": {
           "idCandidato": {
@@ -2543,6 +2914,21 @@
           "orden": {
             "type": "integer",
             "format": "int32",
+            "nullable": true
+          },
+          "provinciaId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "cantonId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "parroquiaId": {
+            "type": "string",
+            "format": "uuid",
             "nullable": true
           },
           "activo": {
@@ -2583,6 +2969,18 @@
           "orden": {
             "type": "integer",
             "format": "int32",
+            "nullable": true
+          },
+          "provincia": {
+            "type": "string",
+            "nullable": true
+          },
+          "canton": {
+            "type": "string",
+            "nullable": true
+          },
+          "parroquia": {
+            "type": "string",
             "nullable": true
           },
           "activo": {
@@ -2628,7 +3026,11 @@
         "additionalProperties": false
       },
       "Canton": {
-        "required": ["activo", "nombreCanton", "provinciaId"],
+        "required": [
+          "activo",
+          "nombreCanton",
+          "provinciaId"
+        ],
         "type": "object",
         "properties": {
           "idCanton": {
@@ -2651,7 +3053,10 @@
         "additionalProperties": false
       },
       "Eleccion": {
-        "required": ["fechaEleccion", "nombreEleccion"],
+        "required": [
+          "fechaEleccion",
+          "nombreEleccion"
+        ],
         "type": "object",
         "properties": {
           "idEleccion": {
@@ -2688,15 +3093,30 @@
         "additionalProperties": false
       },
       "EstadoActa": {
-        "enum": ["Registrada", "EnRevision", "ConInconsistencia", "Validada", "Anulada"],
+        "enum": [
+          "Registrada",
+          "EnRevision",
+          "ConInconsistencia",
+          "Validada",
+          "Anulada"
+        ],
         "type": "string"
       },
       "EstadoEleccion": {
-        "enum": ["Planificada", "Activa", "Cerrada"],
+        "enum": [
+          "Planificada",
+          "Activa",
+          "Cerrada"
+        ],
         "type": "string"
       },
       "Jurisdiccion": {
-        "enum": ["Nacional", "Provincial", "Cantonal", "Circunscripcion"],
+        "enum": [
+          "Nacional",
+          "Provincial",
+          "Cantonal",
+          "Circunscripcion"
+        ],
         "type": "string"
       },
       "ListaCandidato": {
@@ -2742,7 +3162,10 @@
         "additionalProperties": false
       },
       "ListaElectoral": {
-        "required": ["nombreLista", "numeroLista"],
+        "required": [
+          "nombreLista",
+          "numeroLista"
+        ],
         "type": "object",
         "properties": {
           "idListaElectoral": {
@@ -2844,7 +3267,11 @@
         "additionalProperties": false
       },
       "MesaElectoral": {
-        "required": ["activa", "tipoMesa", "zonaId"],
+        "required": [
+          "activa",
+          "tipoMesa",
+          "zonaId"
+        ],
         "type": "object",
         "properties": {
           "idMesaElectoral": {
@@ -2956,7 +3383,11 @@
         "additionalProperties": false
       },
       "Parroquia": {
-        "required": ["activo", "cantonId", "nombreParroquia"],
+        "required": [
+          "activo",
+          "cantonId",
+          "nombreParroquia"
+        ],
         "type": "object",
         "properties": {
           "idParroquia": {
@@ -2979,7 +3410,11 @@
         "additionalProperties": false
       },
       "Provincia": {
-        "required": ["activo", "codigoProvincia", "nombreProvincia"],
+        "required": [
+          "activo",
+          "codigoProvincia",
+          "nombreProvincia"
+        ],
         "type": "object",
         "properties": {
           "idProvincia": {
@@ -3144,15 +3579,27 @@
         "additionalProperties": false
       },
       "TipoCandidato": {
-        "enum": ["Presidente", "Prefecto", "Alcalde", "ConcejalUrbano", "ConcejalRural"],
+        "enum": [
+          "Presidente",
+          "Prefecto",
+          "Alcalde",
+          "ConcejalUrbano",
+          "ConcejalRural"
+        ],
         "type": "string"
       },
       "TipoMesa": {
-        "enum": ["Femenina", "Masculina"],
+        "enum": [
+          "Femenina",
+          "Masculina"
+        ],
         "type": "string"
       },
       "TipoResultado": {
-        "enum": ["Oficial", "Preliminar"],
+        "enum": [
+          "Oficial",
+          "Preliminar"
+        ],
         "type": "string"
       },
       "UsuarioDTO": {
@@ -3218,7 +3665,11 @@
         "additionalProperties": false
       },
       "Zona": {
-        "required": ["activo", "nombreZona", "parroquiaId"],
+        "required": [
+          "activo",
+          "nombreZona",
+          "parroquiaId"
+        ],
         "type": "object",
         "properties": {
           "idZona": {
@@ -3252,7 +3703,7 @@
   },
   "security": [
     {
-      "Bearer": []
+      "Bearer": [ ]
     }
   ],
   "tags": [

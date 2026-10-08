@@ -1,0 +1,223 @@
+<div class="axis-card-content">
+  <!-- ENCABEZADO -->
+  @if (modo === 'crear') {
+    <div class="axis-page-header">
+      <h2 class="axis-page-title">Registrar acta electoral</h2>
+      <p class="axis-page-subtitle">Registre la información y los resultados del acta electoral.</p>
+    </div>
+  } @else if (modo === 'editar') {
+    <div class="axis-page-header">
+      <h2 class="axis-page-title">Editar acta electoral</h2>
+      <p class="axis-page-subtitle">Modifique la información y los resultados del acta electoral.</p>
+    </div>
+  } @else if (modo === 'ver') {
+    <div class="axis-page-header">
+      <h2 class="axis-page-title">Detalle del acta electoral</h2>
+      <p class="axis-page-subtitle">Consulte la información y los resultados registrados en el acta.</p>
+    </div>
+  } @else if (modo === 'validar') {
+    <div class="axis-page-header">
+      <h2 class="axis-page-title">Validar acta electoral</h2>
+      <p class="axis-page-subtitle">Revise la información y los resultados antes de validar el acta.</p>
+    </div>
+  }
+  <!-- CARGANDO -->
+  @if (cargando()) {
+    <div class="axis-table-empty">
+      <mat-icon>hourglass_empty</mat-icon>
+      <div>Cargando información del acta...</div>
+    </div>
+  } @else {
+    <form class="axis-form" (ngSubmit)="guardarFormulario()">
+      <!-- INFORMACIÓN DE LA MESA -->
+      <div class="axis-form-row">
+        <div class="axis-form-col axis-form-col-12">
+          <label class="axis-form-label">Información de la mesa</label>
+        </div>
+        <!-- Provincia -->
+        <div class="axis-form-col axis-form-col-4">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Provincia</mat-label>
+            <mat-select [(ngModel)]="provinciaId" name="provinciaId" (selectionChange)="cambioProvincia()"
+                        [disabled]="esSoloLectura || esEdicion" required>
+              <mat-option [value]="undefined">Seleccione una provincia</mat-option>
+              @for (provincia of provincias(); track provincia.idProvincia) {
+                <mat-option [value]="provincia.idProvincia">{{ provincia.nombreProvincia }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Cantón -->
+        <div class="axis-form-col axis-form-col-4">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Cantón</mat-label>
+            <mat-select [(ngModel)]="cantonId" name="cantonId" (selectionChange)="cambioCanton()"
+                        [disabled]="esSoloLectura || esEdicion || !provinciaId" required>
+              <mat-option [value]="undefined">Seleccione un cantón</mat-option>
+              @for (canton of cantones(); track canton.idCanton) {
+                <mat-option [value]="canton.idCanton">{{ canton.nombreCanton }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Parroquia -->
+        <div class="axis-form-col axis-form-col-4">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Parroquia</mat-label>
+            <mat-select [(ngModel)]="parroquiaId" name="parroquiaId" (selectionChange)="cambioParroquia()"
+                        [disabled]="esSoloLectura || esEdicion || !cantonId" required>
+              <mat-option [value]="undefined">Seleccione una parroquia</mat-option>
+              @for (parroquia of parroquias(); track parroquia.idParroquia) {
+                <mat-option [value]="parroquia.idParroquia">{{ parroquia.nombreParroquia }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Zona -->
+        <div class="axis-form-col axis-form-col-4">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Zona</mat-label>
+            <mat-select [(ngModel)]="zonaId" name="zonaId" (selectionChange)="cambioZona()"
+                        [disabled]="esSoloLectura || esEdicion || !parroquiaId" required>
+              <mat-option [value]="undefined">Seleccione una zona</mat-option>
+              @for (zona of zonas(); track zona.idZona) {
+                <mat-option [value]="zona.idZona">{{ zona.nombreZona }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Tipo candidato -->
+        <div class="axis-form-col axis-form-col-3">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Tipo acta</mat-label>
+            <mat-select [(ngModel)]="acta.tipoCandidato" name="tipoCandidato" (selectionChange)="cambioTipoCandidato()"
+                        [disabled]="esSoloLectura || esEdicion || !zonaId" required>
+              <mat-option [value]="undefined">Seleccione un tipo</mat-option>
+              @for (tipo of tiposCandidato; track tipo) {
+                <mat-option [value]="tipo">{{ nombreTipoCandidato(tipo) }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Mesa -->
+        <div class="axis-form-col axis-form-col-2">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Mesa electoral</mat-label>
+            <mat-select [(ngModel)]="mesaId" name="mesaId" (ngModelChange)="cambioMesa()"
+                        [disabled]="esSoloLectura || esEdicion || !acta.tipoCandidato" required>
+              <mat-option [value]="undefined">Seleccione una mesa</mat-option>
+              @for (mesa of mesas(); track mesa.idMesaElectoral) {
+                <mat-option [value]="mesa.idMesaElectoral">{{ mesa.codigoMesa }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Descripcion mesa -->
+        <div class="axis-form-col axis-form-col-3">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Descripción mesa</mat-label>
+            <input matInput [value]="descripcionMesa" [disabled]="esSoloLectura || esEdicion" readonly>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- RESULTADOS -->
+      <div class="axis-form-row">
+        <div class="axis-form-col axis-form-col-12">
+          <label class="axis-form-label">
+            <strong>Resultados electorales</strong>
+            - Acta de {{ nombreTipoCandidato(acta.tipoCandidato!) }}
+          </label>
+        </div>
+        <div class="axis-form-col axis-form-col-9">
+          <div class="axis-acta-resultados">
+            @for (detalle of acta.actaDetalles; track $index) {
+              <div class="axis-acta-resultado">
+                <!-- Lista -->
+                <div class="axis-acta-resultado-lista">
+                  @if (detalle.numeroLista) {
+                    <span class="axis-acta-numero-lista">{{ detalle.numeroLista }}</span>
+                  }
+                  <div class="axis-acta-lista-info">
+                    @if (acta.tipoCandidato !== 'ConcejalUrbano' &&
+                    acta.tipoCandidato !== 'ConcejalRural') {
+                      <span><strong>{{ detalle.nombreCandidato || '—' }}</strong></span>
+                    }
+                    <strong>{{ detalle.nombreLista || '—' }}</strong>
+                  </div>
+                </div>
+                <!-- Votos -->
+                <div class="axis-acta-resultado-votos">
+                  <span>Votos</span>
+                  <mat-form-field appearance="outline" class="axis-form-field axis-acta-votos">
+                    <input matInput type="number" min="0" [(ngModel)]="detalle.votos"
+                           [name]="'votos_' + $index" [readonly]="esSoloLectura" required>
+                  </mat-form-field>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <!-- VOTOS BLANCOS / NULOS -->
+      <div class="axis-form-row">
+        <div class="axis-form-col axis-form-col-2">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Votos blancos</mat-label>
+            <input matInput type="number" min="0" [(ngModel)]="acta.votosBlancos" name="votosBlancos"
+                   [readonly]="esSoloLectura" required>
+          </mat-form-field>
+        </div>
+        <div class="axis-form-col axis-form-col-2">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Votos nulos</mat-label>
+            <input matInput type="number" min="0" [(ngModel)]="acta.votosNulos" name="votosNulos"
+                   [readonly]="esSoloLectura" required>
+          </mat-form-field>
+        </div>
+        <div class="axis-form-col axis-form-col-5">
+          <div class="axis-acta-total-votos">
+            <span>Total votos del acta</span>
+            <strong>{{ totalVotos }}</strong>
+          </div>
+        </div>
+      </div>
+      <!-- VALIDACIÓN -->
+      @if (modo === 'validar') {
+        <div class="axis-form-row">
+          <div class="axis-form-col axis-form-col-12">
+            <label class="axis-form-label">Validación del acta</label>
+          </div>
+          <div class="axis-form-col axis-form-col-3">
+            <div class="axis-validation-status">
+              <span>Estado actual</span>
+              <span class="axis-status axis-status-warning">
+                {{ nombreEstadoActa(acta.estado!) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      }
+      <!-- ACCIONES -->
+      <div class="axis-form-actions">
+        <button mat-stroked-button type="button" class="axis-button-secondary" (click)="cancelarFormulario()">
+          <mat-icon>close</mat-icon> Regresar
+        </button>
+        @if (modo === 'crear') {
+          <button mat-flat-button type="submit" class="axis-button-primary">
+            <mat-icon>save</mat-icon> Registrar
+          </button>
+        }
+        @if (modo === 'editar') {
+          <button mat-flat-button type="submit" class="axis-button-primary">
+            <mat-icon>save</mat-icon> Actualizar
+          </button>
+        }
+        @if (modo === 'validar') {
+          <button mat-flat-button type="button" class="axis-button-primary">
+            <mat-icon>verified</mat-icon> Validar acta
+          </button>
+        }
+      </div>
+    </form>
+  }
+</div>

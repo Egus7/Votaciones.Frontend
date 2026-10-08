@@ -8,7 +8,7 @@
     <!-- Acciones -->
     <div class="axis-toolbar">
       <div></div>
-      <button mat-flat-button color="primary" type="button" (click)="nuevaLista()">
+      <button mat-flat-button class="axis-button-primary" type="button" (click)="nuevaLista()">
         <mat-icon>add</mat-icon> Nueva lista
       </button>
     </div>
@@ -16,26 +16,29 @@
     <div class="axis-table-filters">
       <!-- Buscar -->
       <div class="axis-table-filter axis-table-filter-search">
-        <input type="text" class="axis-form-input" placeholder="Buscar lista..."
-               [(ngModel)]="busqueda" (keyup.enter)="buscar()">
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Buscar lista...</mat-label>
+          <input matInput type="text" [(ngModel)]="busqueda" (keyup.enter)="buscar()">
+        </mat-form-field>
       </div>
       <!-- Tipo -->
       <div class="axis-table-filter axis-table-filter-select">
-        <label class="axis-form-label">Jurisdicción</label>
-        <select id="jurisdiccion" class="axis-form-select"
-                [(ngModel)]="jurisdiccion" name="jurisdiccion">
-          <option [ngValue]="undefined">Todos las jurisdicciones</option>
-          @for (item of jurisdicciones; track item) {
-            <option [ngValue]="item">{{ item }}</option>
-          }
-        </select>
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Jurisdicción</mat-label>
+          <mat-select [(ngModel)]="jurisdiccion" name="jurisdiccion">
+            <mat-option [value]="undefined">Todas las jurisdicciones</mat-option>
+            @for (item of jurisdicciones; track item) {
+              <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
       </div>
       <!-- Acciones de filtros -->
       <div class="axis-filtros-actions">
-        <button type="button" class="axis-button axis-button-primary" (click)="buscar()">
+        <button mat-flat-button type="button" class="axis-button-primary" (click)="buscar()">
           <mat-icon>search</mat-icon> Buscar
         </button>
-        <button type="button" class="axis-button axis-button-secondary" (click)="limpiarFiltros()">
+        <button mat-raised-button type="button" class="axis-button-secondary" (click)="limpiarFiltros()">
           <mat-icon>clear</mat-icon> Limpiar
         </button>
       </div>
@@ -85,18 +88,18 @@
                 <td>
                   <div class="axis-table-actions">
                     <!-- Editar -->
-                    <button type="button" class="axis-icon-button" title="Editar"
+                    <button mat-icon-button type="button" class="axis-table-icon-edit" title="Editar"
                             (click)="editarLista(lista.idListaElectoral)">
                       <mat-icon>edit</mat-icon>
                     </button>
                     <!-- Activar / Desactivar -->
                     @if (lista.activo) {
-                      <button type="button" class="axis-icon-button axis-icon-button-danger"
+                      <button mat-icon-button type="button" class="axis-table-icon-desactivate"
                               title="Suspender" (click)="cambiarEstadoLista(lista)">
                         <mat-icon>block</mat-icon>
                       </button>
                     } @else {
-                      <button type="button" class="axis-icon-button" title="Activar"
+                      <button mat-icon-button type="button" class="axis-table-icon-activate" title="Activar"
                               (click)="cambiarEstadoLista(lista)">
                         <mat-icon>check_circle</mat-icon>
                       </button>

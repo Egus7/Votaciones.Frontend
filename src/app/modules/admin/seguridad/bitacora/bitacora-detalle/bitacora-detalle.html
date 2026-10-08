@@ -10,7 +10,7 @@
         <p>Información del registro y cambios realizados.</p>
       </div>
     </div>
-    <button type="button" class="bitacora-cerrar-icono" title="Cerrar" aria-label="Cerrar detalle"
+    <button mat-icon-button type="button" title="Cerrar" aria-label="Cerrar detalle"
             (click)="cerrar()">
       <mat-icon>close</mat-icon>
     </button>
@@ -100,7 +100,7 @@
   </div>
   <!-- Acciones -->
   <div class="bitacora-detalle-footer">
-    <button mat-flat-button type="button" color="primary" (click)="cerrar()">
+    <button mat-raised-button type="button" (click)="cerrar()">
       Cerrar
     </button>
   </div>

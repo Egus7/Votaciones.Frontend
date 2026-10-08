@@ -9,10 +9,19 @@ import { UsuariosService } from '../../../../api/services/usuarios.service';
 import { Router } from '@angular/router';
 import { MensajeService } from '../../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../../core/mensajes/manejo-mensajes-error';
+import { MatFormField, MatInputModule, MatLabel } from '@angular/material/input';
 
 @Component({
   selector: 'app-usuarios',
-  imports: [FormsModule, MatButtonModule, MatIconModule, Paginacion],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    Paginacion,
+    MatFormField,
+    MatLabel,
+    MatInputModule,
+  ],
   templateUrl: './usuarios.html',
   styleUrl: './usuarios.css',
 })
@@ -120,5 +129,4 @@ export class Usuarios implements OnInit {
       await this.swalMensaje.error('Error', mensajeError);
     }
   }
-
 }

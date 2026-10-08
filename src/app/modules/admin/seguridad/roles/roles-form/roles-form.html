@@ -17,19 +17,20 @@
       <div class="axis-form-row">
         <!-- Nombre rol -->
         <div class="axis-form-col axis-form-col-6">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="nombreRol">Nombre del rol</label>
-            <input id="nombreRol" class="axis-form-input" type="text" placeholder="Ingrese el nombre del rol"
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Nombre Rol</mat-label>
+            <input matInput type="text" placeholder="Ingrese el nombre del rol"
                    [(ngModel)]="rol.nombreRol" name="nombreRol" required>
-          </div>
+          </mat-form-field>
         </div>
         <!-- Descripcion rol -->
         <div class="axis-form-col axis-form-col-6">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="descripcionRol">Descripción</label>
-            <input id="descripcionRol" class="axis-form-input" type="text" placeholder="Describa la función del rol"
-                   [(ngModel)]="rol.descripcionRol" name="descripcionRol">
-          </div>
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput rows="1" placeholder="Describa la función del rol"
+                      [(ngModel)]="rol.descripcionRol" name="descripcionRol">
+            </textarea>
+          </mat-form-field>
         </div>
       </div>
       <!-- Permisos -->
@@ -47,10 +48,10 @@
           </div>
           <!-- Acciones -->
           <div class="rol-permisos-acciones">
-            <button type="button" class="axis-button axis-button-secondary" (click)="cambiarTodosLosPermisos(true)">
+            <button mat-stroked-button type="button" class="axis-button-secondary" (click)="cambiarTodosLosPermisos(true)">
               <mat-icon>done_all</mat-icon> Seleccionar todos
             </button>
-            <button type="button" class="axis-button axis-button-secondary" (click)="cambiarTodosLosPermisos(false)">
+            <button mat-stroked-button type="button" class="axis-button-secondary" (click)="cambiarTodosLosPermisos(false)">
               <mat-icon>remove_done</mat-icon> Limpiar
             </button>
           </div>
@@ -77,26 +78,18 @@
                   </mat-icon>
                 </button>
                 <!-- Seleccionar módulo -->
-                <label class="rol-permiso-modulo-check" (click)="$event.stopPropagation()">
-                  <input type="checkbox" [checked]="moduloCompleto(modulo)" [disabled]="esRolAdministrador"
-                         (change)="cambiarPermisosModulo(modulo, $any($event.target).checked)">
-                  <span>Todo</span>
-                </label>
+                <mat-checkbox class="rol-permiso-modulo-check" [checked]="moduloCompleto(modulo)"
+                              [disabled]="esRolAdministrador" (change)="cambiarPermisosModulo(modulo, $event.checked)">Todo
+                </mat-checkbox>
               </div>
               <!-- Opciones -->
               @if (moduloAbierto(modulo.codigo)) {
                 <div class="rol-permiso-opciones">
                   @for (permiso of modulo.permisos; track permiso.codigo) {
-                    <label class="rol-permiso-opcion">
-                      <input type="checkbox" [checked]="tienePermiso(permiso.codigo)" [disabled]="esRolAdministrador"
-                             (change)="cambiarPermiso(permiso.codigo, $any($event.target).checked)">
-                      <span class="rol-permiso-check">
-                        <mat-icon>{{ tienePermiso(permiso.codigo)
-                          ? 'check_circle' : 'radio_button_unchecked' }}
-                        </mat-icon>
-                      </span>
-                      <span class="rol-permiso-nombre">{{ permiso.nombre }}</span>
-                    </label>
+                    <mat-checkbox class="rol-permiso-opcion" [checked]="tienePermiso(permiso.codigo)"
+                                  [disabled]="esRolAdministrador" (change)="cambiarPermiso(permiso.codigo, $event.checked)">
+                      {{ permiso.nombre }}
+                    </mat-checkbox>
                   }
                 </div>
               }
@@ -107,10 +100,10 @@
       <!-- Acciones -->
       <div class="axis-form-row">
         <div class="axis-form-actions">
-          <button type="button" class="axis-button axis-button-secondary" (click)="cancelarFormulario()">
+          <button mat-raised-button type="button" class="axis-button-secondary" (click)="cancelarFormulario()">
             <mat-icon>close</mat-icon> Cancelar
           </button>
-          <button type="submit" class="axis-button axis-button-primary" [disabled]="guardando()">
+          <button mat-flat-button type="submit" class="axis-button-primary" [disabled]="guardando()">
             <mat-icon>save</mat-icon>{{ guardando() ? 'Guardando...' : esEdicion ? 'Actualizar' : 'Guardar' }}
           </button>
         </div>

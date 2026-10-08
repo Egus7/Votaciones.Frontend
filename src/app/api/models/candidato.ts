@@ -5,10 +5,13 @@ import { ListaCandidato } from '../models/lista-candidato';
 import { TipoCandidato } from '../models/tipo-candidato';
 export interface Candidato {
   activo?: boolean;
+  cantonId?: string | null;
   eleccionId?: string;
   idCandidato?: string;
   listaCandidatos?: Array<ListaCandidato> | null;
   nombreCandidato?: string;
   orden?: number | null;
+  parroquiaId?: string | null;
+  provinciaId?: string | null;
   tipoCandidato?: TipoCandidato;
 }

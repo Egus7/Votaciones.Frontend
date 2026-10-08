@@ -19,41 +19,42 @@
   } @else {
     <form class="axis-form" (ngSubmit)="guardarFormulario()">
       <div class="axis-form-row">
-        <!-- Forma de registro -->
+        <!-- ==================== Forma de registro ==================== -->
         @if (!esEdicion) {
-          <div class="axis-form-col axis-form-col-6">
-            <div class="axis-form-group">
+          <div class="axis-form-row">
+            <div class="axis-form-col axis-form-col-12">
               <label class="axis-form-label">Forma de registro</label>
-              <div class="mesa-modo-selector">
-                <label class="mesa-modo-option" [class.mesa-modo-option-active]="modoCreacion === 'individual'">
-                  <input type="radio" name="modoCreacion" value="individual" [(ngModel)]="modoCreacion"
-                         (ngModelChange)="cambioModoCreacion()">
-                  <div class="mesa-modo-icon">
-                    <mat-icon>how_to_vote</mat-icon>
-                  </div>
-                  <div class="mesa-modo-info">
-                    <strong>Una mesa</strong>
-                    <span>Registrar una mesa electoral individual.</span>
-                  </div>
-                  <div class="mesa-modo-check">
-                    <mat-icon>{{ modoCreacion === 'individual' ? 'radio_button_checked' : 'radio_button_unchecked' }}</mat-icon>
-                  </div>
-                </label>
-                <label class="mesa-modo-option" [class.mesa-modo-option-active]="modoCreacion === 'lote'">
-                  <input type="radio" name="modoCreacion" value="lote" [(ngModel)]="modoCreacion"
-                         (ngModelChange)="cambioModoCreacion()">
-                  <div class="mesa-modo-icon">
-                    <mat-icon>library_add</mat-icon>
-                  </div>
-                  <div class="mesa-modo-info">
-                    <strong>Varias mesas</strong>
-                    <span>Registrar varias mesas femeninas y masculinas.</span>
-                  </div>
-                  <div class="mesa-modo-check">
-                    <mat-icon>{{ modoCreacion === 'lote' ? 'radio_button_checked' : 'radio_button_unchecked' }}</mat-icon>
-                  </div>
-                </label>
-              </div>
+              <mat-radio-group class="mesa-modo-selector" [(ngModel)]="modoCreacion" name="modoCreacion"
+                               (ngModelChange)="cambioModoCreacion()">
+                <!-- Una mesa -->
+                <div class="mesa-modo-option" [class.mesa-modo-option-active]="modoCreacion === 'individual'">
+                  <mat-radio-button value="individual" class="mesa-modo-radio">
+                    <div class="mesa-modo-content">
+                      <div class="mesa-modo-icon">
+                        <mat-icon>how_to_vote</mat-icon>
+                      </div>
+                      <div class="mesa-modo-info">
+                        <strong>Una mesa</strong>
+                        <span>Registrar una mesa electoral individual.</span>
+                      </div>
+                    </div>
+                  </mat-radio-button>
+                </div>
+                <!-- Varias mesas -->
+                <div class="mesa-modo-option" [class.mesa-modo-option-active]="modoCreacion === 'lote'">
+                  <mat-radio-button value="lote" class="mesa-modo-radio">
+                    <div class="mesa-modo-content">
+                      <div class="mesa-modo-icon">
+                        <mat-icon>library_add</mat-icon>
+                      </div>
+                      <div class="mesa-modo-info">
+                        <strong>Varias mesas</strong>
+                        <span>Registrar varias mesas femeninas y masculinas.</span>
+                      </div>
+                    </div>
+                  </mat-radio-button>
+                </div>
+              </mat-radio-group>
             </div>
           </div>
         }
@@ -61,91 +62,92 @@
       <!-- Fila 2 -->
       <div class="axis-form-row">
         <!-- Provincia -->
-        <div class="axis-form-col axis-form-col-6">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="provinciaId">Provincia</label>
-            <select id="provinciaId" class="axis-form-select" [(ngModel)]="provinciaId" name="provinciaId"
-                    (ngModelChange)="cargarCantones()" required>
-              <option [ngValue]="undefined">Seleccione una provincia</option>
+        <div class="axis-form-col axis-form-col-4">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Provincia</mat-label>
+            <mat-select [(ngModel)]="provinciaId" name="provinciaId" (ngModelChange)="cargarCantones()" required>
+              <mat-option [value]="undefined">Seleccione una provincia</mat-option>
               @for (provincia of provincias; track provincia.idProvincia) {
-                <option [ngValue]="provincia.idProvincia">{{ provincia.nombreProvincia }}</option>
+                <mat-option [value]="provincia.idProvincia">{{ provincia.nombreProvincia }}</mat-option>
               }
-            </select>
-          </div>
+            </mat-select>
+          </mat-form-field>
         </div>
         <!-- Cantón -->
-        <div class="axis-form-col axis-form-col-6">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="cantonId">Cantón</label>
-            <select id="cantonId" class="axis-form-select" [(ngModel)]="cantonId" name="cantonId"
-                    (ngModelChange)="cargarParroquias()" [disabled]="!provinciaId" required>
-              <option [ngValue]="undefined">Seleccione un cantón</option>
+        <div class="axis-form-col axis-form-col-5">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Cantón</mat-label>
+            <mat-select [(ngModel)]="cantonId" name="cantonId" (ngModelChange)="cargarParroquias()" required>
+              <mat-option [value]="undefined">Seleccione un cantón</mat-option>
               @for (canton of cantones; track canton.idCanton) {
-                <option [ngValue]="canton.idCanton">{{ canton.nombreCanton }}</option>
+                <mat-option [value]="canton.idCanton">{{ canton.nombreCanton }}</mat-option>
               }
-            </select>
-          </div>
+            </mat-select>
+          </mat-form-field>
         </div>
         <!-- Parroquia -->
-        <div class="axis-form-col axis-form-col-6">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="parroquiaId">Parroquia</label>
-            <select id="parroquiaId" class="axis-form-select" [(ngModel)]="parroquiaId" name="parroquiaId"
-                    (ngModelChange)="cargarZonas()" [disabled]="!cantonId" required>
-              <option [ngValue]="undefined">Seleccione una parroquia</option>
+        <div class="axis-form-col axis-form-col-4">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Parroquia</mat-label>
+            <mat-select [(ngModel)]="parroquiaId" name="parroquiaId" (ngModelChange)="cargarZonas()" required>
+              <mat-option [value]="undefined">Seleccione una parroquia</mat-option>
               @for (parroquia of parroquias; track parroquia.idParroquia) {
-                <option [ngValue]="parroquia.idParroquia">{{ parroquia.nombreParroquia }}</option>
+                <mat-option [value]="parroquia.idParroquia">{{ parroquia.nombreParroquia }}</mat-option>
               }
-            </select>
-          </div>
+            </mat-select>
+          </mat-form-field>
         </div>
         <!-- Zona -->
-        <div class="axis-form-col axis-form-col-6">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="zonaId">Zona</label>
-            <select id="zonaId" class="axis-form-select" [(ngModel)]="mesaElectoral.zonaId" name="zonaId"
-                    (ngModelChange)="actualizarPreview()" [disabled]="!parroquiaId" required>
-              <option [ngValue]="undefined">Seleccione una zona</option>
+        <div class="axis-form-col axis-form-col-3">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Zona</mat-label>
+            <mat-select [(ngModel)]="mesaElectoral.zonaId" name="zonaId" (ngModelChange)="actualizarPreview()"
+                        [disabled]="!parroquiaId" required>
+              <mat-option [value]="undefined">Seleccione una zona</mat-option>
               @for (zona of zonas; track zona.idZona) {
-                <option [ngValue]="zona.idZona">{{ zona.nombreZona }}</option>
+                <mat-option [value]="zona.idZona">{{ zona.nombreZona }}</mat-option>
               }
-            </select>
-          </div>
+            </mat-select>
+          </mat-form-field>
         </div>
         @if (esEdicion || modoCreacion === 'individual') {
           <!-- Tipo de mesa -->
-          <div class="axis-form-col axis-form-col-6">
-            <div class="axis-form-group">
-              <label class="axis-form-label" for="tipoMesa">Tipo de mesa</label>
-              <select id="tipoMesa" class="axis-form-select" [(ngModel)]="mesaElectoral.tipoMesa"
-                      name="tipoMesa" (ngModelChange)="actualizarPreview()" required>
-                <option [ngValue]="undefined">Seleccione un tipo</option>
+          <div class="axis-form-col axis-form-col-2">
+            <mat-form-field appearance="outline" class="axis-form-field">
+              <mat-label>Tipo Mesa</mat-label>
+              <mat-select [(ngModel)]="mesaElectoral.tipoMesa" name="tipoMesa"
+                          (ngModelChange)="actualizarPreview()" required>
+                <mat-option [value]="undefined">Seleccione un tipo</mat-option>
                 @for (tipo of tiposMesa; track tipo) {
-                  <option [ngValue]="tipo">{{ tipo }}</option>
+                  <mat-option [value]="tipo">{{ tipo }}</mat-option>
                 }
-              </select>
-            </div>
-          </div>
-        }
-        @if (!esEdicion && modoCreacion === 'lote') {
-          <!-- Cantidad femeninas -->
-          <div class="axis-form-col axis-form-col-6">
-            <div class="axis-form-group">
-              <label class="axis-form-label" for="cantidadFemeninas">Mesas femeninas</label>
-              <input id="cantidadFemeninas" type="number" class="axis-form-input"
-                     [(ngModel)]="cantidadFemeninas" name="cantidadFemeninas" min="0">
-            </div>
-          </div>
-          <!-- Cantidad masculinas -->
-          <div class="axis-form-col axis-form-col-6">
-            <div class="axis-form-group">
-              <label class="axis-form-label" for="cantidadMasculinas">Mesas masculinas</label>
-              <input id="cantidadMasculinas" type="number" class="axis-form-input"
-                     [(ngModel)]="cantidadMasculinas" name="cantidadMasculinas" min="0">
-            </div>
+              </mat-select>
+            </mat-form-field>
           </div>
         }
       </div>
+      <!-- Fila 3 -->
+      @if (!esEdicion && modoCreacion === 'lote') {
+        <div class="axis-form-row">
+          <!-- Cantidad femeninas -->
+          <div class="axis-form-col axis-form-col-2">
+            <mat-form-field appearance="outline" class="axis-form-field">
+              <mat-label>Mesas Femeninas</mat-label>
+              <input matInput id="cantidadFemeninas" type="number" [(ngModel)]="cantidadFemeninas"
+                     name="cantidadFemeninas" min="0">
+            </mat-form-field>
+          </div>
+          <!-- Cantidad masculinas -->
+          <div class="axis-form-col axis-form-col-2">
+            <mat-form-field appearance="outline" class="axis-form-field">
+              <mat-label>Mesas Masculinas</mat-label>
+              <input matInput id="cantidadMasculinas" type="number" [(ngModel)]="cantidadMasculinas"
+                     name="cantidadMasculinas" min="0">
+            </mat-form-field>
+          </div>
+        </div>
+      }
+      <!-- Mesas preview -->
       @if (esEdicion || modoCreacion === 'individual') {
         <!-- Previsualización -->
         <div class="mesa-preview">
@@ -206,11 +208,10 @@
       }
       <!-- Acciones -->
       <div class="axis-form-actions">
-        <button type="button" class="axis-button axis-button-secondary" (click)="cancelarFormulario()">
+        <button mat-raised-button type="button" class="axis-button-secondary" (click)="cancelarFormulario()">
           <mat-icon>close</mat-icon> Cancelar
         </button>
-        <button type="submit" class="axis-button axis-button-primary"
-                [disabled]="guardando || cargandoPreview()">
+        <button mat-flat-button type="submit" class="axis-button-primary" [disabled]="guardando || cargandoPreview()">
           <mat-icon>save</mat-icon> {{ esEdicion ? 'Actualizar' : 'Guardar' }}
         </button>
       </div>

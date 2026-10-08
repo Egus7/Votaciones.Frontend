@@ -28,7 +28,7 @@
     <!-- Opciones -->
     <div class="dashboard-options">
       <!-- Candidatos -->
-      <button type="button" class="dashboard-option"
+      <button mat-icon-button type="button" class="dashboard-option"
               [routerLink]="['', Enlace.Votaciones, EnlaceSub.Candidatos]">
         <div class="dashboard-option-icon">
           <mat-icon>people</mat-icon>
@@ -40,7 +40,8 @@
         <mat-icon class="dashboard-option-arrow">chevron_right</mat-icon>
       </button>
       <!-- Mesas -->
-      <button type="button" class="dashboard-option" [routerLink]="['', Enlace.Votaciones, EnlaceSub.Mesas]">
+      <button mat-icon-button type="button" class="dashboard-option"
+              [routerLink]="['', Enlace.Votaciones, EnlaceSub.Mesas]">
         <div class="dashboard-option-icon">
           <mat-icon>how_to_vote</mat-icon>
         </div>
@@ -51,7 +52,8 @@
         <mat-icon class="dashboard-option-arrow">chevron_right</mat-icon>
       </button>
       <!-- Actas -->
-      <button type="button" class="dashboard-option">
+      <button mat-icon-button type="button" class="dashboard-option"
+              [routerLink]="['', Enlace.Votaciones, EnlaceSub.Actas]">
         <div class="dashboard-option-icon">
           <mat-icon>description</mat-icon>
         </div>
@@ -64,7 +66,7 @@
         </mat-icon>
       </button>
       <!-- Resultados -->
-      <button type="button" class="dashboard-option">
+      <button mat-icon-button type="button" class="dashboard-option">
         <div class="dashboard-option-icon">
           <mat-icon>bar_chart</mat-icon>
         </div>

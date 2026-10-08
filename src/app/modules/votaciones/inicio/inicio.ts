@@ -3,19 +3,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { EleccionContexto } from '../../../core/services/eleccion-contexto';
 import { RouterLink } from '@angular/router';
 import { Enlace, EnlaceSub } from '../../../Config';
-import { MensajeService } from '../../../core/mensajes/mensaje-service';
-import { ManejoMensajesError } from '../../../core/mensajes/manejo-mensajes-error';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-inicio',
-  imports: [MatIconModule, RouterLink],
+  imports: [MatIconModule, RouterLink, MatButtonModule],
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
 })
 export class Inicio {
-  constructor(
-    private eleccionContexto: EleccionContexto,
-  ) {}
+  constructor(private eleccionContexto: EleccionContexto) {}
 
   get eleccion() {
     return this.eleccionContexto.eleccion;

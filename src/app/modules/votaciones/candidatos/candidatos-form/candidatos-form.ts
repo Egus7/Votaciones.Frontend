@@ -17,10 +17,28 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Enlace, EnlaceSub } from '../../../../Config';
 import { MensajeService } from '../../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../../core/mensajes/manejo-mensajes-error';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { LugarVotacionService } from '../../../../core/services/lugar-votacion-service';
+import { Provincia } from '../../../../api/models/provincia';
+import { Canton } from '../../../../api/models/canton';
+import { Parroquia } from '../../../../api/models/parroquia';
 
 @Component({
   selector: 'app-candidatos-form',
-  imports: [FormsModule, MatButtonModule, MatIconModule, Modal, ListaElectoralModal],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatLabel,
+    MatFormField,
+    MatInput,
+    MatOption,
+    Modal,
+    ListaElectoralModal,
+    MatSelect,
+  ],
   templateUrl: './candidatos-form.html',
   styleUrl: './candidatos-form.css',
 })
@@ -30,16 +48,29 @@ export class CandidatosForm implements OnInit {
   readonly tiposCandidato = TIPO_CANDIDATO;
   candidato: Candidato = {};
   listasSeleccionadasInfo: ListaElectoral[] = [];
+  //catalogo ubicacion
+  readonly provincias = signal<Provincia[]>([]);
+  readonly cantones = signal<Canton[]>([]);
+  readonly parroquias = signal<Parroquia[]>([]);
+  //bolean
   mostrarModalListas = false;
-
   readonly cargando = signal(false);
   guardando = false;
   //ID del candidato obtenido desde la ruta.
   candidatoId: string | null = null;
+  //Zona
+  provinciaId: string | undefined;
+  cantonId: string | undefined;
+  parroquiaId: string | undefined;
+  //mostrarNombreZona
+  private provinciaNombre = '';
+  private cantonNombre = '';
+  private parroquiaNombre = '';
 
   constructor(
     private candidatosService: CandidatosService,
     private eleccionContexto: EleccionContexto,
+    private zonasService: LugarVotacionService,
     private route: ActivatedRoute,
     private router: Router,
     private swalMensaje: MensajeService,
@@ -74,6 +105,7 @@ export class CandidatosForm implements OnInit {
       eleccionId: eleccion?.idEleccion,
       listaCandidatos: [],
     };
+    void this.cargarProvincias();
     this.candidatoId = null;
     this.mostrarModalListas = false;
   }
@@ -89,11 +121,17 @@ export class CandidatosForm implements OnInit {
       });
 
       this.candidato = this.mapearDtoACandidato(response);
+      // Guardar nombres de ubicación
+      this.provinciaNombre = response.provincia ?? '';
+      this.cantonNombre = response.canton ?? '';
+      this.parroquiaNombre = response.parroquia ?? '';
       this.listasSeleccionadasInfo = this.mapearListasSeleccionadas(response.listasCandidato);
+      //cargar
+      await this.cargarProvincias();
+      await this.cargarUbicacion();
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);
-
     } finally {
       this.cargando.set(false);
     }
@@ -108,6 +146,10 @@ export class CandidatosForm implements OnInit {
       orden: dto.orden,
       activo: dto.activo,
       eleccionId: eleccion?.idEleccion,
+      provinciaId: this.provinciaId,
+      cantonId: this.cantonId,
+      parroquiaId: this.parroquiaId,
+      //list
       listaCandidatos:
         dto.listasCandidato?.map((lista) => ({
           listaElectoralId: lista.listaElectoralId,
@@ -115,6 +157,115 @@ export class CandidatosForm implements OnInit {
           listaPrincipal: lista.esPrincipal,
         })) ?? [],
     };
+  }
+  // CARGAR PROVINCIAS
+  private async cargarProvincias(): Promise<void> {
+    try {
+      const response = await this.zonasService.provincias();
+      this.provincias.set(response);
+    } catch (error) {
+      const mensajeError = this.manejoMensajeError.getMessage(error);
+      await this.swalMensaje.error('Error', mensajeError);
+      this.provincias.set([]);
+    }
+  }
+  // CAMBIO DE PROVINCIA
+  async cambioProvincia(): Promise<void> {
+    this.cantonId = undefined;
+    this.parroquiaId = undefined;
+
+    this.cantones.set([]);
+    this.parroquias.set([]);
+
+    if (!this.provinciaId) {
+      return;
+    }
+
+    try {
+      const response = await this.zonasService.cantones(this.provinciaId);
+      this.cantones.set(response);
+    } catch (error) {
+      const mensajeError = this.manejoMensajeError.getMessage(error);
+      await this.swalMensaje.error('Error', mensajeError);
+      this.cantones.set([]);
+    }
+  }
+
+  // CAMBIO DE CANTÓN
+  async cambioCanton(): Promise<void> {
+    this.parroquiaId = undefined;
+    this.parroquias.set([]);
+
+    if (!this.cantonId) {
+      return;
+    }
+
+    try {
+      const response = await this.zonasService.parroquias(this.cantonId);
+      this.parroquias.set(response);
+    } catch (error) {
+      const mensajeError = this.manejoMensajeError.getMessage(error);
+      await this.swalMensaje.error('Error', mensajeError);
+      this.parroquias.set([]);
+    }
+  }
+
+  // CARGAR GEOGRAFÍA DEL ACTA
+  private async cargarUbicacion(): Promise<void> {
+    if (!this.candidatoId || !this.provinciaNombre) {
+      return;
+    }
+    try {
+      // =================== Provincia =================================
+      const provincia = this.provincias().find((x) => x.nombreProvincia === this.provinciaNombre);
+      if (!provincia?.idProvincia) {
+        return;
+      }
+      this.provinciaId = provincia.idProvincia;
+      // =================== Cantones =================================
+      this.cantones.set(await this.zonasService.cantones(this.provinciaId));
+      const canton = this.cantones().find((x) => x.nombreCanton === this.cantonNombre);
+      if (!canton?.idCanton) {
+        return;
+      }
+      this.cantonId = canton.idCanton;
+      // =================== Parroquias =================================
+      this.parroquias.set(await this.zonasService.parroquias(this.cantonId));
+      const parroquia = this.parroquias().find((x) => x.nombreParroquia === this.parroquiaNombre);
+      if (!parroquia?.idParroquia) {
+        return;
+      }
+      this.parroquiaId = parroquia.idParroquia;
+    } catch (error) {
+      const mensajeError = this.manejoMensajeError.getMessage(error);
+      await this.swalMensaje.error('Error', mensajeError);
+    }
+  }
+
+  async cambioTipoCandidato(): Promise<void> {
+    switch (this.candidato.tipoCandidato) {
+      case 'Presidente':
+        this.provinciaId = undefined;
+        this.cantonId = undefined;
+        this.parroquiaId = undefined;
+        break;
+      case 'Prefecto':
+        this.cantonId = undefined;
+        this.parroquiaId = undefined;
+        break;
+      case 'Alcalde':
+      case 'ConcejalUrbano':
+        this.parroquiaId = undefined;
+        break;
+      case 'ConcejalRural':
+        // No se limpia nada
+        break;
+      default:
+        this.provinciaId = undefined;
+        this.cantonId = undefined;
+        this.parroquiaId = undefined;
+        break;
+    }
   }
 
   private mapearListasSeleccionadas(
@@ -140,25 +291,49 @@ export class CandidatosForm implements OnInit {
 
     if (!this.candidato.nombreCandidato?.trim()) {
       void this.swalMensaje.advertencia(
-        'Datos incompletos', 'Debe ingresar el nombre del candidato.'
+        'Datos incompletos',
+        'Debe ingresar el nombre del candidato.',
       );
       return;
     }
     if (!this.candidato.tipoCandidato) {
       void this.swalMensaje.advertencia(
-        'Datos incompletos', 'Debe seleccionar el tipo de candidato.',
+        'Datos incompletos',
+        'Debe seleccionar el tipo de candidato.',
       );
       return;
     }
     if (!this.candidato.eleccionId) {
+      void this.swalMensaje.advertencia('Datos incompletos', 'No se encontró la elección actual.');
+      return;
+    }
+    //zona
+    if (this.mostrarProvincia() && !this.provinciaId) {
       void this.swalMensaje.advertencia(
-        'Datos incompletos', 'No se encontró la elección actual.'
+        'Datos incompletos',
+        'Debe seleccionar la provincia al que pertenece el candidato.',
       );
       return;
     }
+    if (this.mostrarCanton() && !this.cantonId) {
+      void this.swalMensaje.advertencia(
+        'Datos incompletos',
+        'Debe seleccionar el cantón al que pertenece el candidato.',
+      );
+      return;
+    }
+    if (this.mostrarParroquia() && !this.parroquiaId) {
+      void this.swalMensaje.advertencia(
+        'Datos incompletos',
+        'Debe seleccionar la parroquia a la que pertenece el candidato.',
+      );
+      return;
+    }
+
     if (this.listasSeleccionadas.length === 0) {
       void this.swalMensaje.advertencia(
-        'Datos incompletos', 'Debe seleccionar al menos una lista electoral.',
+        'Datos incompletos',
+        'Debe seleccionar al menos una lista electoral.',
       );
       return;
     }
@@ -170,6 +345,11 @@ export class CandidatosForm implements OnInit {
 
     try {
       let response;
+      // Sincronizar ubicación con el modelo
+      this.candidato.provinciaId = this.mostrarProvincia() ? this.provinciaId : undefined;
+      this.candidato.cantonId = this.mostrarCanton() ? this.cantonId : undefined;
+      this.candidato.parroquiaId = this.mostrarParroquia() ? this.parroquiaId : undefined;
+      //GUARDAR/EDITAR
       if (this.esEdicion && this.candidatoId) {
         response = await this.candidatosService.apiCandidatosIdPut({
           id: this.candidatoId,
@@ -184,11 +364,9 @@ export class CandidatosForm implements OnInit {
       }
       // regresar al list
       void this.router.navigate([`${Enlace.Votaciones}/${EnlaceSub.Candidatos}`]);
-
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
-      await this.swalMensaje.error('Error', mensajeError)
-
+      await this.swalMensaje.error('Error', mensajeError);
     } finally {
       this.guardando = false;
     }
@@ -197,6 +375,21 @@ export class CandidatosForm implements OnInit {
   cancelarFormulario(): void {
     void this.router.navigate([`${Enlace.Votaciones}/${EnlaceSub.Candidatos}`]);
   }
+
+  mostrarProvincia(): boolean {
+    return ['Prefecto', 'Alcalde', 'ConcejalUrbano', 'ConcejalRural'].includes(
+      this.candidato.tipoCandidato ?? '',
+    );
+  }
+  mostrarCanton(): boolean {
+    return ['Alcalde', 'ConcejalUrbano', 'ConcejalRural'].includes(
+      this.candidato.tipoCandidato ?? '',
+    );
+  }
+  mostrarParroquia(): boolean {
+    return this.candidato.tipoCandidato === 'ConcejalRural';
+  }
+
   abrirModalListas(): void {
     this.mostrarModalListas = true;
   }
@@ -254,6 +447,11 @@ export class CandidatosForm implements OnInit {
     this.listasSeleccionadasInfo = this.listasSeleccionadasInfo.filter(
       (lista) => lista.idListaElectoral !== listaElectoralId,
     );
+    // si solo queda una lista establecer como principal
+    if (this.listasSeleccionadasInfo.length === 1) {
+      const listaRestante = this.listasSeleccionadasInfo[0];
+      this.establecerPrincipal(listaRestante.idListaElectoral!);
+    }
   }
 
   nombreTipoCandidato(tipo: TipoCandidato): string {

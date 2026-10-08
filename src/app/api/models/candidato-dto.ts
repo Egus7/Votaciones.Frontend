@@ -5,11 +5,14 @@ import { ListaCandidatoDto } from '../models/lista-candidato-dto';
 import { TipoCandidato } from '../models/tipo-candidato';
 export interface CandidatoDto {
   activo?: boolean;
+  canton?: string | null;
   descripcionEleccion?: string | null;
   eleccion?: string | null;
   idCandidato?: string;
   listasCandidato?: Array<ListaCandidatoDto> | null;
   nombreCandidato?: string | null;
   orden?: number | null;
+  parroquia?: string | null;
+  provincia?: string | null;
   tipoCandidato?: TipoCandidato;
 }

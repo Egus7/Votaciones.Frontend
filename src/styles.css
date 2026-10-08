@@ -150,6 +150,9 @@ button {
 }
 .axis-card-content {
   padding: var(--space-lg);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 .axis-card-actions {
   display: flex;
@@ -167,17 +170,31 @@ button {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
 }
+/* CAMPOS DE FORMULARIO - ANGULAR MATERIAL */
+.axis-form-field {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+/* Altura y tipografía consistentes */
+.mat-mdc-form-field-infix {
+  min-height: var(--input-height);
+}
 
-/* Grupo de formulario */
-.axis-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
+/* Espacio reservado para mensajes de validación */
+.mat-mdc-form-field-subscript-wrapper {
+  font-size: var(--font-size-xs);
+}
+
+/* Mensajes de error */
+.mat-mdc-form-field-error {
+  font-size: var(--font-size-xs);
 }
 
 /* Fila */
 .axis-form-row {
   display: flex;
+  align-items: flex-start;
   flex-wrap: wrap;
   margin: 0 calc(var(--space-sm) * -1);
 }
@@ -185,6 +202,7 @@ button {
 /* Columnas */
 .axis-form-col {
   width: 100%;
+  min-width: 0;
   padding: 0 var(--space-sm);
   margin-bottom: var(--space-lg);
 }
@@ -227,49 +245,6 @@ button {
   font-size: var(--font-size-sm);
   font-weight: 500;
   color: var(--color-text);
-}
-
-/* Controles */
-.axis-form-input,
-.axis-form-select,
-.axis-form-textarea {
-  width: 100%;
-  min-height: var(--input-height);
-  padding: 0 12px;
-  border: 1px solid #d7e0ec;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface);
-  color: var(--color-text);
-  outline: none;
-  transition:  border-color var(--transition-fast), box-shadow var(--transition-fast)
-}
-
-/* Hover */
-.axis-form-input:hover,
-.axis-form-select:hover,
-.axis-form-textarea:hover {
-  border-color: var(--color-text-secondary);
-}
-
-/* Focus */
-.axis-form-input:focus,
-.axis-form-select:focus,
-.axis-form-textarea:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(36, 120, 243, 0.12);
-}
-
-/* Placeholder */
-.axis-form-input::placeholder,
-.axis-form-textarea::placeholder {
-  border-color: #b7c7dd;
-}
-
-/* Textarea */
-.axis-form-textarea {
-  min-height: 100px;
-  padding: var(--space-sm);
-  resize: vertical;
 }
 
 /* Error */
@@ -366,7 +341,7 @@ button {
 }
 .axis-table-filters {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: var(--space-sm);
   margin-bottom: var(--space-md);
@@ -379,11 +354,11 @@ button {
 /* Campo de búsqueda */
 .axis-table-filter-search {
   flex: 1 1 250px;
-  max-width: 475px;
+  max-width: 425px;
 }
 /* Select */
 .axis-table-filter-select {
-  flex: 0 0 220px;
+  flex: 0 0 245px;
   width: 220px;
 }
 /* Fecha */
@@ -391,12 +366,12 @@ button {
   flex: 0 0 180px;
   width: 180px;
 }
-/* Acciones */
+
+/* Acciones de filtros con Angular Material */
 .axis-filtros-actions {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  margin-bottom: 0;
 }
 .axis-toolbar {
   display: flex;
@@ -409,67 +384,52 @@ button {
   flex: 1;
 }
 
-/* Botones */
-.axis-button {
+/* ==================== Botones Angular Material ==================== */
+.axis-button-primary {
+  --mdc-filled-button-container-color: var(--color-primary) !important;
+  --mdc-filled-button-label-text-color: #ffffff !important;
   min-height: var(--button-height);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 0 16px;
-  border: 1px solid transparent;
-  border-radius: 7px;
+  border-radius: 6px !important;
   font-size: var(--font-size-sm);
   font-weight: 600;
-  transition: background-color var(--transition-fast), border-color var(--transition-fast),
-    box-shadow var(--transition-fast);
-}
-
-.axis-button-primary {
-  background-color: var(--color-primary);
-  color: #ffffff;
-  box-shadow: 0 2px 4px rgba(36, 120, 243, 0.14);
+  background-color: var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .axis-button-primary:hover {
-  background: var(--color-primary-dark);
+  --mdc-filled-button-container-color: var(--color-primary-dark);
   box-shadow: 0 3px 8px rgba(36, 120, 243, 0.18);
 }
 
 .axis-button-secondary {
-  background-color: var(--color-surface);
-  border-color: var(--color-border);
-  color: #40516b;
+  --mdc-outlined-button-outline-color: var(--color-border) !important;
+  --mdc-outlined-button-label-text-color: #40516b !important;
+  min-height: var(--button-height);
+  border-radius: 7px !important;
+  background-color: var(--color-surface) !important;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
 }
-
 .axis-button-secondary:hover {
   background-color: var(--color-background);
 }
-
+/* Botón de acción peligrosa */
 .axis-button-danger {
-  background-color: var(--color-danger);
-  color: #ffffff;
+  --mdc-filled-button-container-color: var(--color-danger) !important;
+  --mdc-filled-button-label-text-color: #ffffff !important;
+  min-height: var(--button-height);
+  border-radius: 7px !important;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
 }
 
 .axis-button-danger:hover {
-  filter: brightness(0.95);
+  filter: brightness(0.95) !important;
 }
 
-.axis-button:disabled {
+/* Botones deshabilitados */
+.axis-button-primary:disabled, .axis-button-secondary:disabled, .axis-button-danger:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-.axis-icon-button {
-  width: 34px;
-  height: 34px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  background-color: transparent;
-  color: var(--color-text-secondary);
 }
 
 .axis-icon-button:hover {
@@ -487,6 +447,52 @@ button {
   cursor: not-allowed;
   pointer-events: none;
 }
+/* Editar: azul celeste */
+.axis-table-icon-edit {
+  color: #0284c7 !important;
+}
+.axis-table-icon-edit:hover {
+  background-color: #e0f2fe !important;
+}
+/* Ver: gris */
+.axis-table-icon-view {
+  color: #64748b !important;
+}
+.axis-table-icon-view:hover {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+}
+/* Validar: verde */
+.axis-table-icon-validate {
+  color: #16a34a !important;
+}
+.axis-table-icon-validate:hover {
+  background-color: #dcfce7 !important;
+  color: #15803d !important;
+}
+
+/* Desactivar: gris */
+.axis-table-icon-desactivate {
+  color: #64748b !important;
+}
+.axis-table-icon-desactivate:hover {
+  background-color: var(--color-danger-light);
+  color: var(--color-danger);
+}
+/* Activar: verde */
+.axis-table-icon-activate {
+  color: #16a34a !important;
+}
+.axis-table-icon-activate:hover {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+/* Iconos de acciones deshabilitadas */
+.axis-table-actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /* Estados */
 .axis-status {
   display: inline-flex;
@@ -749,17 +755,8 @@ button {
     padding: 0;
     margin-bottom: var(--space-md);
   }
-  .axis-form-group {
-    gap: 6px;
-  }
   .axis-form-label {
     font-size: var(--font-size-sm);
-  }
-  .axis-form-input, .axis-form-select, .axis-form-textarea {
-    min-height: 42px;
-    padding-left: 11px;
-    padding-right: 11px;
-    border-radius: var(--radius-sm);
   }
   .axis-form-textarea {
     min-height: 90px;
@@ -871,13 +868,6 @@ button {
   }
   .axis-form-col, .axis-form-col-6, .axis-form-col-5, .axis-form-col-4, .axis-form-col-3, .axis-form-col-2 {
     margin-bottom: 13px;
-  }
-  .axis-form-input, .axis-form-select, .axis-form-textarea {
-    min-height: 40px;
-    font-size: 14px;
-  }
-  .axis-form-textarea {
-    min-height: 85px;
   }
   /* Acciones */
   .axis-form-actions {

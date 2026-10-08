@@ -19,47 +19,50 @@
   } @else {
     <form class="axis-form" (ngSubmit)="guardarFormulario()">
       <div class="axis-form-row">
+        <!-- Nombre Lista -->
         <div class="axis-form-col axis-form-col-6">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="nombreLista">Nombre de la lista</label>
-            <input id="nombreLista" type="text" class="axis-form-input"
-                   placeholder="Ingrese el nombre de la lista"
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Nombre Lista Electoral</mat-label>
+            <input matInput type="text" placeholder="Ingrese el nombre del candidato"
                    [(ngModel)]="listaElectoral.nombreLista" name="nombreLista" required>
-          </div>
+          </mat-form-field>
         </div>
+        <!-- Siglas -->
         <div class="axis-form-col axis-form-col-3">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="siglas">Siglas</label>
-            <input id="siglas" type="text" class="axis-form-input"
-                   placeholder="Ingrese la sigla de la lista"
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Siglas</mat-label>
+            <input matInput type="text" placeholder="Ingrese la sigla de la lista"
                    [(ngModel)]="listaElectoral.siglas" name="siglas" required>
-          </div>
+          </mat-form-field>
         </div>
-        <div class="axis-form-col axis-form-col-3">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="numeroLista">Nro Lista</label>
-            <input id="numeroLista" type="number" class="axis-form-input" placeholder="Ingrese el nro de lista"
+      </div>
+      <div class="axis-form-row">
+        <!-- Nro Lista -->
+        <div class="axis-form-col axis-form-col-2">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Nro Lista</mat-label>
+            <input matInput type="number" placeholder="Ingrese el nro de lista"
                    [(ngModel)]="listaElectoral.numeroLista" name="numeroLista" min="1">
-          </div>
+          </mat-form-field>
         </div>
+        <!-- Jurisdiccion -->
         <div class="axis-form-col axis-form-col-3">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="jurisdiccion">Jurisdiccion</label>
-            <select id="jurisdiccion" class="axis-form-select"
-                    [(ngModel)]="listaElectoral.jurisdiccion" name="jurisdiccion" required>
-              <option [ngValue]="undefined">Seleccione una jurisdiccion</option>
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Jurisdicción</mat-label>
+            <mat-select [(ngModel)]="listaElectoral.jurisdiccion" name="jurisdiccion" required>
+              <mat-option [value]="undefined">Seleccione una opcion</mat-option>
               @for (item of jurisdicciones; track item) {
-                <option [ngValue]="item">{{ item }}</option>
+                <mat-option [value]="item">{{ item }}</mat-option>
               }
-            </select>
-          </div>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
       <div class="axis-form-actions">
-        <button type="button" class="axis-button axis-button-secondary" (click)="cancelarFormulario()">
+        <button mat-raised-button type="button" class="axis-button-secondary" (click)="cancelarFormulario()">
           <mat-icon>close</mat-icon> Cancelar
         </button>
-        <button type="submit" class="axis-button axis-button-primary">
+        <button mat-flat-button type="submit" class="axis-button-primary">
           <mat-icon>save</mat-icon>{{ esEdicion ? 'Actualizar' : 'Guardar' }}
         </button>
       </div>

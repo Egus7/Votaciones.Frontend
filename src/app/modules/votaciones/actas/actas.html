@@ -1,0 +1,201 @@
+<div class="axis-page">
+  <div class="axis-container">
+    <!-- Encabezado -->
+    <div class="axis-page-header">
+      <h1 class="axis-page-title">Actas electorales</h1>
+      <p class="axis-page-subtitle">
+        Consulte, registre y gestione las actas de las mesas electorales.
+      </p>
+    </div>
+    <!-- Acciones -->
+    <div class="axis-toolbar">
+      <div></div>
+      <!-- Registrar -->
+      <button mat-flat-button class="axis-button-primary" type="button" (click)="nuevaActa()">
+        <mat-icon>add</mat-icon> Registrar acta
+      </button>
+      <!-- Regresar -->
+      <button mat-stroked-button type="button" class="axis-button-secondary" routerLink="/votaciones">
+        <mat-icon>arrow_back</mat-icon> Regresar a votaciones
+      </button>
+    </div>
+    <!-- Filtros -->
+    <div class="axis-table-filters">
+      <!-- Tipo Eleccion -->
+      <div class="axis-table-filter axis-table-filter-select">
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Tipo elección</mat-label>
+          <mat-select [(ngModel)]="tipoCandidato" name="tipoCandidato">
+            <mat-option [value]="undefined">Todos los tipos</mat-option>
+            @for (tipo of tiposCandidato; track tipo) {
+              <mat-option [value]="tipo">{{ nombreTipoCandidato(tipo) }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- Provincia -->
+      <div class="axis-table-filter axis-table-filter-select">
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Provincia</mat-label>
+          <mat-select [(ngModel)]="provinciaId" name="provinciaId" (selectionChange)="cambioProvincia()">
+            <mat-option [value]="undefined">Todas las provincias</mat-option>
+            @for (provincia of provincias(); track provincia.idProvincia) {
+              <mat-option [value]="provincia.idProvincia">{{ provincia.nombreProvincia }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- Cantón -->
+      <div class="axis-table-filter axis-table-filter-select">
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Cantón</mat-label>
+          <mat-select [(ngModel)]="cantonId" name="cantonId" [disabled]="!provinciaId" (selectionChange)="cambioCanton()">
+            <mat-option [value]="undefined">Todos los cantones</mat-option>
+            @for (canton of cantones(); track canton.idCanton) {
+              <mat-option [value]="canton.idCanton">{{ canton.nombreCanton }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- Parroquia -->
+      <div class="axis-table-filter axis-table-filter-select">
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Parroquia</mat-label>
+          <mat-select [(ngModel)]="parroquiaId" name="parroquiaId" [disabled]="!cantonId" (selectionChange)="cambioParroquia()">
+            <mat-option [value]="undefined">Todas las parroquias</mat-option>
+            @for (parroquia of parroquias(); track parroquia.idParroquia) {
+              <mat-option [value]="parroquia.idParroquia">{{ parroquia.nombreParroquia }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- Zona -->
+      <div class="axis-table-filter axis-table-filter-select">
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Zona</mat-label>
+          <mat-select [(ngModel)]="zonaId" name="zonaId" [disabled]="!parroquiaId" (selectionChange)="cambioZona()">
+            <mat-option [value]="undefined">Todas las zonas</mat-option>
+            @for (zona of zonas(); track zona.idZona) {
+              <mat-option [value]="zona.idZona">{{ zona.nombreZona }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- Mesa -->
+      <div class="axis-table-filter axis-table-filter-select">
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Mesa electoral</mat-label>
+          <mat-select [(ngModel)]="mesaId" name="mesaId" [disabled]="!zonaId">
+            <mat-option [value]="undefined">Todas las mesas</mat-option>
+            @for (mesa of mesas(); track mesa.idMesaElectoral) {
+              <mat-option [value]="mesa.idMesaElectoral">{{ mesa.codigoMesa }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- Estado -->
+      <div class="axis-table-filter axis-table-filter-select">
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Estado</mat-label>
+          <mat-select [(ngModel)]="estadoActa" name="estado">
+            <mat-option [value]="undefined">Todos los estados</mat-option>
+            @for (estadoActa of estadosActa; track estadoActa) {
+              <mat-option [value]="estadoActa">{{ nombreEstadoActa(estadoActa) }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- Acciones de filtros -->
+      <div class="axis-filtros-actions">
+        <button mat-flat-button type="button" class="axis-button-primary" (click)="buscar()">
+          <mat-icon>search</mat-icon> Buscar
+        </button>
+        <button mat-raised-button type="button" class="axis-button-secondary" (click)="limpiarFiltros()">
+          <mat-icon>clear</mat-icon> Limpiar
+        </button>
+      </div>
+    </div>
+    <!-- Tabla -->
+    <div class="axis-table-container">
+      @if (cargando()) {
+        <div class="axis-table-empty">Cargando actas...</div>
+      } @else if (actas().length === 0) {
+        <div class="axis-table-empty">No existen actas registradas.</div>
+      } @else {
+        <table class="axis-table">
+          <thead>
+          <tr>
+            <th>Mesa</th>
+            <th>Descrip. Mesa</th>
+            <th>Tipo</th>
+            <th>Estado</th>
+            <th class="right">Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (acta of actas(); track acta.idActa) {
+              <tr>
+                <!-- Mesa -->
+                <td><strong>{{ acta.codigoMesa }} - {{acta.zona}}</strong>
+                  <div><small>Parroq: {{acta.parroquia}} - Cantón: {{acta.canton}}</small></div>
+                </td>
+                <!-- Descripcion Mesa -->
+                <td>{{ acta.descripcionMesa }}</td>
+                <!-- Tipo -->
+                <td>{{ nombreTipoCandidato(acta.tipoCandidato!) }}</td>
+                <!-- Estado -->
+                <td>
+                  @switch (acta.estado) {
+                    @case ('Registrada') {
+                      <span class="axis-status axis-status-warning">Registrada</span>
+                    }
+                    @case ('EnRevision') {
+                      <span class="axis-status axis-status-info">En revisión</span>
+                    }
+                    @case ('ConInconsistencia') {
+                      <span class="axis-status axis-status-danger">Con inconsistencia</span>
+                    }
+                    @case ('Validada') {
+                      <span class="axis-status axis-status-success">Validada</span>
+                    }
+                    @case ('Anulada') {
+                      <span class="axis-status axis-status-danger">Anulada</span>
+                    }
+                  }
+                </td>
+                <!-- Acciones -->
+                <td>
+                  <div class="axis-table-actions">
+                    <!-- Ver -->
+                    <button mat-icon-button type="button" class="axis-table-icon-view" title="Ver acta"
+                            (click)="verActa(acta.idActa)">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                    <!-- Editar -->
+                    <button mat-icon-button type="button" class="axis-table-icon-edit" title="Editar acta"
+                            (click)="editarActa(acta.idActa)" [disabled]="!puedeEditar(acta)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <!-- Validar -->
+                    <button mat-icon-button type="button" class="axis-table-icon-validate" title="Validar acta"
+                            (click)="validarActa(acta.idActa)" [disabled]="!puedeValidar(acta)">
+                      <mat-icon>verified</mat-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        <!-- Paginación -->
+        <app-paginacion
+          [paginaActual]="paginaActual"
+          [pageSize]="pageSize"
+          [totalPages]="totalPages"
+          [totalRegistros]="totalRegistros"
+          (paginaCambio)="cambiarPagina($event)">
+        </app-paginacion>
+      }
+    </div>
+  </div>
+</div>

@@ -10,7 +10,7 @@
           <p class="axis-modal-subtitle">{{ subtitulo }}</p>
         }
       </div>
-      <button type="button" class="axis-icon-button" title="Cerrar" (click)="cerrarModal()">
+      <button mat-icon-button type="button" class="axis-icon-button-danger" title="Cerrar" (click)="cerrarModal()">
         <mat-icon>close</mat-icon>
       </button>
     </div>
@@ -21,10 +21,10 @@
     <!-- Footer -->
     @if (mostrarFooter) {
       <div class="axis-modal-footer">
-        <button type="button" class="axis-button axis-button-secondary" (click)="cancelarModal()">
+        <button mat-raised-button type="button" class="axis-button-danger" (click)="cancelarModal()">
           <mat-icon>close</mat-icon> {{ textoCancelar }}
         </button>
-        <button type="button" class="axis-button axis-button-primary" (click)="confirmarModal()">
+        <button mat-flat-button type="button" class="axis-button-primary" (click)="confirmarModal()">
           <mat-icon>check</mat-icon> {{ textoConfirmar }}
         </button>
       </div>

@@ -13,6 +13,10 @@ import { apiMesasElectoralCambiarEstadoIdPut } from '../fn/mesas-electoral/api-m
 import { ApiMesasElectoralCambiarEstadoIdPut$Params } from '../fn/mesas-electoral/api-mesas-electoral-cambiar-estado-id-put';
 import { apiMesasElectoralCodigoMesaGet } from '../fn/mesas-electoral/api-mesas-electoral-codigo-mesa-get';
 import { ApiMesasElectoralCodigoMesaGet$Params } from '../fn/mesas-electoral/api-mesas-electoral-codigo-mesa-get';
+import { apiMesasElectoralDisponiblePorZonaGet$Json } from '../fn/mesas-electoral/api-mesas-electoral-disponible-por-zona-get-json';
+import { ApiMesasElectoralDisponiblePorZonaGet$Json$Params } from '../fn/mesas-electoral/api-mesas-electoral-disponible-por-zona-get-json';
+import { apiMesasElectoralDisponiblePorZonaGet$Plain } from '../fn/mesas-electoral/api-mesas-electoral-disponible-por-zona-get-plain';
+import { ApiMesasElectoralDisponiblePorZonaGet$Plain$Params } from '../fn/mesas-electoral/api-mesas-electoral-disponible-por-zona-get-plain';
 import { apiMesasElectoralIdGet$Json } from '../fn/mesas-electoral/api-mesas-electoral-id-get-json';
 import { ApiMesasElectoralIdGet$Json$Params } from '../fn/mesas-electoral/api-mesas-electoral-id-get-json';
 import { apiMesasElectoralIdGet$Plain } from '../fn/mesas-electoral/api-mesas-electoral-id-get-plain';
@@ -31,6 +35,10 @@ import { apiMesasElectoralPost$Json } from '../fn/mesas-electoral/api-mesas-elec
 import { ApiMesasElectoralPost$Json$Params } from '../fn/mesas-electoral/api-mesas-electoral-post-json';
 import { apiMesasElectoralPost$Plain } from '../fn/mesas-electoral/api-mesas-electoral-post-plain';
 import { ApiMesasElectoralPost$Plain$Params } from '../fn/mesas-electoral/api-mesas-electoral-post-plain';
+import { apiMesasElectoralZonaGet$Json } from '../fn/mesas-electoral/api-mesas-electoral-zona-get-json';
+import { ApiMesasElectoralZonaGet$Json$Params } from '../fn/mesas-electoral/api-mesas-electoral-zona-get-json';
+import { apiMesasElectoralZonaGet$Plain } from '../fn/mesas-electoral/api-mesas-electoral-zona-get-plain';
+import { ApiMesasElectoralZonaGet$Plain$Params } from '../fn/mesas-electoral/api-mesas-electoral-zona-get-plain';
 import { MesaElectoral } from '../models/mesa-electoral';
 import { MesaElectoralDto } from '../models/mesa-electoral-dto';
 import { MesaElectoralDtoPaginacionDto } from '../models/mesa-electoral-dto-paginacion-dto';
@@ -158,6 +166,100 @@ export class MesasElectoralService extends BaseService {
   apiMesasElectoralIdPut(params: ApiMesasElectoralIdPut$Params, context?: HttpContext): Promise<void> {
     const resp = this.apiMesasElectoralIdPut$Response(params, context);
     return resp.then((r: StrictHttpResponse<void>): void => r.body);
+  }
+
+  /** Path part for operation `apiMesasElectoralZonaGet()` */
+  static readonly ApiMesasElectoralZonaGetPath = '/api/MesasElectoral/zona';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiMesasElectoralZonaGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiMesasElectoralZonaGet$Plain$Response(params?: ApiMesasElectoralZonaGet$Plain$Params, context?: HttpContext): Promise<StrictHttpResponse<Array<MesaElectoralDto>>> {
+    const obs = apiMesasElectoralZonaGet$Plain(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiMesasElectoralZonaGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiMesasElectoralZonaGet$Plain(params?: ApiMesasElectoralZonaGet$Plain$Params, context?: HttpContext): Promise<Array<MesaElectoralDto>> {
+    const resp = this.apiMesasElectoralZonaGet$Plain$Response(params, context);
+    return resp.then((r: StrictHttpResponse<Array<MesaElectoralDto>>): Array<MesaElectoralDto> => r.body);
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiMesasElectoralZonaGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiMesasElectoralZonaGet$Json$Response(params?: ApiMesasElectoralZonaGet$Json$Params, context?: HttpContext): Promise<StrictHttpResponse<Array<MesaElectoralDto>>> {
+    const obs = apiMesasElectoralZonaGet$Json(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiMesasElectoralZonaGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiMesasElectoralZonaGet$Json(params?: ApiMesasElectoralZonaGet$Json$Params, context?: HttpContext): Promise<Array<MesaElectoralDto>> {
+    const resp = this.apiMesasElectoralZonaGet$Json$Response(params, context);
+    return resp.then((r: StrictHttpResponse<Array<MesaElectoralDto>>): Array<MesaElectoralDto> => r.body);
+  }
+
+  /** Path part for operation `apiMesasElectoralDisponiblePorZonaGet()` */
+  static readonly ApiMesasElectoralDisponiblePorZonaGetPath = '/api/MesasElectoral/disponible-por-zona';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiMesasElectoralDisponiblePorZonaGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiMesasElectoralDisponiblePorZonaGet$Plain$Response(params?: ApiMesasElectoralDisponiblePorZonaGet$Plain$Params, context?: HttpContext): Promise<StrictHttpResponse<Array<MesaElectoralDto>>> {
+    const obs = apiMesasElectoralDisponiblePorZonaGet$Plain(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiMesasElectoralDisponiblePorZonaGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiMesasElectoralDisponiblePorZonaGet$Plain(params?: ApiMesasElectoralDisponiblePorZonaGet$Plain$Params, context?: HttpContext): Promise<Array<MesaElectoralDto>> {
+    const resp = this.apiMesasElectoralDisponiblePorZonaGet$Plain$Response(params, context);
+    return resp.then((r: StrictHttpResponse<Array<MesaElectoralDto>>): Array<MesaElectoralDto> => r.body);
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiMesasElectoralDisponiblePorZonaGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiMesasElectoralDisponiblePorZonaGet$Json$Response(params?: ApiMesasElectoralDisponiblePorZonaGet$Json$Params, context?: HttpContext): Promise<StrictHttpResponse<Array<MesaElectoralDto>>> {
+    const obs = apiMesasElectoralDisponiblePorZonaGet$Json(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiMesasElectoralDisponiblePorZonaGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiMesasElectoralDisponiblePorZonaGet$Json(params?: ApiMesasElectoralDisponiblePorZonaGet$Json$Params, context?: HttpContext): Promise<Array<MesaElectoralDto>> {
+    const resp = this.apiMesasElectoralDisponiblePorZonaGet$Json$Response(params, context);
+    return resp.then((r: StrictHttpResponse<Array<MesaElectoralDto>>): Array<MesaElectoralDto> => r.body);
   }
 
   /** Path part for operation `apiMesasElectoralCodigoMesaGet()` */

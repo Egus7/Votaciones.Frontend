@@ -17,15 +17,17 @@
     <div class="axis-table-filters">
       <!-- Buscar -->
       <div class="axis-table-filter axis-table-filter-search">
-        <input type="text" class="axis-form-input" placeholder="Buscar usuario..."
-               [(ngModel)]="busqueda" (keyup.enter)="buscar()">
+        <mat-form-field appearance="outline" class="axis-form-field">
+          <mat-label>Buscar usuario...</mat-label>
+        <input matInput type="text" [(ngModel)]="busqueda" (keyup.enter)="buscar()">
+        </mat-form-field>
       </div>
       <!-- Acciones de filtros -->
       <div class="axis-filtros-actions">
-        <button type="button" class="axis-button axis-button-primary" (click)="buscar()">
+        <button mat-flat-button type="button" class="axis-button-primary" (click)="buscar()">
           <mat-icon>search</mat-icon> Buscar
         </button>
-        <button type="button" class="axis-button axis-button-secondary" (click)="limpiarFiltros()">
+        <button mat-raised-button type="button" class="axis-button-secondary" (click)="limpiarFiltros()">
           <mat-icon>clear</mat-icon> Limpiar
         </button>
       </div>
@@ -74,19 +76,19 @@
                 <td>
                   <div class="axis-table-actions">
                     <!-- Editar -->
-                    <button type="button" class="axis-icon-button" title="Editar"
-                            (click)="editarUsuario(usuario.idUsuario)">
+                    <button mat-icon-button type="button" class="axis-table-icon-edit" title="Editar"
+                            aria-label="Editar usuario" (click)="editarUsuario(usuario.idUsuario)">
                       <mat-icon>edit</mat-icon>
                     </button>
                     <!-- Activar / Desactivar -->
                     @if (usuario.estado) {
-                      <button type="button" class="axis-icon-button axis-icon-button-danger"
-                              title="Desactivar" (click)="cambiarEstadoUsuario(usuario)">
+                      <button mat-icon-button type="button" class="axis-table-icon-desactivate" title="Desactivar"
+                              aria-label="Desactivar usuario" (click)="cambiarEstadoUsuario(usuario)">
                         <mat-icon>block</mat-icon>
                       </button>
                     } @else {
-                      <button type="button" class="axis-icon-button" title="Activar"
-                              (click)="cambiarEstadoUsuario(usuario)">
+                      <button mat-icon-button type="button" class="axis-table-icon-activate" title="Activar"
+                              aria-label="Activar usuario" (click)="cambiarEstadoUsuario(usuario)">
                         <mat-icon>check_circle</mat-icon>
                       </button>
                     }

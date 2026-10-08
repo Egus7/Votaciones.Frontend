@@ -10,6 +10,8 @@ import { ListasElectoralForm } from './listas-electoral/listas-electoral-form/li
 import { MesasElectoral } from './mesas-electoral/mesas-electoral';
 import { MesasElectoralForm } from './mesas-electoral/mesas-electoral-form/mesas-electoral-form';
 import { PermisosGuard } from '../../core/guards/permisos.guard';
+import { Actas } from './actas/actas';
+import { ActasForm } from './actas/actas-form/actas-form';
 
 const routes: Routes = [
   {
@@ -70,6 +72,47 @@ const routes: Routes = [
           permiso: Permisos.MESAS_VIEW,
         },
       },
+      //ActasElectoral
+      {
+        path: `${EnlaceSub.Actas}`,
+        component: Actas,
+        canActivate: [PermisosGuard],
+        data: {
+          permiso: Permisos.ACTAS_VIEW,
+        }
+      },
+      {
+        path: `${EnlaceSub.Actas}/new`,
+        component: ActasForm,
+        canActivate: [PermisosGuard],
+        data: {
+          permiso: Permisos.ACTAS_VIEW,
+        }
+      },
+      {
+        path: `${EnlaceSub.Actas}/view/:id`,
+        component: ActasForm,
+        canActivate: [PermisosGuard],
+        data: {
+          permiso: Permisos.ACTAS_VIEW,
+        }
+      },
+      {
+        path: `${EnlaceSub.Actas}/edit/:id`,
+        component: ActasForm,
+        canActivate: [PermisosGuard],
+        data: {
+          permiso: Permisos.ACTAS_VIEW,
+        }
+      },
+      {
+        path: `${EnlaceSub.Actas}/validate/:id`,
+        component: ActasForm,
+        canActivate: [PermisosGuard],
+        data: {
+          permiso: Permisos.ACTAS_VIEW,
+        }
+      }
     ],
   },
   //ListaElectoral

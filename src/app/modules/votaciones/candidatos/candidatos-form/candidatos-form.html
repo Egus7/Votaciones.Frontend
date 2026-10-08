@@ -20,38 +20,88 @@
     <form class="axis-form" (ngSubmit)="guardarFormulario()">
       <div class="axis-form-row">
         <div class="axis-form-col axis-form-col-6">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="nombreCandidato">Nombre del candidato</label>
-            <input id="nombreCandidato" type="text" class="axis-form-input"
-                   placeholder="Ingrese el nombre del candidato"
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Nombre del candidato</mat-label>
+            <input matInput type="text" placeholder="Ingrese el nombre del candidato"
                    [(ngModel)]="candidato.nombreCandidato" name="nombreCandidato" required>
-          </div>
+          </mat-form-field>
         </div>
+        <!-- Tipo Candidado -->
         <div class="axis-form-col axis-form-col-3">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="tipoCandidato">Tipo de candidato</label>
-            <select id="tipoCandidato" class="axis-form-select"
-                    [(ngModel)]="candidato.tipoCandidato" name="tipoCandidato" required>
-              <option [ngValue]="undefined">Seleccione un tipo</option>
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Tipo de candidato</mat-label>
+            <mat-select [(ngModel)]="candidato.tipoCandidato" name="tipoCandidato"
+                        (selectionChange)="cambioTipoCandidato()" required>
+              <mat-option [value]="undefined">Seleccione un tipo</mat-option>
               @for (tipo of tiposCandidato; track tipo) {
-                <option [ngValue]="tipo">{{ nombreTipoCandidato(tipo) }}</option>
+                <mat-option [value]="tipo">{{ nombreTipoCandidato(tipo) }}</mat-option>
               }
-            </select>
-          </div>
+            </mat-select>
+          </mat-form-field>
         </div>
+        <!-- Orden -->
         <div class="axis-form-col axis-form-col-3">
-          <div class="axis-form-group">
-            <label class="axis-form-label" for="orden">Orden</label>
-            <input id="orden" type="number" class="axis-form-input" placeholder="Ingrese el orden"
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Orden</mat-label>
+            <input matInput type="number" placeholder="Ingrese el orden"
                    [(ngModel)]="candidato.orden" name="orden" min="1">
-          </div>
+          </mat-form-field>
         </div>
+      </div>
+      <!-- FILA 2 -->
+      <div class="axis-form-row">
+        <!-- Provincia -->
+        @if (mostrarProvincia()) {
+          <div class="axis-form-col axis-form-col-4">
+            <mat-form-field appearance="outline" class="axis-form-field">
+              <mat-label>Provincia</mat-label>
+              <mat-select [(ngModel)]="provinciaId" name="provinciaId" (selectionChange)="cambioProvincia()"
+                          [disabled]="!candidato.tipoCandidato" required>
+                <mat-option [value]="undefined">Seleccione una provincia</mat-option>
+                @for (provincia of provincias(); track provincia.idProvincia) {
+                  <mat-option [value]="provincia.idProvincia">{{ provincia.nombreProvincia }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        }
+        <!-- Cantón -->
+        @if (mostrarCanton()) {
+          <div class="axis-form-col axis-form-col-4">
+            <mat-form-field appearance="outline" class="axis-form-field">
+              <mat-label>Cantón</mat-label>
+              <mat-select [(ngModel)]="cantonId" name="cantonId" (selectionChange)="cambioCanton()"
+                          [disabled]="!provinciaId" required>
+                <mat-option [value]="undefined">Seleccione un cantón</mat-option>
+                @for (canton of cantones(); track canton.idCanton) {
+                  <mat-option [value]="canton.idCanton">{{ canton.nombreCanton }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        }
+        <!-- Parroquia -->
+        @if (mostrarParroquia()) {
+          <div class="axis-form-col axis-form-col-4">
+            <mat-form-field appearance="outline" class="axis-form-field">
+              <mat-label>Parroquia</mat-label>
+              <mat-select [(ngModel)]="parroquiaId" name="parroquiaId" [disabled]="!cantonId" required>
+                <mat-option [value]="undefined">Seleccione una parroquia</mat-option>
+                @for (parroquia of parroquias(); track parroquia.idParroquia) {
+                  <mat-option [value]="parroquia.idParroquia">{{ parroquia.nombreParroquia }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        }
+      </div>
+      <!-- FILA 3 -->
+      <div class="axis-form-row">
         <div class="axis-form-col axis-form-col-6">
           <div class="axis-form-group">
             <label class="axis-form-label">Listas electorales</label>
             <div class="candidato-listas-header">
-              <button type="button" class="axis-button axis-button-secondary"
-                      (click)="abrirModalListas()">
+              <button mat-stroked-button type="button" class="axis-button-secondary" (click)="abrirModalListas()">
                 <mat-icon>search</mat-icon> Agregar listas electorales
               </button>
             </div>
@@ -74,13 +124,13 @@
                     <div class="candidato-lista-acciones">
                       @if (listasSeleccionadasInfo.length > 1 &&
                           !esListaPrincipal(lista.idListaElectoral)) {
-                        <button type="button" class="axis-icon-button" title="Establecer como principal"
+                        <button mat-icon-button type="button" class="axis-icon-button" title="Establecer como principal"
                                 (click)="establecerPrincipal(lista.idListaElectoral!)">
                           <mat-icon>star_outline</mat-icon>
                         </button>
                       }
-                      <button type="button" class="axis-icon-button axis-icon-button-danger"
-                              title="Quitar lista" (click)="quitarLista(lista.idListaElectoral!)">
+                      <button mat-icon-button type="button" class="axis-icon-button-danger" title="Quitar lista"
+                              (click)="quitarLista(lista.idListaElectoral!)">
                         <mat-icon>delete</mat-icon>
                       </button>
                     </div>
@@ -88,18 +138,17 @@
                 }
               </div>
             } @else {
-              <div class="candidato-listas-vacio">
-                No se han agregado listas electorales.
-              </div>
+              <div class="candidato-listas-vacio">No se han agregado listas electorales.</div>
             }
           </div>
         </div>
       </div>
+      <!-- FIN FILA 3 -->
       <div class="axis-form-actions">
-        <button type="button" class="axis-button axis-button-secondary" (click)="cancelarFormulario()">
+        <button mat-raised-button type="button" class="axis-button-secondary" (click)="cancelarFormulario()">
           <mat-icon>close</mat-icon> Cancelar
         </button>
-        <button type="submit" class="axis-button axis-button-primary">
+        <button mat-flat-button type="submit" class="axis-button-primary">
           <mat-icon>save</mat-icon>{{ esEdicion ? 'Actualizar' : 'Guardar' }}
         </button>
       </div>

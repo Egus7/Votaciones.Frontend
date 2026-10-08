@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule, MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-modal',
-  imports: [MatIconModule],
+  imports: [MatIconModule, MatIconButton, MatButtonModule],
   templateUrl: './modal.html',
   styleUrl: './modal.css',
 })

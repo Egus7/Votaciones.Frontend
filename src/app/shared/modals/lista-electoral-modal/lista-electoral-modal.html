@@ -1,18 +1,17 @@
 <div class="selector-listas">
   <!-- Búsqueda -->
   <div class="selector-listas-filtros">
-    <div class="axis-form-group">
-      <label class="axis-form-label" for="buscarLista">Buscar lista electoral</label>
-      <div class="selector-listas-busqueda">
-        <mat-icon>search</mat-icon>
-        <input id="buscarLista" type="text" class="axis-form-input"
-               placeholder="Número, nombre o siglas" [(ngModel)]="busqueda" name="buscarLista"
+    <div class="selector-listas-busqueda">
+      <mat-form-field appearance="outline" class="axis-form-field">
+        <mat-label>Buscar lista electoral</mat-label>
+        <input matInput id="buscarLista" type="text" [(ngModel)]="busqueda" name="buscarLista"
                (keyup.enter)="buscar()">
-        <button type="button" class="axis-button axis-button-secondary" (click)="buscar()">
+      </mat-form-field>
+      <div class="selector-listas-button">
+        <button mat-flat-button type="button" class="axis-button-primary" (click)="buscar()">
           <mat-icon>search</mat-icon> Buscar
         </button>
-        <button type="button" class="axis-button axis-button-secondary"
-                (click)="limpiarBusqueda()">
+        <button mat-raised-button type="button" class="axis-button-secondary" (click)="limpiarBusqueda()">
           <mat-icon>clear</mat-icon> Limpiar
         </button>
       </div>
@@ -49,8 +48,9 @@
                 [class.selector-lista-seleccionada]="estaSeleccionada(lista.idListaElectoral)"
                 (click)="seleccionar(lista)">
               <td class="center">
-                <input type="checkbox" [checked]="estaSeleccionada(lista.idListaElectoral)"
-                       (click)="$event.stopPropagation()" (change)="seleccionar(lista)">
+                <mat-checkbox type="checkbox" [checked]="estaSeleccionada(lista.idListaElectoral)"
+                              (click)="$event.stopPropagation()" (change)="seleccionar(lista)">
+                </mat-checkbox>
               </td>
               <td><strong>{{ lista.numeroLista }}</strong></td>
               <td>{{ lista.nombreLista }}</td>
@@ -59,9 +59,7 @@
             </tr>
           } @empty {
             <tr>
-              <td colspan="5" class="axis-table-empty">
-                No se encontraron listas electorales.
-              </td>
+              <td colspan="5" class="axis-table-empty">No se encontraron listas electorales.</td>
             </tr>
           }
         </tbody>

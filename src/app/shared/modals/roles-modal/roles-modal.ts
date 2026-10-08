@@ -7,10 +7,22 @@ import { ConfigPage } from '../../../Config';
 import { RolesService } from '../../../api/services/roles.service';
 import { MensajeService } from '../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../core/mensajes/manejo-mensajes-error';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormField, MatInputModule, MatLabel } from '@angular/material/input';
+import { MatRadioButton } from '@angular/material/radio';
 
 @Component({
   selector: 'app-roles-modal',
-  imports: [FormsModule, MatIcon, Paginacion],
+  imports: [
+    FormsModule,
+    MatIcon,
+    Paginacion,
+    MatButtonModule,
+    MatFormField,
+    MatLabel,
+    MatInputModule,
+    MatRadioButton,
+  ],
   templateUrl: './roles-modal.html',
   styleUrl: './roles-modal.css',
 })
@@ -100,5 +112,4 @@ export class RolesModal implements OnInit {
   obtenerSeleccionado(): RolDto | null {
     return this.rolSeleccionado;
   }
-
 }

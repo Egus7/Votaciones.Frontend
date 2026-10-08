@@ -14,11 +14,26 @@ import { Provincia } from '../../../../api/models/provincia';
 import { Canton } from '../../../../api/models/canton';
 import { Parroquia } from '../../../../api/models/parroquia';
 import { Zona } from '../../../../api/models/zona';
-import { ZonasService } from '../../../../api/services/zonas.service';
+import { MatFormField, MatInputModule, MatLabel } from '@angular/material/input';
+import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
+import { MatOption, MatSelectModule } from '@angular/material/select';
+import { MatButton } from '@angular/material/button';
+import { LugarVotacionService } from '../../../../core/services/lugar-votacion-service';
 
 @Component({
   selector: 'app-mesas-electoral-form',
-  imports: [FormsModule, MatIconModule],
+  imports: [
+    FormsModule,
+    MatIconModule,
+    MatFormField,
+    MatRadioGroup,
+    MatRadioButton,
+    MatLabel,
+    MatSelectModule,
+    MatOption,
+    MatInputModule,
+    MatButton,
+  ],
   templateUrl: './mesas-electoral-form.html',
   styleUrl: './mesas-electoral-form.css',
 })
@@ -56,7 +71,7 @@ export class MesasElectoralForm implements OnInit {
 
   constructor(
     private mesasService: MesasElectoralService,
-    private zonasService: ZonasService,
+    private zonasService: LugarVotacionService,
     private eleccionContexto: EleccionContexto,
     private route: ActivatedRoute,
     private router: Router,
@@ -152,7 +167,7 @@ export class MesasElectoralForm implements OnInit {
 
   private async cargarProvincias(): Promise<void> {
     try {
-      this.provincias = await this.zonasService.apiZonasProvinciasGet$Json();
+      this.provincias = await this.zonasService.provincias();
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);
@@ -173,9 +188,7 @@ export class MesasElectoralForm implements OnInit {
     }
 
     try {
-      this.cantones = await this.zonasService.apiZonasCantonesGet$Json({
-        provinciaId: this.provinciaId,
-      });
+      this.cantones = await this.zonasService.cantones(this.provinciaId);
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);
@@ -195,9 +208,7 @@ export class MesasElectoralForm implements OnInit {
     }
 
     try {
-      this.parroquias = await this.zonasService.apiZonasParroquiasGet$Json({
-        cantonId: this.cantonId,
-      });
+      this.parroquias = await this.zonasService.parroquias(this.cantonId);
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);
@@ -215,9 +226,7 @@ export class MesasElectoralForm implements OnInit {
     }
 
     try {
-      this.zonas = await this.zonasService.apiZonasZonasGet$Json({
-        parroquiaId: this.parroquiaId,
-      });
+      this.zonas = await this.zonasService.zonas(this.parroquiaId);
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);
@@ -229,18 +238,18 @@ export class MesasElectoralForm implements OnInit {
     if (!this.esEdicion || !this.provinciaNombre) return;
 
     //Provincia
-    const provincia = this.provincias.find(
-      (x) => x.nombreProvincia === this.provinciaNombre);
+    const provincia = this.provincias.find((x) =>
+      x.nombreProvincia === this.provinciaNombre);
+
     if (!provincia?.idProvincia) {
       return;
     }
     this.provinciaId = provincia.idProvincia;
 
     // Cantones
-    this.cantones = await this.zonasService.apiZonasCantonesGet$Json({
-      provinciaId: this.provinciaId,
-    });
-    const canton = this.cantones.find((x) => x.nombreCanton === this.cantonNombre);
+    this.cantones = await this.zonasService.cantones(this.provinciaId);
+    const canton = this.cantones.find((x) =>
+      x.nombreCanton === this.cantonNombre);
 
     if (!canton?.idCanton) {
       return;
@@ -248,9 +257,7 @@ export class MesasElectoralForm implements OnInit {
     this.cantonId = canton.idCanton;
 
     // Parroquias
-    this.parroquias = await this.zonasService.apiZonasParroquiasGet$Json({
-      cantonId: this.cantonId,
-    });
+    this.parroquias = await this.zonasService.parroquias(this.cantonId);
     const parroquia = this.parroquias.find((x) => x.nombreParroquia === this.parroquiaNombre);
 
     if (!parroquia?.idParroquia) {
@@ -259,10 +266,7 @@ export class MesasElectoralForm implements OnInit {
     this.parroquiaId = parroquia.idParroquia;
 
     // Zonas
-    this.zonas = await this.zonasService.apiZonasZonasGet$Json({
-      parroquiaId: this.parroquiaId,
-    });
-
+    this.zonas = await this.zonasService.zonas(this.parroquiaId);
     const zona = this.zonas.find((x) => x.nombreZona === this.zonaNombre);
     if (!zona?.idZona) {
       return;
@@ -276,10 +280,8 @@ export class MesasElectoralForm implements OnInit {
     const eleccion = this.eleccionContexto.eleccion();
 
     if (
-      !eleccion?.idEleccion ||
-      !this.mesaElectoral.zonaId ||
-      this.mesaElectoral.tipoMesa === undefined ||
-      this.mesaElectoral.tipoMesa === null
+      !eleccion?.idEleccion || !this.mesaElectoral.zonaId ||
+      this.mesaElectoral.tipoMesa === undefined || this.mesaElectoral.tipoMesa === null
     ) {
       this.limpiarPreview();
       return;
@@ -348,14 +350,12 @@ export class MesasElectoralForm implements OnInit {
           body: this.mesaElectoral,
         });
         await this.swalMensaje.exito('Éxito', response!);
-
       } else if (this.modoCreacion === 'individual') {
-      await this.mesasService.apiMesasElectoralPost$Json({
-        body: this.mesaElectoral,
-      });
-      await this.swalMensaje.exito( 'Éxito', 'Mesa electoral registrada correctamente.', );
-
-    } else {
+        await this.mesasService.apiMesasElectoralPost$Json({
+          body: this.mesaElectoral,
+        });
+        await this.swalMensaje.exito('Éxito', 'Mesa electoral registrada correctamente.');
+      } else {
         await this.mesasService.apiMesasElectoralLotePost$Json({
           eleccionId: this.mesaElectoral.eleccionId,
           zonaId: this.mesaElectoral.zonaId,
@@ -363,12 +363,12 @@ export class MesasElectoralForm implements OnInit {
           cantidadFemeninas: this.cantidadFemeninas,
         });
         await this.swalMensaje.exito(
-          'Éxito', `Se registraron ${this.totalMesas} mesas electorales correctamente!.`,
+          'Éxito',
+          `Se registraron ${this.totalMesas} mesas electorales correctamente!.`,
         );
       }
       // regresar al list
       await this.router.navigate([`${Enlace.Votaciones}/${EnlaceSub.Mesas}`]);
-
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);
