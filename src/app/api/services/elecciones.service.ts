@@ -19,16 +19,68 @@ import { apiEleccionesIdGet$Plain } from '../fn/elecciones/api-elecciones-id-get
 import { ApiEleccionesIdGet$Plain$Params } from '../fn/elecciones/api-elecciones-id-get-plain';
 import { apiEleccionesIdPut } from '../fn/elecciones/api-elecciones-id-put';
 import { ApiEleccionesIdPut$Params } from '../fn/elecciones/api-elecciones-id-put';
+import { apiEleccionesPaginacionGet$Json } from '../fn/elecciones/api-elecciones-paginacion-get-json';
+import { ApiEleccionesPaginacionGet$Json$Params } from '../fn/elecciones/api-elecciones-paginacion-get-json';
+import { apiEleccionesPaginacionGet$Plain } from '../fn/elecciones/api-elecciones-paginacion-get-plain';
+import { ApiEleccionesPaginacionGet$Plain$Params } from '../fn/elecciones/api-elecciones-paginacion-get-plain';
 import { apiEleccionesPost$Json } from '../fn/elecciones/api-elecciones-post-json';
 import { ApiEleccionesPost$Json$Params } from '../fn/elecciones/api-elecciones-post-json';
 import { apiEleccionesPost$Plain } from '../fn/elecciones/api-elecciones-post-plain';
 import { ApiEleccionesPost$Plain$Params } from '../fn/elecciones/api-elecciones-post-plain';
 import { Eleccion } from '../models/eleccion';
+import { EleccionPaginacionDto } from '../models/eleccion-paginacion-dto';
 
 @Injectable({ providedIn: 'root' })
 export class EleccionesService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `apiEleccionesPaginacionGet()` */
+  static readonly ApiEleccionesPaginacionGetPath = '/api/Elecciones/paginacion';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiEleccionesPaginacionGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiEleccionesPaginacionGet$Plain$Response(params?: ApiEleccionesPaginacionGet$Plain$Params, context?: HttpContext): Promise<StrictHttpResponse<EleccionPaginacionDto>> {
+    const obs = apiEleccionesPaginacionGet$Plain(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiEleccionesPaginacionGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiEleccionesPaginacionGet$Plain(params?: ApiEleccionesPaginacionGet$Plain$Params, context?: HttpContext): Promise<EleccionPaginacionDto> {
+    const resp = this.apiEleccionesPaginacionGet$Plain$Response(params, context);
+    return resp.then((r: StrictHttpResponse<EleccionPaginacionDto>): EleccionPaginacionDto => r.body);
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiEleccionesPaginacionGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiEleccionesPaginacionGet$Json$Response(params?: ApiEleccionesPaginacionGet$Json$Params, context?: HttpContext): Promise<StrictHttpResponse<EleccionPaginacionDto>> {
+    const obs = apiEleccionesPaginacionGet$Json(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiEleccionesPaginacionGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiEleccionesPaginacionGet$Json(params?: ApiEleccionesPaginacionGet$Json$Params, context?: HttpContext): Promise<EleccionPaginacionDto> {
+    const resp = this.apiEleccionesPaginacionGet$Json$Response(params, context);
+    return resp.then((r: StrictHttpResponse<EleccionPaginacionDto>): EleccionPaginacionDto => r.body);
   }
 
   /** Path part for operation `apiEleccionesGet()` */

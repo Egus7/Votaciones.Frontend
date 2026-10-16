@@ -6,4 +6,5 @@ export interface Parroquia {
   cantonId?: string;
   idParroquia?: string;
   nombreParroquia?: string;
+  parroquiaRural?: boolean;
 }

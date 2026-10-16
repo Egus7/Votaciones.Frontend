@@ -55,8 +55,14 @@ export type { ApiCandidatosPost$Plain$Params as ApiCandidatosPost$Plain$Params }
 export { apiCandidatosPost$Plain as apiCandidatosPost$Plain } from './fn/candidatos/api-candidatos-post-plain';
 export type { ApiCandidatosPost$Json$Params as ApiCandidatosPost$Json$Params } from './fn/candidatos/api-candidatos-post-json';
 export { apiCandidatosPost$Json as apiCandidatosPost$Json } from './fn/candidatos/api-candidatos-post-json';
+export type { ApiCandidatosCrearVariosPost$Params as ApiCandidatosCrearVariosPost$Params } from './fn/candidatos/api-candidatos-crear-varios-post';
+export { apiCandidatosCrearVariosPost as apiCandidatosCrearVariosPost } from './fn/candidatos/api-candidatos-crear-varios-post';
 export type { ApiCandidatosCambiarEstadoIdPut$Params as ApiCandidatosCambiarEstadoIdPut$Params } from './fn/candidatos/api-candidatos-cambiar-estado-id-put';
 export { apiCandidatosCambiarEstadoIdPut as apiCandidatosCambiarEstadoIdPut } from './fn/candidatos/api-candidatos-cambiar-estado-id-put';
+export type { ApiEleccionesPaginacionGet$Plain$Params as ApiEleccionesPaginacionGet$Plain$Params } from './fn/elecciones/api-elecciones-paginacion-get-plain';
+export { apiEleccionesPaginacionGet$Plain as apiEleccionesPaginacionGet$Plain } from './fn/elecciones/api-elecciones-paginacion-get-plain';
+export type { ApiEleccionesPaginacionGet$Json$Params as ApiEleccionesPaginacionGet$Json$Params } from './fn/elecciones/api-elecciones-paginacion-get-json';
+export { apiEleccionesPaginacionGet$Json as apiEleccionesPaginacionGet$Json } from './fn/elecciones/api-elecciones-paginacion-get-json';
 export type { ApiEleccionesGet$Plain$Params as ApiEleccionesGet$Plain$Params } from './fn/elecciones/api-elecciones-get-plain';
 export { apiEleccionesGet$Plain as apiEleccionesGet$Plain } from './fn/elecciones/api-elecciones-get-plain';
 export type { ApiEleccionesGet$Json$Params as ApiEleccionesGet$Json$Params } from './fn/elecciones/api-elecciones-get-json';

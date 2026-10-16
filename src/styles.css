@@ -439,7 +439,7 @@ button {
 
 .axis-icon-button-danger:hover {
   background-color: var(--color-danger-light);
-  color: var(--color-danger);
+  color: var(--color-danger) !important;
 }
 
 .axis-icon-button:disabled, .axis-icon-button-disabled {

@@ -21,12 +21,12 @@ export class Container implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    await this.eleccionContexto.cargarElecciones();
     const sesionValida = await this.eleccionContexto.cargar();
     // Si la sesión expiró, no mostrar el mensaje de elección.
     if (!sesionValida) {
       return;
     }
+    await this.eleccionContexto.cargarElecciones();
 
     if (!this.eleccionContexto.eleccion()) {
       await this.swalMensaje.informacion(

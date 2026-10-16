@@ -1,14 +1,41 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Usuarios } from './seguridad/usuarios/usuarios';
+import { Usuarios } from './seguridad/pages/usuarios/usuarios';
 import { EnlaceSub, Permisos } from '../../Config';
-import { UsuariosForm } from './seguridad/usuarios/usuarios-form/usuarios-form';
+import { UsuariosForm } from './seguridad/components/usuarios-form/usuarios-form';
 import { PermisosGuard } from '../../core/guards/permisos.guard';
-import { Roles } from './seguridad/roles/roles';
-import { RolesForm } from './seguridad/roles/roles-form/roles-form';
-import { Bitacora } from './seguridad/bitacora/bitacora';
+import { Roles } from './seguridad/pages/roles/roles';
+import { RolesForm } from './seguridad/components/roles-form/roles-form';
+import { Bitacora } from './seguridad/pages/bitacora/bitacora';
+import { Elecciones } from './elecciones/pages/elecciones';
+import { EleccionesForm } from './elecciones/elecciones-form/elecciones-form';
 
 const routes: Routes = [
+  //Elecciones
+  {
+    path: EnlaceSub.Elecciones,
+    component: Elecciones,
+    canActivate: [PermisosGuard],
+    data: {
+      permiso: Permisos.ELECCIONES_VIEW,
+    },
+  },
+  {
+    path: `${EnlaceSub.Elecciones}/new`,
+    component: EleccionesForm,
+    canActivate: [PermisosGuard],
+    data: {
+      permiso: Permisos.ELECCIONES_VIEW,
+    }
+  },
+  {
+    path: `${EnlaceSub.Elecciones}/edit/:id`,
+    component: EleccionesForm,
+    canActivate: [PermisosGuard],
+    data: {
+      permiso: Permisos.ELECCIONES_VIEW,
+    }
+  },
   //Usuarios
   {
     path: `${EnlaceSub.Seguridad}/${EnlaceSub.Usuarios}`,

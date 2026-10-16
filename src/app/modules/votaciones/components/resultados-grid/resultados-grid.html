@@ -1,0 +1,208 @@
+<div class="axis-page">
+  <div class="axis-container">
+    <!-- ENCABEZADO -->
+    <div class="axis-page-header">
+      <div>
+        <h1 class="axis-page-title">Reportes de resultados</h1>
+        <p class="axis-page-subtitle">
+          Consulte los resultados electorales por dignidad y ubicación.
+        </p>
+      </div>
+    </div>
+    <!-- FILTROS -->
+    <div class="axis-card">
+      <div class="axis-card-content">
+        <div class="row g-3">
+          <!-- DIGNIDAD -->
+          <div class="col-12 col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Dignidad</mat-label>
+              <mat-select [(ngModel)]="tipoCandidato" (selectionChange)="cambioTipoCandidato()">
+                @for (tipo of tiposCandidato(); track tipo) {
+                  <mat-option [value]="tipo">
+                    {{ tipo === 'ConcejalUrbano' ? 'Concejal urbano'
+                    : tipo === 'ConcejalRural' ? 'Concejal rural' : tipo }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- TIPO DE RESULTADO -->
+          <div class="col-12 col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Tipo de resultado</mat-label>
+              <mat-select [(ngModel)]="tipoResultado" (selectionChange)="cambioTipoResultado()">
+                <mat-option value="Preliminar">Preliminar</mat-option>
+                <mat-option value="Oficial">Oficial</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- PROVINCIA -->
+          <div class="col-12 col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Provincia</mat-label>
+              <mat-select [(ngModel)]="provinciaId" (selectionChange)="cambioProvincia()">
+                <mat-option [value]="undefined">Todas las provincias</mat-option>
+                @for (provincia of provincias(); track provincia.idProvincia) {
+                  <mat-option [value]="provincia.idProvincia">
+                    {{ provincia.nombreProvincia }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- CANTÓN -->
+          <div class="col-12 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Cantón</mat-label>
+              <mat-select [(ngModel)]="cantonId" [disabled]="!provinciaId" (selectionChange)="cambioCanton()">
+                <mat-option [value]="undefined">Todos los cantones</mat-option>
+                @for (canton of cantones(); track canton.idCanton) {
+                  <mat-option [value]="canton.idCanton">{{ canton.nombreCanton }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- PARROQUIA -->
+          <div class="col-12 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Parroquia</mat-label>
+              <mat-select [(ngModel)]="parroquiaId" [disabled]="!cantonId" (selectionChange)="cambioParroquia()">
+                <mat-option [value]="undefined">Todas las parroquias</mat-option>
+                @for (parroquia of parroquias(); track parroquia.idParroquia) {
+                  <mat-option [value]="parroquia.idParroquia">{{ parroquia.nombreParroquia }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- ZONA -->
+          <div class="col-12 col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Zona</mat-label>
+              <mat-select [(ngModel)]="zonaId" [disabled]="!parroquiaId" (selectionChange)="cambioZona()">
+                <mat-option [value]="undefined">Todas las zonas</mat-option>
+                @for (zona of zonas(); track zona.idZona) {
+                  <mat-option [value]="zona.idZona">{{ zona.nombreZona }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- ACCIONES -->
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button mat-stroked-button type="button" class="axis-button-secondary" (click)="regresar()">
+            <mat-icon>arrow_back</mat-icon> Regresar
+          </button>
+          <button mat-flat-button color="primary" type="button" [disabled]="cargando()"
+                  (click)="consultarResultados()">
+            <mat-icon>search</mat-icon> {{ cargando() ? 'Consultando...' : 'Consultar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- RESULTADOS -->
+    @if (cargando()) {
+      <div class="axis-card mt-4">
+        <div class="axis-card-content text-center p-4">
+          <mat-icon>hourglass_top</mat-icon>
+          <p class="mb-0">Consultando resultados...</p>
+        </div>
+      </div>
+    } @else if (resultado(); as datos) {
+      <div class="axis-card mt-4">
+        <div class="axis-card-content">
+          <h3 class="axis-card-title">Resultados Generales</h3>
+          <div class="row g-3 my-2">
+            <div class="col-6 col-md-4">
+              <div class="axis-card p-3">
+                <span>Total de mesas</span>
+                <h3>{{ datos.totalMesas ?? 0 }}</h3>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="axis-card p-3">
+                <span>Mesas registradas</span>
+                <h3>{{ datos.mesasRegistradas ?? 0 }}</h3>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="axis-card p-3">
+                <span>Mesas en revisión</span>
+                <h3>{{ datos.mesasEnRevision ?? 0 }}</h3>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="axis-card p-3">
+                <span>Mesas validadas</span>
+                <h3>{{ datos.mesasValidadas ?? 0 }}</h3>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="axis-card p-3">
+                <span>Total de votos</span>
+                <h3>{{ datos.totalVotos ?? 0 }}</h3>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="axis-card p-3">
+                <span>Votos válidos</span>
+                <h3>{{ datos.totalVotosValidos ?? 0 }}</h3>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="axis-card p-3">
+                <span>Votos blancos</span>
+                <h3>{{ datos.totalVotosBlancos ?? 0 }}</h3>
+              </div>
+            </div>
+            <div class="col-6 col-md-4">
+              <div class="axis-card p-3">
+                <span>Votos nulos</span>
+                <h3>{{ datos.totalVotosNulos ?? 0 }}</h3>
+              </div>
+            </div>
+          </div>
+          <!-- DETALLE -->
+          <h3 class="mt-4">Detalle por candidato o lista</h3>
+          @if (datos.resultados?.length) {
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead>
+                <tr>
+                  <th>Lista</th>
+                  <th>Candidato / lista electoral</th>
+                  <th class="text-end">Votos</th>
+                  <th class="text-end">Porcentaje</th>
+                </tr>
+                </thead>
+                <tbody>
+                  @for (item of datos.resultados; track item.listaElectoralId ?? item.candidatoId ?? $index) {
+                    <tr>
+                      <td>{{ item.numeroLista ?? '—' }}</td>
+                      @if (tipoCandidato == 'Alcalde') {
+                        <td>{{item.candidato ?? '-'}}
+                          <div><small>{{ item.lista ?? '—' }}</small></div>
+                        </td>
+                      } @else {
+                        <td>{{item.lista ?? '-'}}</td>
+                      }
+                      <td class="text-end">{{ item.votos ?? 0 }}</td>
+                      <td class="text-end">
+                        {{ item.porcentaje ?? 0 | number:'1.2-2' }}%
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <div class="axis-table-empty">
+              <mat-icon>info</mat-icon>
+              <p>No existen resultados para los filtros seleccionados.</p>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

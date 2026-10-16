@@ -152,7 +152,7 @@
 /* Footer*/
 .election-card-footer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: var(--space-lg);
 }
 
@@ -191,6 +191,7 @@
   }
   .election-card-footer button {
     width: 100%;
+    margin-right: 8px;
   }
 
 }

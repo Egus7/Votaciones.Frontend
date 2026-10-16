@@ -6,7 +6,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { EleccionContexto } from '../../../../core/services/eleccion-contexto';
 import { Router } from '@angular/router';
-import { Enlace } from '../../../../Config';
+import { Enlace, EnlaceSub } from '../../../../Config';
 import { MensajeService } from '../../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../../core/mensajes/manejo-mensajes-error';
 
@@ -43,8 +43,7 @@ export class Home implements OnInit {
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       void this.swalMensaje.error('Error', mensajeError);
-    }
-    finally {
+    } finally {
       this.cargando.set(false);
     }
   }
@@ -54,4 +53,8 @@ export class Home implements OnInit {
     return void this.router.navigate([Enlace.Votaciones]);
   }
 
+  verResultados(eleccion: Eleccion) {
+    this.eleccionContexto.seleccionar(eleccion);
+    return void this.router.navigate([`${Enlace.Votaciones}/${EnlaceSub.Resultados}`]);
+  }
 }

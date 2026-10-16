@@ -1,0 +1,202 @@
+/** candidatos multiples **/
+.axis-form-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 0;
+}
+.axis-form-section-header button {
+  flex-shrink: 0;
+}
+
+.candidato-multiple-controles {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-top: 14px;
+  flex-wrap: wrap;
+}
+
+/** item candidatos */
+.candidato-multiple-item {
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+/* Campos de formulario: evitar desbordamientos */
+.candidato-multiple-item .axis-form-col {
+  min-width: 0;
+}
+.candidato-multiple-item .axis-form-field {
+  width: 100%;
+}
+.candidato-multiple-accion {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+.candidato-multiple-item:last-child {
+  border-bottom: none;
+}
+
+/* Listas electorales */
+.candidato-listas-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+.candidato-listas-header .axis-button {
+  width: auto;
+}
+/* Contenedor de listas seleccionadas */
+.candidato-listas-seleccionadas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+}
+/* Item de lista */
+.candidato-lista-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: 48px;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+.candidato-lista-item:hover {
+  background-color: var(--color-background);
+  border-color: #c5ccd3;
+}
+
+/* Información */
+.candidato-lista-info {
+  flex: 1;
+  min-width: 0;
+}
+.candidato-lista-datos {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+.candidato-lista-datos strong {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+/* Acciones */
+.candidato-lista-acciones {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+/* Estado vacío */
+.candidato-listas-vacio {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text-secondary);
+  background-color: var(--color-background);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .axis-form-section-header {
+    align-items: flex-start;
+  }
+  .candidato-multiple-controles {
+    gap: 10px;
+  }
+  /** item **/
+  .candidato-multiple-item {
+    flex-wrap: wrap;
+    row-gap: 0;
+    padding-top: 12px;
+  }
+  .candidato-multiple-item .axis-form-col-2 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+  .candidato-multiple-item .axis-form-col-8 {
+    flex: 0 0 75%;
+    max-width: 75%;
+  }
+  .candidato-multiple-accion {
+    padding-bottom: 16px;
+  }
+  /** lista **/
+  .candidato-lista-item {
+    align-items: flex-start;
+  }
+  .candidato-lista-acciones {
+    align-self: center;
+  }
+
+}
+/* Celular */
+@media (max-width: 480px) {
+  .axis-form-section-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .axis-form-section-header button {
+    width: 100%;
+  }
+  .candidato-multiple-controles {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .candidato-multiple-controles button {
+    width: 100%;
+    min-height: 46px;
+  }
+  .axis-form-col-12 > .axis-text-secondary {
+    margin-top: 10px;
+    font-size: 0.8125rem;
+  }
+  .candidato-multiple-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 8px;
+    align-items: center;
+    padding: 12px 0;
+  }
+  /* Orden: primera fila, ocupa el espacio disponible */
+  .candidato-multiple-item .axis-form-col-2:first-child {
+    grid-column: 1;
+    grid-row: 1;
+    max-width: 100%;
+    width: 100%;
+  }
+  /* Nombre: segunda fila, ocupa todo el ancho */
+  .candidato-multiple-item .axis-form-col-8 {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    max-width: 100%;
+    width: 100%;
+  }
+  /* Botón eliminar: junto al campo Orden */
+  .candidato-multiple-item .candidato-multiple-accion {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 0;
+    justify-content: center;
+  }
+  .candidato-multiple-item .axis-form-field {
+    margin-bottom: 0;
+  }
+}
+

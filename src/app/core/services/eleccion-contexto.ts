@@ -1,8 +1,9 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { EleccionesService } from '../../api/services/elecciones.service';
 import { Eleccion } from '../../api/models/eleccion';
 import { MensajeService } from '../mensajes/mensaje-service';
 import { ManejoMensajesError } from '../mensajes/manejo-mensajes-error';
+import { TipoCandidato } from '../../api/models/tipo-candidato';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,21 @@ export class EleccionContexto {
 
   private contextoInicializado = signal(false);
   readonly inicializado = this.contextoInicializado.asReadonly();
+
+  // Tipos de candidatos permitidos según el tipo de elección.
+  private readonly tipoCandidatosPorEleccion: Record<string, TipoCandidato[]> = {
+    General: ['Presidente'],
+    Seccional: ['Prefecto', 'Alcalde', 'ConcejalUrbano', 'ConcejalRural'],
+  };
+  // Se actualiza automáticamente al cambiar la elección seleccionada.
+  readonly tiposCandidato = computed<TipoCandidato[]>(() => {
+    const tipoEleccion = this.eleccion()?.tipoEleccion;
+    if (!tipoEleccion) {
+      return [];
+    }
+
+    return this.tipoCandidatosPorEleccion[tipoEleccion] ?? [];
+  });
 
   constructor(
     private eleccionesService: EleccionesService,
@@ -60,7 +76,6 @@ export class EleccionContexto {
       });
       this.eleccionSeleccionada.set(eleccion);
       return true;
-
     } catch (error: any) {
       this.limpiar();
       // La sesión expiró: el interceptor se encarga del mensaje y de redirigir al login.

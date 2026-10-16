@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Inicio } from './inicio/inicio';
-import { Candidatos } from './candidatos/candidatos';
+import { Inicio } from './pages/inicio/inicio';
+import { Candidatos } from './pages/candidatos/candidatos';
 import { Container } from './container/container';
 import { EnlaceSub, Permisos } from '../../Config';
-import { CandidatosForm } from './candidatos/candidatos-form/candidatos-form';
-import { ListasElectoral } from './listas-electoral/listas-electoral';
-import { ListasElectoralForm } from './listas-electoral/listas-electoral-form/listas-electoral-form';
-import { MesasElectoral } from './mesas-electoral/mesas-electoral';
-import { MesasElectoralForm } from './mesas-electoral/mesas-electoral-form/mesas-electoral-form';
+import { CandidatosForm } from './components/candidatos-form/candidatos-form';
+import { ListasElectoral } from './pages/listas-electoral/listas-electoral';
+import { ListasElectoralForm } from './components/listas-electoral-form/listas-electoral-form';
+import { MesasElectoral } from './pages/mesas-electoral/mesas-electoral';
+import { MesasElectoralForm } from './components/mesas-electoral-form/mesas-electoral-form';
 import { PermisosGuard } from '../../core/guards/permisos.guard';
-import { Actas } from './actas/actas';
-import { ActasForm } from './actas/actas-form/actas-form';
+import { Actas } from './pages/actas/actas';
+import { ActasForm } from './components/actas-form/actas-form';
+import { Resultados } from './pages/resultados/resultados';
+import { ResultadosGrid } from './components/resultados-grid/resultados-grid';
 
 const routes: Routes = [
   {
@@ -79,7 +81,7 @@ const routes: Routes = [
         canActivate: [PermisosGuard],
         data: {
           permiso: Permisos.ACTAS_VIEW,
-        }
+        },
       },
       {
         path: `${EnlaceSub.Actas}/new`,
@@ -87,7 +89,7 @@ const routes: Routes = [
         canActivate: [PermisosGuard],
         data: {
           permiso: Permisos.ACTAS_VIEW,
-        }
+        },
       },
       {
         path: `${EnlaceSub.Actas}/view/:id`,
@@ -95,7 +97,7 @@ const routes: Routes = [
         canActivate: [PermisosGuard],
         data: {
           permiso: Permisos.ACTAS_VIEW,
-        }
+        },
       },
       {
         path: `${EnlaceSub.Actas}/edit/:id`,
@@ -103,7 +105,7 @@ const routes: Routes = [
         canActivate: [PermisosGuard],
         data: {
           permiso: Permisos.ACTAS_VIEW,
-        }
+        },
       },
       {
         path: `${EnlaceSub.Actas}/validate/:id`,
@@ -111,8 +113,25 @@ const routes: Routes = [
         canActivate: [PermisosGuard],
         data: {
           permiso: Permisos.ACTAS_VIEW,
+        },
+      },
+      //Resultados
+      {
+        path: `${EnlaceSub.Resultados}`,
+        component: Resultados,
+        canActivate: [PermisosGuard],
+        data: {
+          permiso: Permisos.RESULTADOS_VIEW,
+        },
+      },
+      {
+        path: `${EnlaceSub.Resultados}/reportes`,
+        component: ResultadosGrid,
+        canActivate: [PermisosGuard],
+        data: {
+          permiso: Permisos.RESULTADOS_VIEW,
         }
-      }
+      },
     ],
   },
   //ListaElectoral

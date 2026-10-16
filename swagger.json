@@ -833,6 +833,46 @@
         }
       }
     },
+    "/api/Candidatos/crearVarios": {
+      "post": {
+        "tags": [
+          "Candidatos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Candidato"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Candidato"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Candidato"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Candidatos/cambiarEstado/{id}": {
       "put": {
         "tags": [
@@ -852,6 +892,85 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Elecciones/paginacion": {
+      "get": {
+        "tags": [
+          "Elecciones"
+        ],
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 7
+            }
+          },
+          {
+            "name": "busqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fechaInicio",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fechaFin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "tipoEleccion",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoEleccion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EleccionPaginacionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EleccionPaginacionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EleccionPaginacionDTO"
+                }
+              }
+            }
           }
         }
       }
@@ -3068,6 +3187,9 @@
             "minLength": 1,
             "type": "string"
           },
+          "tipoEleccion": {
+            "$ref": "#/components/schemas/TipoEleccion"
+          },
           "descripcion": {
             "maxLength": 500,
             "type": "string",
@@ -3088,6 +3210,35 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EleccionPaginacionDTO": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Eleccion"
+            },
+            "nullable": true
+          },
+          "pageActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRegistros": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -3403,6 +3554,9 @@
             "minLength": 1,
             "type": "string"
           },
+          "parroquiaRural": {
+            "type": "boolean"
+          },
           "activo": {
             "type": "boolean"
           }
@@ -3585,6 +3739,13 @@
           "Alcalde",
           "ConcejalUrbano",
           "ConcejalRural"
+        ],
+        "type": "string"
+      },
+      "TipoEleccion": {
+        "enum": [
+          "General",
+          "Seccional"
         ],
         "type": "string"
       },

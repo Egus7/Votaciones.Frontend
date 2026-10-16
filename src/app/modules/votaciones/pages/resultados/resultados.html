@@ -1,0 +1,80 @@
+<div class="axis-page">
+  <div class="axis-container">
+    <!-- Encabezado -->
+    <div class="axis-page-header">
+      <div>
+        <h1 class="axis-page-title">Resultados electorales</h1>
+        <p class="axis-page-subtitle">Seleccione la dignidad que desea consultar.</p>
+      </div>
+    </div>
+    <!-- Contexto de la elección -->
+    @if (eleccion()) {
+      <div class="election-summary">
+        <div class="election-summary-icon">
+          <mat-icon>how_to_vote</mat-icon>
+        </div>
+        <div class="election-summary-content">
+          <div class="election-summary-header">
+            <h2 class="election-summary-label">{{ eleccion()?.nombreEleccion }}</h2>
+          </div>
+          <span class="election-summary-label">{{ eleccion()?.descripcion }}</span>
+          <!-- Regresar -->
+          <div class="resultados-section-header">
+          <button mat-stroked-button type="button" class="axis-button-secondary" routerLink="/votaciones">
+            <mat-icon>arrow_back</mat-icon> Regresar a votaciones
+          </button>
+          </div>
+        </div>
+      </div>
+    }
+    <!-- Contenido -->
+    <div class="axis-page-content">
+      @if (cargando()) {
+        <div class="axis-card p-4 text-center">
+          <mat-icon>hourglass_top</mat-icon>
+          <p class="mb-0">Cargando dignidades...</p>
+        </div>
+      } @else {
+        <div class="row g-4">
+          @for (dignidad of dignidadesDisponibles(); track dignidad.tipoCandidato) {
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="axis-card election-card h-100">
+                <div class="axis-card-content">
+                  <!-- Cabecera de tarjeta -->
+                  <div class="election-card-header">
+                    <div class="election-card-icon">
+                      <mat-icon>{{ dignidad.icono }}</mat-icon>
+                    </div>
+                  </div>
+                  <div class="election-card-header">
+                    <h3 class="election-card-title">{{ dignidad.nombre }}</h3>
+                  </div>
+                  <!-- Información -->
+                  <p class="election-card-description">{{ dignidad.descripcion }}</p>
+                  <!-- Acción -->
+                  <div class="election-card-footer">
+                    <button mat-flat-button color="primary" type="button"
+                            (click)="seleccionarDignidad(dignidad)"> Ver resultados
+                      <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          } @empty {
+            <div class="col-12">
+              <div class="axis-card">
+                <div class="axis-table-empty">
+                  <mat-icon>info</mat-icon>
+                  <p class="mb-0">
+                    No hay dignidades disponibles para esta elección.
+                  </p>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

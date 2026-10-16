@@ -42,7 +42,13 @@
                     <div class="election-card-icon">
                       <mat-icon>how_to_vote</mat-icon>
                     </div>
-                    <span class="axis-status axis-status-warning">{{ eleccion.estado }}</span>
+                    @if (eleccion.estado == 'Planificada') {
+                      <span class="axis-status axis-status-warning">{{ eleccion.estado }}</span>
+                    } @else if (eleccion.estado == 'Activa') {
+                      <span class="axis-status axis-status-success">{{ eleccion.estado }}</span>
+                    } @else {
+                      <span class="axis-status axis-status-danger">{{ eleccion.estado }}</span>
+                    }
                   </div>
                   <h3 class="election-card-title">{{ eleccion.nombreEleccion }}</h3>
                   <p class="election-card-description">{{ eleccion.descripcion }}</p>
@@ -55,9 +61,15 @@
                     </div>
                   </div>
                   <div class="election-card-footer">
+                    <!-- Ingresar -->
                     <button mat-flat-button color="primary" type="button"
                             (click)="seleccionarEleccion(eleccion)">
                       Ingresar
+                    </button>
+                    <!-- Resultados -->
+                    <button mat-flat-button color="primary" type="button" (click)="verResultados(eleccion)"
+                            [disabled]="eleccion.estado != 'Activa' && eleccion.estado != 'Cerrada'">
+                      Resultados
                     </button>
                   </div>
                 </div>

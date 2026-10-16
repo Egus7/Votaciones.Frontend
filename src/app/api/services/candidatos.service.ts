@@ -11,6 +11,8 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { apiCandidatosCambiarEstadoIdPut } from '../fn/candidatos/api-candidatos-cambiar-estado-id-put';
 import { ApiCandidatosCambiarEstadoIdPut$Params } from '../fn/candidatos/api-candidatos-cambiar-estado-id-put';
+import { apiCandidatosCrearVariosPost } from '../fn/candidatos/api-candidatos-crear-varios-post';
+import { ApiCandidatosCrearVariosPost$Params } from '../fn/candidatos/api-candidatos-crear-varios-post';
 import { apiCandidatosIdGet$Json } from '../fn/candidatos/api-candidatos-id-get-json';
 import { ApiCandidatosIdGet$Json$Params } from '../fn/candidatos/api-candidatos-id-get-json';
 import { apiCandidatosIdGet$Plain } from '../fn/candidatos/api-candidatos-id-get-plain';
@@ -199,6 +201,31 @@ export class CandidatosService extends BaseService {
   apiCandidatosPost$Json(params?: ApiCandidatosPost$Json$Params, context?: HttpContext): Promise<Candidato> {
     const resp = this.apiCandidatosPost$Json$Response(params, context);
     return resp.then((r: StrictHttpResponse<Candidato>): Candidato => r.body);
+  }
+
+  /** Path part for operation `apiCandidatosCrearVariosPost()` */
+  static readonly ApiCandidatosCrearVariosPostPath = '/api/Candidatos/crearVarios';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiCandidatosCrearVariosPost()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  apiCandidatosCrearVariosPost$Response(params?: ApiCandidatosCrearVariosPost$Params, context?: HttpContext): Promise<StrictHttpResponse<void>> {
+    const obs = apiCandidatosCrearVariosPost(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiCandidatosCrearVariosPost$Response()` instead.
+   *
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
+   */
+  apiCandidatosCrearVariosPost(params?: ApiCandidatosCrearVariosPost$Params, context?: HttpContext): Promise<void> {
+    const resp = this.apiCandidatosCrearVariosPost$Response(params, context);
+    return resp.then((r: StrictHttpResponse<void>): void => r.body);
   }
 
   /** Path part for operation `apiCandidatosCambiarEstadoIdPut()` */
