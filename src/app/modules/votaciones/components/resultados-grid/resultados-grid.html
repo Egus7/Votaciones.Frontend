@@ -4,9 +4,7 @@
     <div class="axis-page-header">
       <div>
         <h1 class="axis-page-title">Reportes de resultados</h1>
-        <p class="axis-page-subtitle">
-          Consulte los resultados electorales por dignidad y ubicación.
-        </p>
+        <p class="axis-page-subtitle">Consulte los resultados electorales por dignidad y ubicación.</p>
       </div>
     </div>
     <!-- FILTROS -->
@@ -14,7 +12,7 @@
       <div class="axis-card-content">
         <div class="row g-3">
           <!-- DIGNIDAD -->
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-2">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Dignidad</mat-label>
               <mat-select [(ngModel)]="tipoCandidato" (selectionChange)="cambioTipoCandidato()">
@@ -28,7 +26,7 @@
             </mat-form-field>
           </div>
           <!-- TIPO DE RESULTADO -->
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-2">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Tipo de resultado</mat-label>
               <mat-select [(ngModel)]="tipoResultado" (selectionChange)="cambioTipoResultado()">
@@ -37,8 +35,11 @@
               </mat-select>
             </mat-form-field>
           </div>
+        </div>
+        <!-- FILA 2 -->
+        <div class="row g-3">
           <!-- PROVINCIA -->
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Provincia</mat-label>
               <mat-select [(ngModel)]="provinciaId" (selectionChange)="cambioProvincia()">
@@ -52,7 +53,7 @@
             </mat-form-field>
           </div>
           <!-- CANTÓN -->
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-md-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Cantón</mat-label>
               <mat-select [(ngModel)]="cantonId" [disabled]="!provinciaId" (selectionChange)="cambioCanton()">
@@ -64,7 +65,7 @@
             </mat-form-field>
           </div>
           <!-- PARROQUIA -->
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-md-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Parroquia</mat-label>
               <mat-select [(ngModel)]="parroquiaId" [disabled]="!cantonId" (selectionChange)="cambioParroquia()">
@@ -75,14 +76,29 @@
               </mat-select>
             </mat-form-field>
           </div>
+        </div>
+        <!-- FILA 3 -->
+        <div class="row g-3">
           <!-- ZONA -->
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-md-3">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Zona</mat-label>
               <mat-select [(ngModel)]="zonaId" [disabled]="!parroquiaId" (selectionChange)="cambioZona()">
                 <mat-option [value]="undefined">Todas las zonas</mat-option>
                 @for (zona of zonas(); track zona.idZona) {
                   <mat-option [value]="zona.idZona">{{ zona.nombreZona }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- MESA ELECTORAL -->
+          <div class="col-12 col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Junta</mat-label>
+              <mat-select [(ngModel)]="mesaId" [disabled]="!zonaId" (selectionChange)="cambioMesa()">
+                <mat-option [value]="undefined">Todas las juntas</mat-option>
+                @for (mesa of mesas(); track mesa.idMesaElectoral) {
+                  <mat-option [value]="mesa.idMesaElectoral">{{ mesa.codigoMesa }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -100,109 +116,199 @@
         </div>
       </div>
     </div>
-    <!-- RESULTADOS -->
+    <!-- ESTADO DE CARGA -->
     @if (cargando()) {
-      <div class="axis-card mt-4">
+      <div class="axis-card results-loading mt-4">
         <div class="axis-card-content text-center p-4">
           <mat-icon>hourglass_top</mat-icon>
           <p class="mb-0">Consultando resultados...</p>
         </div>
       </div>
+    <!-- RESULTADOS -->
     } @else if (resultado(); as datos) {
-      <div class="axis-card mt-4">
-        <div class="axis-card-content">
-          <h3 class="axis-card-title">Resultados Generales</h3>
-          <div class="row g-3 my-2">
-            <div class="col-6 col-md-4">
-              <div class="axis-card p-3">
-                <span>Total de mesas</span>
-                <h3>{{ datos.totalMesas ?? 0 }}</h3>
-              </div>
+      <!-- ENCABEZADO DEL REPORTE -->
+      <div class="results-heading">
+        <div>
+          <h2 class="results-title">Resumen electoral</h2>
+          <p class="results-description">Indicadores generales y distribución de votos.</p>
+        </div>
+        <span class="results-type" [class.results-type-official]="tipoResultado === 'Oficial'">
+          <span class="results-type-dot"></span>{{ tipoResultado }}
+        </span>
+      </div>
+      <!-- RESUMEN ELECTORAL -->
+      <div class="results-summary mt-4">
+        <!-- VOTOS BLANCOS Y NULOS -->
+        <section class="axis-card summary-card">
+          <div class="summary-card-header">
+            <mat-icon>ballot</mat-icon>
+            <h3>Votos blancos / nulos</h3>
+          </div>
+          <!-- Votos Blancos -->
+          <div class="summary-stat">
+            <span>Votos blancos</span>
+            <strong>{{ (datos.totalVotosBlancos ?? 0) | number }}</strong>
+          </div>
+          <div class="summary-divider"></div>
+          <!-- Votos Nulos -->
+          <div class="summary-stat">
+            <span>Votos nulos</span>
+            <strong>{{ (datos.totalVotosNulos ?? 0) | number }}</strong>
+          </div>
+        </section>
+        <!-- ACTAS -->
+        <section class="axis-card summary-card">
+          <!-- Actas validas -->
+          <div class="summary-stat summary-stat-primary">
+            <span>Actas válidas</span>
+            <strong>{{ (datos.mesasValidadas ?? 0) | number }}</strong>
+          </div>
+          <div class="summary-divider"></div>
+          <!-- Actas con novedad -->
+          <div class="summary-stat">
+            <span>Actas con novedad</span>
+            <strong>{{ ((datos.mesasRegistradas ?? 0) + (datos.mesasEnRevision ?? 0) +
+              (datos.mesasConInconsistencia ?? 0)) | number }}
+            </strong>
+          </div>
+          <div class="summary-divider"></div>
+          <!-- Total actas -->
+          <div class="summary-progress">
+            <div class="summary-progress-track">
+              <div class="summary-progress-fill" [style.width.%]="porcentajeActasValidadas()"></div>
             </div>
-            <div class="col-6 col-md-4">
-              <div class="axis-card p-3">
-                <span>Mesas registradas</span>
-                <h3>{{ datos.mesasRegistradas ?? 0 }}</h3>
-              </div>
-            </div>
-            <div class="col-6 col-md-4">
-              <div class="axis-card p-3">
-                <span>Mesas en revisión</span>
-                <h3>{{ datos.mesasEnRevision ?? 0 }}</h3>
-              </div>
-            </div>
-            <div class="col-6 col-md-4">
-              <div class="axis-card p-3">
-                <span>Mesas validadas</span>
-                <h3>{{ datos.mesasValidadas ?? 0 }}</h3>
-              </div>
-            </div>
-            <div class="col-6 col-md-4">
-              <div class="axis-card p-3">
-                <span>Total de votos</span>
-                <h3>{{ datos.totalVotos ?? 0 }}</h3>
-              </div>
-            </div>
-            <div class="col-6 col-md-4">
-              <div class="axis-card p-3">
-                <span>Votos válidos</span>
-                <h3>{{ datos.totalVotosValidos ?? 0 }}</h3>
-              </div>
-            </div>
-            <div class="col-6 col-md-4">
-              <div class="axis-card p-3">
-                <span>Votos blancos</span>
-                <h3>{{ datos.totalVotosBlancos ?? 0 }}</h3>
-              </div>
-            </div>
-            <div class="col-6 col-md-4">
-              <div class="axis-card p-3">
-                <span>Votos nulos</span>
-                <h3>{{ datos.totalVotosNulos ?? 0 }}</h3>
-              </div>
+            <div class="summary-progress-label">
+              <span>Total actas</span>
+              <strong>{{ (datos.mesasValidadas ?? 0) | number }} de
+                  {{ (datos.totalMesas ?? 0) | number }} actas
+              </strong>
             </div>
           </div>
-          <!-- DETALLE -->
-          <h3 class="mt-4">Detalle por candidato o lista</h3>
+        </section>
+        <!-- VOTOS -->
+        <section class="axis-card summary-card">
+          <div class="summary-card-header">
+            <mat-icon>how_to_vote</mat-icon>
+            <h3>Votos</h3>
+          </div>
+          <div class="summary-stat">
+            <span>Votos válidos</span>
+            <strong>{{ (datos.totalVotosValidos ?? 0) | number }}</strong>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-stat">
+            <span>Total de votos</span>
+            <strong>{{ (datos.totalVotos ?? 0) | number }}</strong>
+          </div>
+        </section>
+      </div>
+      <!-- GRÁFICOS -->
+      <div class="dashboard-charts mt-4">
+        <!-- VOTOS POR CANDIDATO O LISTA -->
+        <section class="axis-card chart-card">
+          <div class="chart-card-header">
+            <div>
+              <h3 class="chart-title">Votos por candidato o lista</h3>
+              <p class="chart-subtitle">Comparación de votos obtenidos</p>
+            </div>
+            <div class="chart-header-icon">
+              <mat-icon>bar_chart</mat-icon>
+            </div>
+          </div>
+          <!-- charts -->
           @if (datos.resultados?.length) {
-            <div class="table-responsive">
-              <table class="table table-hover align-middle">
-                <thead>
-                <tr>
-                  <th>Lista</th>
-                  <th>Candidato / lista electoral</th>
-                  <th class="text-end">Votos</th>
-                  <th class="text-end">Porcentaje</th>
-                </tr>
-                </thead>
-                <tbody>
-                  @for (item of datos.resultados; track item.listaElectoralId ?? item.candidatoId ?? $index) {
-                    <tr>
-                      <td>{{ item.numeroLista ?? '—' }}</td>
-                      @if (tipoCandidato == 'Alcalde') {
-                        <td>{{item.candidato ?? '-'}}
-                          <div><small>{{ item.lista ?? '—' }}</small></div>
-                        </td>
-                      } @else {
-                        <td>{{item.lista ?? '-'}}</td>
-                      }
-                      <td class="text-end">{{ item.votos ?? 0 }}</td>
-                      <td class="text-end">
-                        {{ item.porcentaje ?? 0 | number:'1.2-2' }}%
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
+            <div class="chart-container chart-container-bar">
+              <canvas baseChart [type]="'bar'" [data]="graficoVotosData()"
+                      [options]="graficoVotosOptions" [plugins]="graficoVotosPlugins">
+              </canvas>
             </div>
           } @else {
-            <div class="axis-table-empty">
-              <mat-icon>info</mat-icon>
-              <p>No existen resultados para los filtros seleccionados.</p>
+            <div class="chart-empty">
+              <mat-icon>bar_chart</mat-icon>
+              <p>No existen datos para graficar.</p>
             </div>
           }
-        </div>
+        </section>
+        <!-- DISTRIBUCIÓN DE VOTOS -->
+        <section class="axis-card chart-card">
+          <div class="chart-card-header">
+            <div>
+              <h3 class="chart-title">Distribución de votos</h3>
+              <p class="chart-subtitle">Participación según los votos registrados</p>
+            </div>
+            <div class="chart-header-icon">
+              <mat-icon>donut_large</mat-icon>
+            </div>
+          </div>
+          @if (datos.resultados?.length) {
+            <div class="chart-container chart-container-doughnut">
+              <canvas baseChart [type]="'doughnut'" [data]="graficoPorcentajeData()"
+                      [options]="graficoPorcentajeOptions">
+              </canvas>
+            </div>
+          } @else {
+            <div class="chart-empty">
+              <mat-icon>donut_large</mat-icon>
+              <p>No existen datos para graficar.</p>
+            </div>
+          }
+        </section>
       </div>
+      <!-- DETALLE DE RESULTADOS -->
+      <section class="axis-card results-table-card mt-4">
+        <div class="results-table-header">
+          <div>
+            <h3 class="axis-card-title mb-1">RESULTADOS</h3>
+            <p class="chart-subtitle mb-0">Resultados correspondientes a la acta seleccionada.</p>
+          </div>
+          <mat-icon>table_chart</mat-icon>
+        </div>
+        @if (datos.resultados?.length) {
+          <div class="axis-table-container">
+            <table class="axis-table">
+              <thead>
+              <tr>
+                <th>Lista</th>
+                <th>Candidato / lista electoral</th>
+                <th class="right">Votos</th>
+                <th class="right">Porcentaje</th>
+              </tr>
+              </thead>
+              <tbody>
+                @for (item of datos.resultados;
+                  track item.listaElectoralId ?? item.candidatoId ?? $index) {
+                  <tr>
+                    <td>
+                      <span class="results-list-number">{{ item.numeroLista ?? '—' }}</span>
+                    </td>
+                    @if (tipoCandidato === 'Alcalde') {
+                      <td>
+                        <span class="results-candidate-name">{{ item.candidato ?? '—' }}</span>
+                        <div class="axis-table-secondary">{{ item.lista ?? '—' }}</div>
+                      </td>
+                    } @else {
+                      <td>
+                        <span class="results-candidate-name">{{ item.lista ?? '—' }}</span>
+                      </td>
+                    }
+                    <td class="text-end results-votes">{{ item.votos ?? 0 | number }}</td>
+                    <td class="text-end">
+                      <span class="results-percentage">
+                        {{ (item.porcentaje ?? 0) | number:'1.2-2' }}%
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        } @else {
+          <div class="axis-table-empty">
+            <mat-icon>info</mat-icon>
+            <p>No existen resultados para los filtros seleccionados.</p>
+          </div>
+        }
+      </section>
     }
   </div>
 </div>

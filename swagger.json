@@ -1847,6 +1847,67 @@
         }
       }
     },
+    "/api/Resultados/eleccion/provincia": {
+      "get": {
+        "tags": [
+          "Resultados"
+        ],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "provinciaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
+            }
+          },
+          {
+            "name": "tipoResultado",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoResultado"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Resultados/eleccion/canton": {
       "get": {
         "tags": [
@@ -1985,6 +2046,67 @@
           },
           {
             "name": "zonaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
+            }
+          },
+          {
+            "name": "tipoResultado",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoResultado"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultadoEleccionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Resultados/eleccion/mesa": {
+      "get": {
+        "tags": [
+          "Resultados"
+        ],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "mesaId",
             "in": "query",
             "schema": {
               "type": "string",

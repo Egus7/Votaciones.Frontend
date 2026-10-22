@@ -165,6 +165,17 @@ export class ActasForm implements OnInit {
     try {
       const response = await this.zonasService.provincias();
       this.provincias.set(response);
+      //Seleccionar Pichincha por defecto
+      if (this.acta.tipoCandidato != 'Presidente') {
+        const pichincha = response.find(
+          (x) => x.nombreProvincia!.trim().toLowerCase() === 'pichincha',
+        );
+        this.provinciaId = pichincha?.idProvincia;
+        //No llama al método si no se encontro la provincia
+        if (this.provinciaId) {
+          await this.cambioProvincia();
+        }
+      }
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);

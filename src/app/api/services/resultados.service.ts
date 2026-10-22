@@ -17,10 +17,18 @@ import { apiResultadosEleccionGet$Json } from '../fn/resultados/api-resultados-e
 import { ApiResultadosEleccionGet$Json$Params } from '../fn/resultados/api-resultados-eleccion-get-json';
 import { apiResultadosEleccionGet$Plain } from '../fn/resultados/api-resultados-eleccion-get-plain';
 import { ApiResultadosEleccionGet$Plain$Params } from '../fn/resultados/api-resultados-eleccion-get-plain';
+import { apiResultadosEleccionMesaGet$Json } from '../fn/resultados/api-resultados-eleccion-mesa-get-json';
+import { ApiResultadosEleccionMesaGet$Json$Params } from '../fn/resultados/api-resultados-eleccion-mesa-get-json';
+import { apiResultadosEleccionMesaGet$Plain } from '../fn/resultados/api-resultados-eleccion-mesa-get-plain';
+import { ApiResultadosEleccionMesaGet$Plain$Params } from '../fn/resultados/api-resultados-eleccion-mesa-get-plain';
 import { apiResultadosEleccionParroquiaGet$Json } from '../fn/resultados/api-resultados-eleccion-parroquia-get-json';
 import { ApiResultadosEleccionParroquiaGet$Json$Params } from '../fn/resultados/api-resultados-eleccion-parroquia-get-json';
 import { apiResultadosEleccionParroquiaGet$Plain } from '../fn/resultados/api-resultados-eleccion-parroquia-get-plain';
 import { ApiResultadosEleccionParroquiaGet$Plain$Params } from '../fn/resultados/api-resultados-eleccion-parroquia-get-plain';
+import { apiResultadosEleccionProvinciaGet$Json } from '../fn/resultados/api-resultados-eleccion-provincia-get-json';
+import { ApiResultadosEleccionProvinciaGet$Json$Params } from '../fn/resultados/api-resultados-eleccion-provincia-get-json';
+import { apiResultadosEleccionProvinciaGet$Plain } from '../fn/resultados/api-resultados-eleccion-provincia-get-plain';
+import { ApiResultadosEleccionProvinciaGet$Plain$Params } from '../fn/resultados/api-resultados-eleccion-provincia-get-plain';
 import { apiResultadosEleccionZonaGet$Json } from '../fn/resultados/api-resultados-eleccion-zona-get-json';
 import { ApiResultadosEleccionZonaGet$Json$Params } from '../fn/resultados/api-resultados-eleccion-zona-get-json';
 import { apiResultadosEleccionZonaGet$Plain } from '../fn/resultados/api-resultados-eleccion-zona-get-plain';
@@ -77,6 +85,53 @@ export class ResultadosService extends BaseService {
    */
   apiResultadosEleccionGet$Json(params?: ApiResultadosEleccionGet$Json$Params, context?: HttpContext): Promise<ResultadoEleccionDto> {
     const resp = this.apiResultadosEleccionGet$Json$Response(params, context);
+    return resp.then((r: StrictHttpResponse<ResultadoEleccionDto>): ResultadoEleccionDto => r.body);
+  }
+
+  /** Path part for operation `apiResultadosEleccionProvinciaGet()` */
+  static readonly ApiResultadosEleccionProvinciaGetPath = '/api/Resultados/eleccion/provincia';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiResultadosEleccionProvinciaGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosEleccionProvinciaGet$Plain$Response(params?: ApiResultadosEleccionProvinciaGet$Plain$Params, context?: HttpContext): Promise<StrictHttpResponse<ResultadoEleccionDto>> {
+    const obs = apiResultadosEleccionProvinciaGet$Plain(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiResultadosEleccionProvinciaGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosEleccionProvinciaGet$Plain(params?: ApiResultadosEleccionProvinciaGet$Plain$Params, context?: HttpContext): Promise<ResultadoEleccionDto> {
+    const resp = this.apiResultadosEleccionProvinciaGet$Plain$Response(params, context);
+    return resp.then((r: StrictHttpResponse<ResultadoEleccionDto>): ResultadoEleccionDto => r.body);
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiResultadosEleccionProvinciaGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosEleccionProvinciaGet$Json$Response(params?: ApiResultadosEleccionProvinciaGet$Json$Params, context?: HttpContext): Promise<StrictHttpResponse<ResultadoEleccionDto>> {
+    const obs = apiResultadosEleccionProvinciaGet$Json(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiResultadosEleccionProvinciaGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosEleccionProvinciaGet$Json(params?: ApiResultadosEleccionProvinciaGet$Json$Params, context?: HttpContext): Promise<ResultadoEleccionDto> {
+    const resp = this.apiResultadosEleccionProvinciaGet$Json$Response(params, context);
     return resp.then((r: StrictHttpResponse<ResultadoEleccionDto>): ResultadoEleccionDto => r.body);
   }
 
@@ -218,6 +273,53 @@ export class ResultadosService extends BaseService {
    */
   apiResultadosEleccionZonaGet$Json(params?: ApiResultadosEleccionZonaGet$Json$Params, context?: HttpContext): Promise<ResultadoEleccionDto> {
     const resp = this.apiResultadosEleccionZonaGet$Json$Response(params, context);
+    return resp.then((r: StrictHttpResponse<ResultadoEleccionDto>): ResultadoEleccionDto => r.body);
+  }
+
+  /** Path part for operation `apiResultadosEleccionMesaGet()` */
+  static readonly ApiResultadosEleccionMesaGetPath = '/api/Resultados/eleccion/mesa';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiResultadosEleccionMesaGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosEleccionMesaGet$Plain$Response(params?: ApiResultadosEleccionMesaGet$Plain$Params, context?: HttpContext): Promise<StrictHttpResponse<ResultadoEleccionDto>> {
+    const obs = apiResultadosEleccionMesaGet$Plain(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiResultadosEleccionMesaGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosEleccionMesaGet$Plain(params?: ApiResultadosEleccionMesaGet$Plain$Params, context?: HttpContext): Promise<ResultadoEleccionDto> {
+    const resp = this.apiResultadosEleccionMesaGet$Plain$Response(params, context);
+    return resp.then((r: StrictHttpResponse<ResultadoEleccionDto>): ResultadoEleccionDto => r.body);
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiResultadosEleccionMesaGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosEleccionMesaGet$Json$Response(params?: ApiResultadosEleccionMesaGet$Json$Params, context?: HttpContext): Promise<StrictHttpResponse<ResultadoEleccionDto>> {
+    const obs = apiResultadosEleccionMesaGet$Json(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiResultadosEleccionMesaGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosEleccionMesaGet$Json(params?: ApiResultadosEleccionMesaGet$Json$Params, context?: HttpContext): Promise<ResultadoEleccionDto> {
+    const resp = this.apiResultadosEleccionMesaGet$Json$Response(params, context);
     return resp.then((r: StrictHttpResponse<ResultadoEleccionDto>): ResultadoEleccionDto => r.body);
   }
 

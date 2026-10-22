@@ -8,6 +8,7 @@ import { TipoCandidato } from '../../api/models/tipo-candidato';
 export interface ResultadosActualizadosEvent {
   eleccionId: string;
   tipoCandidato: TipoCandidato;
+  mesaId: string;
   zonaId: string;
   parroquiaId: string;
   cantonId: string;
@@ -83,6 +84,7 @@ export class ResultadosSignalrService {
       (
         eleccionId: string,
         tipoCandidatoNumero: number,
+        mesaId: string,
         zonaId: string,
         parroquiaId: string,
         cantonId: string,
@@ -91,6 +93,7 @@ export class ResultadosSignalrService {
         const evento: ResultadosActualizadosEvent = {
           eleccionId,
           tipoCandidato: TIPO_CANDIDATO_TEXTO[tipoCandidatoNumero],
+          mesaId,
           zonaId,
           parroquiaId,
           cantonId,

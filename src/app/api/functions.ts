@@ -127,6 +127,10 @@ export type { ApiResultadosEleccionGet$Plain$Params as ApiResultadosEleccionGet$
 export { apiResultadosEleccionGet$Plain as apiResultadosEleccionGet$Plain } from './fn/resultados/api-resultados-eleccion-get-plain';
 export type { ApiResultadosEleccionGet$Json$Params as ApiResultadosEleccionGet$Json$Params } from './fn/resultados/api-resultados-eleccion-get-json';
 export { apiResultadosEleccionGet$Json as apiResultadosEleccionGet$Json } from './fn/resultados/api-resultados-eleccion-get-json';
+export type { ApiResultadosEleccionProvinciaGet$Plain$Params as ApiResultadosEleccionProvinciaGet$Plain$Params } from './fn/resultados/api-resultados-eleccion-provincia-get-plain';
+export { apiResultadosEleccionProvinciaGet$Plain as apiResultadosEleccionProvinciaGet$Plain } from './fn/resultados/api-resultados-eleccion-provincia-get-plain';
+export type { ApiResultadosEleccionProvinciaGet$Json$Params as ApiResultadosEleccionProvinciaGet$Json$Params } from './fn/resultados/api-resultados-eleccion-provincia-get-json';
+export { apiResultadosEleccionProvinciaGet$Json as apiResultadosEleccionProvinciaGet$Json } from './fn/resultados/api-resultados-eleccion-provincia-get-json';
 export type { ApiResultadosEleccionCantonGet$Plain$Params as ApiResultadosEleccionCantonGet$Plain$Params } from './fn/resultados/api-resultados-eleccion-canton-get-plain';
 export { apiResultadosEleccionCantonGet$Plain as apiResultadosEleccionCantonGet$Plain } from './fn/resultados/api-resultados-eleccion-canton-get-plain';
 export type { ApiResultadosEleccionCantonGet$Json$Params as ApiResultadosEleccionCantonGet$Json$Params } from './fn/resultados/api-resultados-eleccion-canton-get-json';
@@ -139,6 +143,10 @@ export type { ApiResultadosEleccionZonaGet$Plain$Params as ApiResultadosEleccion
 export { apiResultadosEleccionZonaGet$Plain as apiResultadosEleccionZonaGet$Plain } from './fn/resultados/api-resultados-eleccion-zona-get-plain';
 export type { ApiResultadosEleccionZonaGet$Json$Params as ApiResultadosEleccionZonaGet$Json$Params } from './fn/resultados/api-resultados-eleccion-zona-get-json';
 export { apiResultadosEleccionZonaGet$Json as apiResultadosEleccionZonaGet$Json } from './fn/resultados/api-resultados-eleccion-zona-get-json';
+export type { ApiResultadosEleccionMesaGet$Plain$Params as ApiResultadosEleccionMesaGet$Plain$Params } from './fn/resultados/api-resultados-eleccion-mesa-get-plain';
+export { apiResultadosEleccionMesaGet$Plain as apiResultadosEleccionMesaGet$Plain } from './fn/resultados/api-resultados-eleccion-mesa-get-plain';
+export type { ApiResultadosEleccionMesaGet$Json$Params as ApiResultadosEleccionMesaGet$Json$Params } from './fn/resultados/api-resultados-eleccion-mesa-get-json';
+export { apiResultadosEleccionMesaGet$Json as apiResultadosEleccionMesaGet$Json } from './fn/resultados/api-resultados-eleccion-mesa-get-json';
 export type { ApiRolesPaginacionGet$Plain$Params as ApiRolesPaginacionGet$Plain$Params } from './fn/roles/api-roles-paginacion-get-plain';
 export { apiRolesPaginacionGet$Plain as apiRolesPaginacionGet$Plain } from './fn/roles/api-roles-paginacion-get-plain';
 export type { ApiRolesPaginacionGet$Json$Params as ApiRolesPaginacionGet$Json$Params } from './fn/roles/api-roles-paginacion-get-json';

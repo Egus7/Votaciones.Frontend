@@ -1,0 +1,312 @@
+/* ENCABEZADO DEL REPORTE */
+.results-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 28px 0 18px;
+}
+.results-title {
+  margin: 0 0 5px;
+  color: #1e293b;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+.results-description, .chart-subtitle {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.results-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.results-type-official {
+  background: #ecfdf5;
+  color: #047857;
+}
+.results-type-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* RESUMEN ELECTORAL */
+.results-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+  align-items: stretch;
+}
+
+.summary-card {
+  min-width: 0;
+  padding: var(--space-lg);
+}
+.summary-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+.summary-card-header mat-icon {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+.summary-card-header h3 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+}
+/* Etiqueta a la izquierda y valor a la derecha */
+.summary-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+.summary-stat > span {
+  min-width: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+.summary-stat > strong {
+  flex-shrink: 0;
+  color: var(--color-text);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.summary-stat-primary > strong {
+  color: var(--color-primary);
+  font-size: 1.5rem;
+}
+.summary-divider {
+  height: 1px;
+  margin: var(--space-md) 0;
+  background-color: var(--color-border);
+}
+
+/* AVANCE DE ACTAS */
+.summary-progress {
+  margin-top: var(--space-lg);
+}
+.summary-progress-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background-color: #e8edf5;
+}
+.summary-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--color-primary);
+  transition: width 250ms ease;
+}
+.summary-progress-label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+}
+.summary-progress-label span {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+}
+.summary-progress-label strong {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* CONTENEDOR DE GRÁFICOS */
+.dashboard-charts {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+.dashboard-charts > .chart-card {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.chart-card {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #e8edf4;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgb(15 23 42 / 4%);
+}
+.chart-card-header, .results-table-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.chart-title {
+  margin: 0 0 6px;
+  color: #1e293b;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.chart-header-icon, .results-table-header > mat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+.chart-container-bar {
+  height: 350px;
+}
+.chart-container-doughnut {
+  height: 350px;
+}
+.chart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 250px;
+  color: #94a3b8;
+  text-align: center;
+}
+.chart-empty mat-icon {
+  width: 36px;
+  height: 36px;
+  font-size: 36px;
+}
+.chart-empty p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* TABLA DE RESULTADOS */
+.results-table-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #e8edf4;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgb(15 23 42 / 4%);
+}
+.results-table-header {
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.results-list-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 35px;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+.results-candidate-name {
+  color: #1e293b;
+  font-weight: 600;
+}
+.results-votes {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.results-percentage {
+  color: #1d4ed8;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+/* CARGA */
+.results-loading {
+  margin-top: 24px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1199px) {
+  .dashboard-charts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .chart-container-bar,
+  .chart-container-doughnut {
+    height: 320px;
+  }
+}
+
+@media (max-width: 900px) {
+  .results-summary {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .chart-container-bar {
+    height: 300px;
+  }
+}
+@media (max-width: 575.98px) {
+  .results-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .summary-card, .chart-card {
+    padding: 16px;
+  }
+  .summary-stat > span {
+    font-size: 0.82rem;
+  }
+  .summary-stat > strong {
+    font-size: 1.1rem;
+  }
+  .summary-stat-primary > strong {
+    font-size: 1.35rem;
+  }
+  .chart-container-bar {
+    height: 350px;
+  }
+  .chart-container-doughnut {
+    height: 300px;
+  }
+  .results-table-card {
+    padding: 14px;
+  }
+  .results-table-header {
+    align-items: flex-start;
+  }
+}
+

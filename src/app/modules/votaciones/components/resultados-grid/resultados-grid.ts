@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Signal, signal } from '@angular/core';
+import { Component, computed, OnDestroy, OnInit, Signal, signal } from '@angular/core';
 import { TipoCandidato } from '../../../../api/models/tipo-candidato';
 import { Enlace, EnlaceSub } from '../../../../Config';
 import { ResultadoEleccionDto } from '../../../../api/models/resultado-eleccion-dto';
@@ -25,6 +25,14 @@ import {
   ResultadosActualizadosEvent,
   ResultadosSignalrService,
 } from '../../../../core/services/resultados-signalr.service';
+import { BaseChartDirective } from 'ng2-charts';
+import { Chart, ChartConfiguration, Plugin } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { MesasElectoralService } from '../../../../api/services/mesas-electoral.service';
+import { MesaElectoralDto } from '../../../../api/models/mesa-electoral-dto';
+
+// Registrar las etiquetas de los gráficos una sola vez.
+Chart.register(ChartDataLabels);
 
 @Component({
   selector: 'app-resultados-grid',
@@ -36,6 +44,7 @@ import {
     MatButtonModule,
     MatIconModule,
     DecimalPipe,
+    BaseChartDirective,
   ],
   templateUrl: './resultados-grid.html',
   styleUrl: './resultados-grid.css',
@@ -53,6 +62,7 @@ export class ResultadosGrid implements OnInit, OnDestroy {
   readonly cantones = signal<Canton[]>([]);
   readonly parroquias = signal<Parroquia[]>([]);
   readonly zonas = signal<Zona[]>([]);
+  readonly mesas = signal(<MesaElectoralDto[]>[]);
 
   // FILTROS
   eleccionId: string | undefined;
@@ -63,11 +73,228 @@ export class ResultadosGrid implements OnInit, OnDestroy {
   cantonId: string | undefined;
   parroquiaId: string | undefined;
   zonaId: string | undefined;
+  mesaId: string | undefined;
+
+  // PORCENTAJE DE ACTAS VALIDADAS
+  porcentajeActasValidadas = computed(() => {
+    const datos = this.resultado();
+    const total = datos?.totalMesas ?? 0;
+    const validadas = datos?.mesasValidadas ?? 0;
+
+    if (total <= 0) {
+      return 0;
+    }
+    return Math.min(100, (validadas / total) * 100);
+  });
+  // GRÁFICO DE BARRAS: VOTOS POR CANDIDATO/LISTA
+  readonly graficoVotosData = computed<ChartConfiguration<'bar'>['data']>(() => {
+    const items = this.resultado()?.resultados ?? [];
+
+    return {
+      labels: items.map((item) => this.obtenerNombreGrafico(item)),
+      datasets: [
+        {
+          label: 'Votos',
+          data: items.map((item) => Number(item.votos ?? 0)),
+          backgroundColor: '#2478f3',
+          hoverBackgroundColor: '#175ed1',
+          borderRadius: 5,
+          borderSkipped: false,
+          maxBarThickness: 36,
+        },
+      ],
+    };
+  });
+
+  graficoVotosOptions: ChartConfiguration<'bar'>['options'] = {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    // Espacio para los nombres a la izquierda de las barras.
+    onResize: (chart) => {
+      const ancho = chart.width;
+      const paddingIzquierdo = ancho < 400 ? 105 : ancho < 600 ? 125 : ancho < 900 ? 145 : 170;
+
+      chart.options.layout = {
+        ...chart.options.layout,
+        padding: {
+          left: paddingIzquierdo,
+          right: 16,
+        },
+      };
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'end',
+        offset: 4,
+        clamp: true,
+        color: '#334155',
+        font: {
+          size: 14,
+          weight: 'bold',
+        },
+        formatter: (_valor, contexto) => {
+          const item = this.resultado()?.resultados?.[contexto.dataIndex];
+          return `${(item?.votos ?? 0).toFixed(0)}`;
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            const item = this.resultado()?.resultados?.[context.dataIndex];
+            const votos = Number(context.raw ?? 0).toLocaleString('es-EC');
+            const porcentaje = (item?.porcentaje ?? 0).toFixed(2);
+
+            return `${votos} votos (${porcentaje}%)`;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        type: 'linear',
+        beginAtZero: true,
+        grace: '12%',
+        ticks: {
+          precision: 0,
+        },
+      },
+      y: {
+        ticks: {
+          display: false,
+        },
+        border: {
+          display: false,
+        },
+      },
+    },
+  };
+  //plugins
+  readonly graficoVotosPlugins: Plugin<'bar'>[] = [
+    {
+      id: 'etiquetasCandidatoLista',
+      afterDraw: (chart) => {
+        const items = this.resultado()?.resultados ?? [];
+        const escalaY = chart.scales['y'];
+
+        if (!escalaY || !items.length) {
+          return;
+        }
+        const ctx = chart.ctx;
+        const anchoTexto =
+          chart.width < 400 ? 90 : chart.width < 600 ? 110 : chart.width < 900 ? 130 : 150;
+        // Espacio reservado a la izquierda del gráfico.
+        const x = Math.max(8, chart.chartArea.left - anchoTexto - 10);
+        ctx.save();
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+
+        items.forEach((item, index) => {
+          const y = escalaY.getPixelForValue(index);
+          const nombre = this.obtenerNombreGrafico(item);
+          const subtitulo = this.obtenerSubtituloGrafico(item);
+          // Nombre del candidato o de la lista.
+          ctx.fillStyle = '#1e293b';
+          ctx.font = '600 12px Inter, sans-serif';
+
+          ctx.fillText(this.truncarTexto(ctx, nombre, anchoTexto), x, subtitulo ? y - 6 : y);
+
+          // Número y nombre de la lista electoral.
+          if (subtitulo) {
+            ctx.fillStyle = '#64748b';
+            ctx.font = '10px Inter, sans-serif';
+
+            ctx.fillText(this.truncarTexto(ctx, subtitulo, anchoTexto), x, y + 9);
+          }
+        });
+        ctx.restore();
+      },
+    },
+  ];
+
+  // GRÁFICO DE DONA: DISTRIBUCIÓN DE VOTOS
+  readonly graficoPorcentajeData = computed<ChartConfiguration<'doughnut'>['data']>(() => {
+    const items = this.resultado()?.resultados ?? [];
+
+    return {
+      labels: items.map((item) => this.obtenerNombreGrafico(item)),
+      datasets: [
+        {
+          data: items.map((item) => Number(item.votos ?? 0)),
+          backgroundColor: [
+            '#2478f3',
+            '#0d9488',
+            '#f59e0b',
+            '#8b5cf6',
+            '#e11d48',
+            '#64748b',
+            '#65a30d',
+            '#0891b2',
+            '#d946ef',
+            '#ea580c',
+          ],
+          borderColor: '#ffffff',
+          borderWidth: 3,
+          hoverOffset: 6,
+        },
+      ],
+    };
+  });
+
+  readonly graficoPorcentajeOptions: ChartConfiguration<'doughnut'>['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '68%',
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: 16,
+          boxWidth: 8,
+        },
+      },
+      datalabels: {
+        color: '#ffffff',
+        font: {
+          weight: 'bold',
+          size: 11,
+        },
+        formatter: (valor, contexto) => {
+          const valores = contexto.dataset.data as number[];
+          const total = valores.reduce((suma, actual) => suma + Number(actual ?? 0), 0);
+          const votos = Number(valor ?? 0);
+          // No mostrar porcentajes si no hay votos.
+          if (total <= 0 || votos <= 0) {
+            return '';
+          }
+          return `${((votos / total) * 100).toFixed(2)}%`;
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            const valores = context.dataset.data as number[];
+            const total = valores.reduce((suma, valor) => suma + Number(valor ?? 0), 0);
+            const votos = Number(context.raw ?? 0);
+            const porcentaje = total > 0 ? (votos / total) * 100 : 0;
+            return ` ${votos.toLocaleString('es-EC')} votos (${porcentaje.toFixed(2)}%)`;
+          },
+        },
+      },
+    },
+  };
 
   constructor(
     private resultadosService: ResultadosService,
     private lugarVotacionService: LugarVotacionService,
     private eleccionContexto: EleccionContexto,
+    private mesasService: MesasElectoralService,
     private resultadosSignalr: ResultadosSignalrService,
     private router: Router,
     private swalMensaje: MensajeService,
@@ -112,7 +339,7 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     }
   }
 
-  // UNIRSE AL GRUPO DE LA ELECCIÓN Y DIGNIDAD
+  // SIGNALR
   private async unirseAGrupoResultados(): Promise<void> {
     if (!this.eleccionId || !this.tipoCandidato) {
       return;
@@ -128,7 +355,7 @@ export class ResultadosGrid implements OnInit, OnDestroy {
 
   // PROCESAR NOTIFICACIÓN RECIBIDA
   private async procesarResultadosActualizados(evento: ResultadosActualizadosEvent): Promise<void> {
-    if (!this.eleccionId || !this.tipoCandidato || !this.resultado()) {
+    if (!this.eleccionId || !this.tipoCandidato) {
       return;
     }
     // Validar elección y dignidad.
@@ -142,17 +369,24 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     if (!this.coincideUbicacion(evento)) {
       return;
     }
-    // Si hay una consulta en curso, dejar pendiente la actualización.
+    // Sí hay una consulta en curso, dejar pendiente la actualización.
     if (this.cargando()) {
       this.actualizacionPendiente = true;
       return;
     }
-    // Actualizar los resultados con los filtros que el usuario mantiene.
+    // No consultar automáticamente si todavía no se ha realizado una consulta inicial.
+    if (!this.resultado()) {
+      return;
+    }
+    // Actualizar los resultados con los filtros seleccionados.
     await this.consultarResultados();
   }
 
   // COMPROBAR SI LA NOTIFICACIÓN AFECTA AL ÁMBITO CONSULTADO
   private coincideUbicacion(evento: ResultadosActualizadosEvent): boolean {
+    if (this.mesaId) {
+      return evento.mesaId === this.mesaId;
+    }
     if (this.zonaId) {
       return evento.zonaId === this.zonaId;
     }
@@ -168,7 +402,7 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     // se consultan los resultados nacionales.
     return true;
   }
-  // LIBERAR SUSCRIPCIÓN
+
   ngOnDestroy(): void {
     this.suscripcionResultados?.unsubscribe();
 
@@ -183,6 +417,17 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     try {
       const response = await this.lugarVotacionService.provincias();
       this.provincias.set(response);
+      //Seleccionar Pichincha por defecto
+      if (this.tipoCandidato != 'Presidente') {
+        const pichincha = response.find(
+          (x) => x.nombreProvincia!.trim().toLowerCase() === 'pichincha',
+        );
+        this.provinciaId = pichincha?.idProvincia;
+        //No llama al método si no se encontro la provincia
+        if (this.provinciaId) {
+          await this.cambioProvincia();
+        }
+      }
     } catch (error) {
       await this.mostrarError(error);
       this.provincias.set([]);
@@ -194,10 +439,12 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     this.cantonId = undefined;
     this.parroquiaId = undefined;
     this.zonaId = undefined;
+    this.mesaId = undefined;
 
     this.cantones.set([]);
     this.parroquias.set([]);
     this.zonas.set([]);
+    this.mesas.set([]);
     this.resultado.set(null);
 
     if (!this.tipoCandidato) {
@@ -217,10 +464,12 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     this.cantonId = undefined;
     this.parroquiaId = undefined;
     this.zonaId = undefined;
+    this.mesaId = undefined;
 
     this.cantones.set([]);
     this.parroquias.set([]);
     this.zonas.set([]);
+    this.mesas.set([]);
     this.resultado.set(null);
 
     if (!this.provinciaId) {
@@ -239,9 +488,11 @@ export class ResultadosGrid implements OnInit, OnDestroy {
   async cambioCanton(): Promise<void> {
     this.parroquiaId = undefined;
     this.zonaId = undefined;
+    this.mesaId = undefined;
 
     this.parroquias.set([]);
     this.zonas.set([]);
+    this.mesas.set([]);
     this.resultado.set(null);
 
     if (!this.cantonId) {
@@ -260,7 +511,10 @@ export class ResultadosGrid implements OnInit, OnDestroy {
   // CAMBIO DE PARROQUIA
   async cambioParroquia(): Promise<void> {
     this.zonaId = undefined;
+    this.mesaId = undefined;
+
     this.zonas.set([]);
+    this.mesas.set([]);
     this.resultado.set(null);
 
     if (!this.parroquiaId) {
@@ -276,7 +530,29 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     }
   }
   // CAMBIO DE ZONA
-  cambioZona(): void {
+  async cambioZona(): Promise<void> {
+    this.mesaId = undefined;
+
+    this.mesas.set([]);
+    this.resultado.set(null);
+
+    if (!this.zonaId) {
+      return;
+    }
+
+    try {
+      const response = await this.mesasService.apiMesasElectoralZonaGet$Json({
+        eleccionId: this.eleccionId,
+        zonaId: this.zonaId,
+      });
+      this.mesas.set(response);
+    } catch (error) {
+      await this.mostrarError(error);
+      this.mesas.set([]);
+    }
+  }
+
+  cambioMesa() {
     this.resultado.set(null);
   }
 
@@ -306,7 +582,12 @@ export class ResultadosGrid implements OnInit, OnDestroy {
       let response: ResultadoEleccionDto;
 
       // Consultar según la ubicación más específica seleccionada.
-      if (this.zonaId) {
+      if (this.mesaId) {
+        response = await this.resultadosService.apiResultadosEleccionMesaGet$Json({
+          ...parametros,
+          mesaId: this.mesaId,
+        });
+      } else if (this.zonaId) {
         response = await this.resultadosService.apiResultadosEleccionZonaGet$Json({
           ...parametros,
           zonaId: this.zonaId,
@@ -321,13 +602,17 @@ export class ResultadosGrid implements OnInit, OnDestroy {
           ...parametros,
           cantonId: this.cantonId,
         });
+      } else if (this.provinciaId) {
+        response = await this.resultadosService.apiResultadosEleccionProvinciaGet$Json({
+          ...parametros,
+          provinciaId: this.provinciaId,
+        });
       } else {
         response = await this.resultadosService.apiResultadosEleccionGet$Json({
           ...parametros,
         });
       }
       this.resultado.set(response);
-
     } catch (error) {
       await this.mostrarError(error);
     } finally {
@@ -368,6 +653,35 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     }
 
     return true;
+  }
+  // ETIQUETAS DE GRÁFICOS
+  obtenerNombreGrafico(item: NonNullable<ResultadoEleccionDto['resultados']>[number]): string {
+    if (this.tipoCandidato === 'Alcalde' || this.tipoCandidato === 'Prefecto') {
+      return item.candidato ?? 'Sin identificación';
+    }
+
+    return item.lista ?? 'Sin identificación';
+  }
+
+  // SUBTÍTULO CON LA LISTA ELECTORAL
+  obtenerSubtituloGrafico(item: NonNullable<ResultadoEleccionDto['resultados']>[number]): string {
+    if (this.tipoCandidato !== 'Alcalde' && this.tipoCandidato !== 'Prefecto') {
+      return '';
+    }
+
+    return item.lista ?? '';
+  }
+
+  private truncarTexto(ctx: CanvasRenderingContext2D, texto: string, anchoMaximo: number): string {
+    if (ctx.measureText(texto).width <= anchoMaximo) {
+      return texto;
+    }
+
+    let textoCorto = texto;
+    while (textoCorto.length > 0 && ctx.measureText(`${textoCorto}…`).width > anchoMaximo) {
+      textoCorto = textoCorto.slice(0, -1);
+    }
+    return `${textoCorto}…`;
   }
 
   // MANEJO DE ERRORES
