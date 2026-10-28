@@ -1,0 +1,63 @@
+<div class="mapa" [class.mapa-deshabilitado]="deshabilitado()">
+  <!-- NAVEGACIÓN -->
+  <div class="mapa-header">
+    <nav class="mapa-ruta" aria-label="Ubicación en el mapa">
+      <button type="button" [class.activo]="nivel() === 'provincia'" (click)="irANacional()">Ecuador</button>
+      @if (provincia(); as provinciaActual) {
+        <mat-icon>chevron_right</mat-icon>
+        <button type="button" [class.activo]="nivel() === 'canton'" (click)="irAProvincia()">
+          {{ provinciaActual.nombreProvincia }}
+        </button>
+      }
+      @if (canton(); as cantonActual) {
+        <mat-icon>chevron_right</mat-icon>
+        <button type="button" class="activo">{{ cantonActual.nombreCanton }}</button>
+      }
+    </nav>
+    <span class="mapa-titulo">{{ titulo() }}</span>
+  </div>
+
+  <!-- MAPA -->
+  <div class="mapa-contenedor">
+    @if (capa(); as capaActual) {
+      <div class="mapa-lienzo" [style.--proporcion]="proporcion()">
+        <svg [attr.viewBox]="capaActual.viewBox" preserveAspectRatio="xMidYMid meet" role="img"
+             aria-label="Mapa del Ecuador">
+          @if (capaActual.recuadro; as recuadro) {
+            <rect class="mapa-recuadro" [attr.x]="recuadro.x" [attr.y]="recuadro.y"
+                  [attr.width]="recuadro.w" [attr.height]="recuadro.h" rx="8" />
+            <text class="mapa-recuadro-texto" [attr.x]="recuadro.x + 6" [attr.y]="recuadro.y - 8">Galápagos</text>
+          }
+          @for (region of capaActual.items; track region.codigo) {
+            <path class="mapa-region" [attr.d]="region.d"
+                  [class.mapa-region-seleccionada]="esSeleccionada(region)"
+                  [class.mapa-region-sin-registro]="!obtenerId(region)"
+                  (mouseenter)="regionHover.set(region)" (mouseleave)="regionHover.set(null)"
+                  (click)="seleccionar(region)">
+            </path>
+          }
+        </svg>
+        <!-- TOOLTIP -->
+        @if (regionHover(); as hover) {
+          <div class="mapa-tooltip" [style.left.%]="posicion(hover).x" [style.top.%]="posicion(hover).y">
+            {{ obtenerNombre(hover) }}
+            @if (!obtenerId(hover)) {
+              <small>No registrada</small>
+            }
+          </div>
+        }
+      </div>
+    } @else if (!cargandoMapa()) {
+      <div class="mapa-vacio">
+        <mat-icon>map</mat-icon>
+        <p>No se pudo cargar el mapa.</p>
+      </div>
+    }
+    @if (cargandoMapa()) {
+      <div class="mapa-cargando">
+        <mat-icon>hourglass_top</mat-icon>
+      </div>
+    }
+  </div>
+  <!--<span class="mapa-fuente">Límites: CONALI – Organización Territorial del Estado (CC BY)</span>-->
+</div>

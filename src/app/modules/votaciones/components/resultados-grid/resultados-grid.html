@@ -11,97 +11,105 @@
     <div class="axis-card">
       <div class="axis-card-content">
         <div class="row g-3">
-          <!-- DIGNIDAD -->
-          <div class="col-12 col-md-2">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Dignidad</mat-label>
-              <mat-select [(ngModel)]="tipoCandidato" (selectionChange)="cambioTipoCandidato()">
-                @for (tipo of tiposCandidato(); track tipo) {
-                  <mat-option [value]="tipo">
-                    {{ tipo === 'ConcejalUrbano' ? 'Concejal urbano'
-                    : tipo === 'ConcejalRural' ? 'Concejal rural' : tipo }}
-                  </mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
+          <!-- FILTROS -->
+          <div class="col-12 col-lg-7">
+            <div class="row g-3">
+              <!-- DIGNIDAD -->
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Dignidad</mat-label>
+                  <mat-select [(ngModel)]="tipoCandidato" (selectionChange)="cambioTipoCandidato()">
+                    @for (tipo of tiposCandidato(); track tipo) {
+                      <mat-option [value]="tipo">
+                        {{ tipo === 'ConcejalUrbano' ? 'Concejal urbano'
+                        : tipo === 'ConcejalRural' ? 'Concejal rural' : tipo }}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- TIPO DE RESULTADO -->
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Tipo de resultado</mat-label>
+                  <mat-select [(ngModel)]="tipoResultado" (selectionChange)="cambioTipoResultado()">
+                    <mat-option value="Preliminar">Preliminar</mat-option>
+                    <mat-option value="Oficial">Oficial</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- PROVINCIA -->
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Provincia</mat-label>
+                  <mat-select [(ngModel)]="provinciaId" (selectionChange)="cambioProvincia()">
+                    <mat-option [value]="undefined">Todas las provincias</mat-option>
+                    @for (provincia of provincias(); track provincia.idProvincia) {
+                      <mat-option [value]="provincia.idProvincia">
+                        {{ provincia.nombreProvincia }}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- CANTÓN -->
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Cantón</mat-label>
+                  <mat-select [(ngModel)]="cantonId" [disabled]="!provinciaId" (selectionChange)="cambioCanton()">
+                    <mat-option [value]="undefined">Todos los cantones</mat-option>
+                    @for (canton of cantones(); track canton.idCanton) {
+                      <mat-option [value]="canton.idCanton">{{ canton.nombreCanton }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- PARROQUIA -->
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Parroquia</mat-label>
+                  <mat-select [(ngModel)]="parroquiaId" [disabled]="!cantonId" (selectionChange)="cambioParroquia()">
+                    <mat-option [value]="undefined">Todas las parroquias</mat-option>
+                    @for (parroquia of parroquias(); track parroquia.idParroquia) {
+                      <mat-option [value]="parroquia.idParroquia">{{ parroquia.nombreParroquia }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- ZONA -->
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Zona</mat-label>
+                  <mat-select [(ngModel)]="zonaId" [disabled]="!parroquiaId" (selectionChange)="cambioZona()">
+                    <mat-option [value]="undefined">Todas las zonas</mat-option>
+                    @for (zona of zonas(); track zona.idZona) {
+                      <mat-option [value]="zona.idZona">{{ zona.nombreZona }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- MESA ELECTORAL -->
+              <div class="col-12 col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Junta</mat-label>
+                  <mat-select [(ngModel)]="mesaId" [disabled]="!zonaId" (selectionChange)="cambioMesa()">
+                    <mat-option [value]="undefined">Todas las juntas</mat-option>
+                    @for (mesa of mesas(); track mesa.idMesaElectoral) {
+                      <mat-option [value]="mesa.idMesaElectoral">{{ mesa.codigoMesa }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
           </div>
-          <!-- TIPO DE RESULTADO -->
-          <div class="col-12 col-md-2">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Tipo de resultado</mat-label>
-              <mat-select [(ngModel)]="tipoResultado" (selectionChange)="cambioTipoResultado()">
-                <mat-option value="Preliminar">Preliminar</mat-option>
-                <mat-option value="Oficial">Oficial</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-        <!-- FILA 2 -->
-        <div class="row g-3">
-          <!-- PROVINCIA -->
-          <div class="col-12 col-md-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Provincia</mat-label>
-              <mat-select [(ngModel)]="provinciaId" (selectionChange)="cambioProvincia()">
-                <mat-option [value]="undefined">Todas las provincias</mat-option>
-                @for (provincia of provincias(); track provincia.idProvincia) {
-                  <mat-option [value]="provincia.idProvincia">
-                    {{ provincia.nombreProvincia }}
-                  </mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <!-- CANTÓN -->
-          <div class="col-12 col-md-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Cantón</mat-label>
-              <mat-select [(ngModel)]="cantonId" [disabled]="!provinciaId" (selectionChange)="cambioCanton()">
-                <mat-option [value]="undefined">Todos los cantones</mat-option>
-                @for (canton of cantones(); track canton.idCanton) {
-                  <mat-option [value]="canton.idCanton">{{ canton.nombreCanton }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <!-- PARROQUIA -->
-          <div class="col-12 col-md-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Parroquia</mat-label>
-              <mat-select [(ngModel)]="parroquiaId" [disabled]="!cantonId" (selectionChange)="cambioParroquia()">
-                <mat-option [value]="undefined">Todas las parroquias</mat-option>
-                @for (parroquia of parroquias(); track parroquia.idParroquia) {
-                  <mat-option [value]="parroquia.idParroquia">{{ parroquia.nombreParroquia }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-        <!-- FILA 3 -->
-        <div class="row g-3">
-          <!-- ZONA -->
-          <div class="col-12 col-md-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Zona</mat-label>
-              <mat-select [(ngModel)]="zonaId" [disabled]="!parroquiaId" (selectionChange)="cambioZona()">
-                <mat-option [value]="undefined">Todas las zonas</mat-option>
-                @for (zona of zonas(); track zona.idZona) {
-                  <mat-option [value]="zona.idZona">{{ zona.nombreZona }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <!-- MESA ELECTORAL -->
-          <div class="col-12 col-md-2">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Junta</mat-label>
-              <mat-select [(ngModel)]="mesaId" [disabled]="!zonaId" (selectionChange)="cambioMesa()">
-                <mat-option [value]="undefined">Todas las juntas</mat-option>
-                @for (mesa of mesas(); track mesa.idMesaElectoral) {
-                  <mat-option [value]="mesa.idMesaElectoral">{{ mesa.codigoMesa }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
+          <!-- MAPA: provincia, cantón y parroquia -->
+          <div class="col-12 col-lg-5">
+            <app-mapa-ecuador class="filtros-mapa" [provincias]="provincias()" [cantones]="cantones()"
+                              [parroquias]="parroquias()" [provinciaId]="provinciaId" [cantonId]="cantonId"
+                              [parroquiaId]="parroquiaId" [deshabilitado]="cargando()"
+                              (provinciaSeleccionada)="seleccionarProvinciaMapa($event)"
+                              (cantonSeleccionado)="seleccionarCantonMapa($event)"
+                              (parroquiaSeleccionada)="seleccionarParroquiaMapa($event)" />
           </div>
         </div>
         <!-- ACCIONES -->

@@ -35,6 +35,7 @@ import {
   ResultadosConcejalesData,
   ResultadosConcejalesMdl,
 } from '../resultados-concejales-mdl/resultados-concejales-mdl';
+import { MapaEcuador } from '../mapa-ecuador/mapa-ecuador';
 
 // Registrar las etiquetas de los gráficos una sola vez.
 Chart.register(ChartDataLabels);
@@ -50,6 +51,7 @@ Chart.register(ChartDataLabels);
     MatIconModule,
     DecimalPipe,
     BaseChartDirective,
+    MapaEcuador,
   ],
   templateUrl: './resultados-grid.html',
   styleUrl: './resultados-grid.css',
@@ -560,6 +562,31 @@ export class ResultadosGrid implements OnInit, OnDestroy {
 
   cambioMesa() {
     this.resultado.set(null);
+  }
+
+  // SELECCIÓN DESDE EL MAPA
+  async seleccionarProvinciaMapa(provinciaId: string | undefined): Promise<void> {
+    if (this.provinciaId === provinciaId) {
+      return;
+    }
+    this.provinciaId = provinciaId;
+    await this.cambioProvincia();
+  }
+
+  async seleccionarCantonMapa(cantonId: string | undefined): Promise<void> {
+    if (this.cantonId === cantonId) {
+      return;
+    }
+    this.cantonId = cantonId;
+    await this.cambioCanton();
+  }
+
+  async seleccionarParroquiaMapa(parroquiaId: string | undefined): Promise<void> {
+    if (this.parroquiaId === parroquiaId) {
+      return;
+    }
+    this.parroquiaId = parroquiaId;
+    await this.cambioParroquia();
   }
 
   // CONSULTAR RESULTADOS
