@@ -58,7 +58,7 @@
             <mat-form-field appearance="outline" class="axis-form-field">
               <mat-label>Estado</mat-label>
               <mat-select [(ngModel)]="eleccion.estado" name="estado" required>
-                <mat-option [value]="undefined">Seleccione un estado</mat-option>
+                <mat-option [value]="undefined">Seleccione</mat-option>
                 @for (item of estadosEleccion; track item) {
                   <mat-option [value]="item">{{ item }}</mat-option>
                 }
@@ -73,6 +73,18 @@
             <input matInput [matDatepicker]="pickerEleccion" [(ngModel)]="eleccion.fechaEleccion" name="fechaEleccion">
             <mat-datepicker-toggle matIconSuffix [for]="pickerEleccion"></mat-datepicker-toggle>
             <mat-datepicker #pickerEleccion></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <!-- Metodo Escaños -->
+        <div class="axis-form-col axis-form-col-2">
+          <mat-form-field appearance="outline" class="axis-form-field">
+            <mat-label>Metodo Escaños</mat-label>
+            <mat-select [(ngModel)]="eleccion.metodoEscanos" name="metodoEscanos" required>
+              <mat-option [value]="undefined">Seleccione</mat-option>
+              @for (item of metodosEscanos; track item) {
+                <mat-option [value]="item">{{ item }}</mat-option>
+              }
+            </mat-select>
           </mat-form-field>
         </div>
       </div>

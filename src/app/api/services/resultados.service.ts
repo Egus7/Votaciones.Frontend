@@ -9,6 +9,12 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { apiResultadosAsignacionConcejalesExcelGet } from '../fn/resultados/api-resultados-asignacion-concejales-excel-get';
+import { ApiResultadosAsignacionConcejalesExcelGet$Params } from '../fn/resultados/api-resultados-asignacion-concejales-excel-get';
+import { apiResultadosAsignacionEscanosGet$Json } from '../fn/resultados/api-resultados-asignacion-escanos-get-json';
+import { ApiResultadosAsignacionEscanosGet$Json$Params } from '../fn/resultados/api-resultados-asignacion-escanos-get-json';
+import { apiResultadosAsignacionEscanosGet$Plain } from '../fn/resultados/api-resultados-asignacion-escanos-get-plain';
+import { ApiResultadosAsignacionEscanosGet$Plain$Params } from '../fn/resultados/api-resultados-asignacion-escanos-get-plain';
 import { apiResultadosEleccionCantonGet$Json } from '../fn/resultados/api-resultados-eleccion-canton-get-json';
 import { ApiResultadosEleccionCantonGet$Json$Params } from '../fn/resultados/api-resultados-eleccion-canton-get-json';
 import { apiResultadosEleccionCantonGet$Plain } from '../fn/resultados/api-resultados-eleccion-canton-get-plain';
@@ -33,6 +39,7 @@ import { apiResultadosEleccionZonaGet$Json } from '../fn/resultados/api-resultad
 import { ApiResultadosEleccionZonaGet$Json$Params } from '../fn/resultados/api-resultados-eleccion-zona-get-json';
 import { apiResultadosEleccionZonaGet$Plain } from '../fn/resultados/api-resultados-eleccion-zona-get-plain';
 import { ApiResultadosEleccionZonaGet$Plain$Params } from '../fn/resultados/api-resultados-eleccion-zona-get-plain';
+import { AsignacionConcejalesDto } from '../models/asignacion-concejales-dto';
 import { ResultadoEleccionDto } from '../models/resultado-eleccion-dto';
 
 @Injectable({ providedIn: 'root' })
@@ -321,6 +328,78 @@ export class ResultadosService extends BaseService {
   apiResultadosEleccionMesaGet$Json(params?: ApiResultadosEleccionMesaGet$Json$Params, context?: HttpContext): Promise<ResultadoEleccionDto> {
     const resp = this.apiResultadosEleccionMesaGet$Json$Response(params, context);
     return resp.then((r: StrictHttpResponse<ResultadoEleccionDto>): ResultadoEleccionDto => r.body);
+  }
+
+  /** Path part for operation `apiResultadosAsignacionEscanosGet()` */
+  static readonly ApiResultadosAsignacionEscanosGetPath = '/api/Resultados/asignacionEscanos';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiResultadosAsignacionEscanosGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosAsignacionEscanosGet$Plain$Response(params?: ApiResultadosAsignacionEscanosGet$Plain$Params, context?: HttpContext): Promise<StrictHttpResponse<AsignacionConcejalesDto>> {
+    const obs = apiResultadosAsignacionEscanosGet$Plain(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiResultadosAsignacionEscanosGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosAsignacionEscanosGet$Plain(params?: ApiResultadosAsignacionEscanosGet$Plain$Params, context?: HttpContext): Promise<AsignacionConcejalesDto> {
+    const resp = this.apiResultadosAsignacionEscanosGet$Plain$Response(params, context);
+    return resp.then((r: StrictHttpResponse<AsignacionConcejalesDto>): AsignacionConcejalesDto => r.body);
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiResultadosAsignacionEscanosGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosAsignacionEscanosGet$Json$Response(params?: ApiResultadosAsignacionEscanosGet$Json$Params, context?: HttpContext): Promise<StrictHttpResponse<AsignacionConcejalesDto>> {
+    const obs = apiResultadosAsignacionEscanosGet$Json(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiResultadosAsignacionEscanosGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosAsignacionEscanosGet$Json(params?: ApiResultadosAsignacionEscanosGet$Json$Params, context?: HttpContext): Promise<AsignacionConcejalesDto> {
+    const resp = this.apiResultadosAsignacionEscanosGet$Json$Response(params, context);
+    return resp.then((r: StrictHttpResponse<AsignacionConcejalesDto>): AsignacionConcejalesDto => r.body);
+  }
+
+  /** Path part for operation `apiResultadosAsignacionConcejalesExcelGet()` */
+  static readonly ApiResultadosAsignacionConcejalesExcelGetPath = '/api/Resultados/asignacion-concejales/excel';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiResultadosAsignacionConcejalesExcelGet()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosAsignacionConcejalesExcelGet$Response(params?: ApiResultadosAsignacionConcejalesExcelGet$Params, context?: HttpContext): Promise<StrictHttpResponse<Blob>> {
+    const obs = apiResultadosAsignacionConcejalesExcelGet(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiResultadosAsignacionConcejalesExcelGet$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiResultadosAsignacionConcejalesExcelGet(params?: ApiResultadosAsignacionConcejalesExcelGet$Params, context?: HttpContext): Promise<Blob> {
+    const resp = this.apiResultadosAsignacionConcejalesExcelGet$Response(params, context);
+    return resp.then((r: StrictHttpResponse<Blob>): Blob => r.body);
   }
 
 }

@@ -21,6 +21,7 @@ import { ManejoMensajesError } from '../../../../core/mensajes/manejo-mensajes-e
 import { Enlace, EnlaceSub } from '../../../../Config';
 import { ESTADO_ELECCION } from '../../../../api/models/estado-eleccion-array';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { METODO_ASIGNACION_ESCANOS } from '../../../../api/models/metodo-asignacion-escanos-array';
 
 export class AdaptadorFecha extends NativeDateAdapter {
   override format(date: Date, displayFormat: Object): string {
@@ -75,6 +76,7 @@ export const FORMATO_FECHA = {
 export class EleccionesForm implements OnInit {
   readonly tiposEleccion = TIPO_ELECCION;
   readonly estadosEleccion = ESTADO_ELECCION;
+  readonly metodosEscanos = METODO_ASIGNACION_ESCANOS;
   eleccion: Eleccion = {};
 
   readonly cargando = signal(false);

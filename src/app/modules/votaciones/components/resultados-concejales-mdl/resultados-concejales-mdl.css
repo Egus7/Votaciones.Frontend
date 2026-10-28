@@ -1,0 +1,205 @@
+.asignacion-concejales {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Carga y estados vacíos */
+.estado-carga, .sin-listas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+.estado-carga p, .sin-listas p {
+  margin: 0;
+}
+
+/* Títulos de sección */
+.seccion-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+.seccion-header h3, .detalle-calculo h3 {
+  margin: 0 0 5px;
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+}
+.seccion-header p, .detalle-calculo p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+/* Listas */
+.listas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.lista-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+.lista-card.lista-sin-escanos {
+  background: #f8fafc;
+}
+.lista-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+}
+.lista-identificacion {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.lista-numero {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+.lista-nombre {
+  overflow-wrap: anywhere;
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.escanos-badge {
+  display: grid;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 17px;
+  font-weight: 700;
+}
+.escanos-badge.sin-escanos {
+  background: #e2e8f0;
+  color: #64748b;
+}
+
+.lista-votos {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 0 16px 14px;
+}
+.lista-votos strong {
+  color: var(--color-text);
+  font-size: 19px;
+}
+.lista-votos span {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+/* Desplegable de candidatos */
+.btn-candidatos {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 16px;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-primary);
+  font: inherit;
+  cursor: pointer;
+}
+.btn-candidatos:hover {
+  background: #f1f5f9;
+}
+.candidatos-lista {
+  padding: 4px 16px 12px;
+  border-top: 1px solid var(--color-border);
+}
+.candidato-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #edf0f4;
+}
+.candidato-item:last-child {
+  border-bottom: 0;
+}
+.candidato-info {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+.candidato-orden {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+.candidato-nombre {
+  overflow-wrap: anywhere;
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+.candidato-electo .candidato-nombre {
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
+.estado-electo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  color: #15803d;
+  font-size: 12px;
+  font-weight: 600;
+}
+.estado-electo mat-icon {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+}
+
+.detalle-calculo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 650px) {
+  .seccion-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .listas-grid {
+    grid-template-columns: 1fr;
+  }
+  .detalle-calculo {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .detalle-calculo button {
+    width: 100%;
+  }
+
+}

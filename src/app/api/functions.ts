@@ -147,6 +147,12 @@ export type { ApiResultadosEleccionMesaGet$Plain$Params as ApiResultadosEleccion
 export { apiResultadosEleccionMesaGet$Plain as apiResultadosEleccionMesaGet$Plain } from './fn/resultados/api-resultados-eleccion-mesa-get-plain';
 export type { ApiResultadosEleccionMesaGet$Json$Params as ApiResultadosEleccionMesaGet$Json$Params } from './fn/resultados/api-resultados-eleccion-mesa-get-json';
 export { apiResultadosEleccionMesaGet$Json as apiResultadosEleccionMesaGet$Json } from './fn/resultados/api-resultados-eleccion-mesa-get-json';
+export type { ApiResultadosAsignacionEscanosGet$Plain$Params as ApiResultadosAsignacionEscanosGet$Plain$Params } from './fn/resultados/api-resultados-asignacion-escanos-get-plain';
+export { apiResultadosAsignacionEscanosGet$Plain as apiResultadosAsignacionEscanosGet$Plain } from './fn/resultados/api-resultados-asignacion-escanos-get-plain';
+export type { ApiResultadosAsignacionEscanosGet$Json$Params as ApiResultadosAsignacionEscanosGet$Json$Params } from './fn/resultados/api-resultados-asignacion-escanos-get-json';
+export { apiResultadosAsignacionEscanosGet$Json as apiResultadosAsignacionEscanosGet$Json } from './fn/resultados/api-resultados-asignacion-escanos-get-json';
+export type { ApiResultadosAsignacionConcejalesExcelGet$Params as ApiResultadosAsignacionConcejalesExcelGet$Params } from './fn/resultados/api-resultados-asignacion-concejales-excel-get';
+export { apiResultadosAsignacionConcejalesExcelGet as apiResultadosAsignacionConcejalesExcelGet } from './fn/resultados/api-resultados-asignacion-concejales-excel-get';
 export type { ApiRolesPaginacionGet$Plain$Params as ApiRolesPaginacionGet$Plain$Params } from './fn/roles/api-roles-paginacion-get-plain';
 export { apiRolesPaginacionGet$Plain as apiRolesPaginacionGet$Plain } from './fn/roles/api-roles-paginacion-get-plain';
 export type { ApiRolesPaginacionGet$Json$Params as ApiRolesPaginacionGet$Json$Params } from './fn/roles/api-roles-paginacion-get-json';

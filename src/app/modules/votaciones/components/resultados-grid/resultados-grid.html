@@ -132,9 +132,17 @@
           <h2 class="results-title">Resumen electoral</h2>
           <p class="results-description">Indicadores generales y distribución de votos.</p>
         </div>
-        <span class="results-type" [class.results-type-official]="tipoResultado === 'Oficial'">
-          <span class="results-type-dot"></span>{{ tipoResultado }}
-        </span>
+        <div class="d-flex align-items-center gap-2">
+          <!-- Modal escaños Concejal -->
+          @if (esDignidadConcejales()) {
+            <button mat-flat-button color="primary" type="button" (click)="abrirAsignacionConcejales()">
+              <mat-icon>how_to_vote</mat-icon> Asignación de escaños
+            </button>
+          }
+          <span class="results-type" [class.results-type-official]="tipoResultado === 'Oficial'">
+            <span class="results-type-dot"></span>{{ tipoResultado }}
+          </span>
+        </div>
       </div>
       <!-- RESUMEN ELECTORAL -->
       <div class="results-summary mt-4">
@@ -279,7 +287,11 @@
                   track item.listaElectoralId ?? item.candidatoId ?? $index) {
                   <tr>
                     <td>
-                      <span class="results-list-number">{{ item.numeroLista ?? '—' }}</span>
+                      @if (item.numerosLista) {
+                        <span class="results-list-number">{{ item.numerosLista ?? '—' }}</span>
+                      } @else {
+                        <span class="results-list-number">{{ item.numeroLista ?? '—' }}</span>
+                      }
                     </td>
                     @if (tipoCandidato === 'Alcalde') {
                       <td>

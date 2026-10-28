@@ -7,6 +7,7 @@ export interface ResultadoDetalleDto {
   lista?: string | null;
   listaElectoralId?: string;
   numeroLista?: number;
+  numerosLista?: string | null;
   porcentaje?: number;
   votos?: number;
 }

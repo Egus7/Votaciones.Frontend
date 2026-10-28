@@ -30,6 +30,11 @@ import { Chart, ChartConfiguration, Plugin } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { MesasElectoralService } from '../../../../api/services/mesas-electoral.service';
 import { MesaElectoralDto } from '../../../../api/models/mesa-electoral-dto';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  ResultadosConcejalesData,
+  ResultadosConcejalesMdl,
+} from '../resultados-concejales-mdl/resultados-concejales-mdl';
 
 // Registrar las etiquetas de los gráficos una sola vez.
 Chart.register(ChartDataLabels);
@@ -299,6 +304,7 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     private router: Router,
     private swalMensaje: MensajeService,
     private manejoMensajeError: ManejoMensajesError,
+    private dialog: MatDialog,
   ) {
     this.tiposCandidato = this.eleccionContexto.tiposCandidato;
   }
@@ -654,6 +660,37 @@ export class ResultadosGrid implements OnInit, OnDestroy {
 
     return true;
   }
+
+  //MODAL CONCEJALES ESCAÑOS
+  esDignidadConcejales(): boolean {
+    return this.tipoCandidato === 'ConcejalUrbano' || this.tipoCandidato === 'ConcejalRural';
+  }
+  async abrirAsignacionConcejales() {
+    if (!this.esDignidadConcejales()) {
+      return;
+    }
+    if (!this.cantonId) {
+      await this.swalMensaje.advertencia('Seleccione un cantón',
+        'La asignación de escaños debe consultarse para un cantón específico.',);
+      return;
+    }
+
+    const data: ResultadosConcejalesData = {
+      eleccionId: this.eleccionId!,
+      cantonId: this.cantonId,
+      tipoCandidato: this.tipoCandidato!,
+      tipoResultado: this.tipoResultado,
+    };
+
+    this.dialog.open(ResultadosConcejalesMdl, {
+      width: '1000px',
+      maxWidth: '95vw',
+      maxHeight: '90vh',
+      autoFocus: false,
+      data,
+    });
+  }
+
   // ETIQUETAS DE GRÁFICOS
   obtenerNombreGrafico(item: NonNullable<ResultadoEleccionDto['resultados']>[number]): string {
     if (this.tipoCandidato === 'Alcalde' || this.tipoCandidato === 'Prefecto') {

@@ -2152,6 +2152,119 @@
         }
       }
     },
+    "/api/Resultados/asignacionEscanos": {
+      "get": {
+        "tags": [
+          "Resultados"
+        ],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cantonId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
+            }
+          },
+          {
+            "name": "tipoResultado",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoResultado"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsignacionConcejalesDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsignacionConcejalesDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AsignacionConcejalesDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Resultados/asignacion-concejales/excel": {
+      "get": {
+        "tags": [
+          "Resultados"
+        ],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cantonId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "tipoCandidato",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoCandidato"
+            }
+          },
+          {
+            "name": "tipoResultado",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TipoResultado"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Roles/paginacion": {
       "get": {
         "tags": [
@@ -3059,6 +3172,97 @@
         },
         "additionalProperties": false
       },
+      "AsignacionCandidatoDTO": {
+        "type": "object",
+        "properties": {
+          "candidatoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreCandidato": {
+            "type": "string",
+            "nullable": true
+          },
+          "orden": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "electo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AsignacionConcejalesDTO": {
+        "type": "object",
+        "properties": {
+          "eleccionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreEleccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "dignidad": {
+            "type": "string",
+            "nullable": true
+          },
+          "estadoResultado": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalEscanos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalListas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "listas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AsignacionListaDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AsignacionListaDTO": {
+        "type": "object",
+        "properties": {
+          "listaElectoralId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "numeroLista": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreLista": {
+            "type": "string",
+            "nullable": true
+          },
+          "votos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "escanosAsignados": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "candidatos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AsignacionCandidatoDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "BitacoraDTO": {
         "type": "object",
         "properties": {
@@ -3323,6 +3527,9 @@
           },
           "estado": {
             "$ref": "#/components/schemas/EstadoEleccion"
+          },
+          "metodoEscanos": {
+            "$ref": "#/components/schemas/MetodoAsignacionEscanos"
           },
           "fechaCreacion": {
             "type": "string",
@@ -3654,6 +3861,13 @@
           }
         },
         "additionalProperties": false
+      },
+      "MetodoAsignacionEscanos": {
+        "enum": [
+          "DHondt",
+          "Webster"
+        ],
+        "type": "string"
       },
       "Parroquia": {
         "required": [

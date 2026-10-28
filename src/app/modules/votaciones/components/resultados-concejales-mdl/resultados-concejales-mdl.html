@@ -1,0 +1,99 @@
+<app-modal
+  titulo="Concejales asignados"
+  [subtitulo]="(asignacion?.nombreEleccion ?? '') + ' · Dignidad: ' + (asignacion?.dignidad ?? 'Concejales')"
+  ancho="1000px"
+  [mostrarFooter]="false"
+  (cerrar)="cerrarMdl()">
+  <!-- Contenido -->
+  <div class="asignacion-concejales">
+    @if (cargando()) {
+      <div class="estado-carga">
+        <mat-spinner diameter="36"></mat-spinner>
+        <p>Calculando la asignación de escaños...</p>
+      </div>
+    } @else if (asignacion) {
+      <!-- Distribución -->
+      <div class="seccion-header">
+        <div>
+          <h3>Distribución de escaños</h3>
+          <p>{{ asignacion.totalEscanos ?? 0 }} escaños por asignar
+            · {{ asignacion.totalListas ?? 0 }} listas participantes
+          </p>
+          <p>Selecciona una lista para consultar sus candidatos.</p>
+        </div>
+      </div>
+      <div class="listas-grid">
+        @for (lista of asignacion.listas ?? []; track lista.listaElectoralId) {
+          <div class="lista-card" [class.lista-sin-escanos]="lista.escanosAsignados === 0">
+            <div class="lista-card-header">
+              <div class="lista-identificacion">
+                @if (lista.numerosLista) {
+                  <span class="lista-numero">Lista {{ lista.numerosLista }}</span>
+                } @else {
+                  <span class="lista-numero">Lista {{ lista.numeroLista }}</span>
+                }
+                <span class="lista-nombre">{{ lista.nombreLista }}</span>
+              </div>
+              <span class="escanos-badge" [class.sin-escanos]="lista.escanosAsignados === 0">
+                {{ lista.escanosAsignados ?? 0 }}
+              </span>
+            </div>
+            <div class="lista-votos">
+              <strong>{{ lista.votos | number:'1.0-0' }}</strong>
+              <span>Votos obtenidos</span>
+            </div>
+            <button type="button" class="btn-candidatos"
+                    (click)="alternarCandidatos(lista.listaElectoralId!)"
+                    [attr.aria-expanded]="listaExpandidaId === lista.listaElectoralId">
+              <span>Candidatos ({{ lista.candidatos?.length ?? 0 }})</span>
+              <mat-icon>
+                {{ listaExpandidaId === lista.listaElectoralId ? 'expand_less' : 'expand_more' }}
+              </mat-icon>
+            </button>
+            @if (listaExpandidaId === lista.listaElectoralId) {
+              <div class="candidatos-lista">
+                @for (candidato of lista.candidatos ?? []; track candidato.candidatoId) {
+                  <div class="candidato-item" [class.candidato-electo]="candidato.electo">
+                    <div class="candidato-info">
+                      <span class="candidato-orden">{{ candidato.orden }}.</span>
+                      <span class="candidato-nombre">{{ candidato.nombreCandidato }}</span>
+                    </div>
+                    @if (candidato.electo) {
+                      <span class="estado-electo">
+                        <mat-icon>check_circle</mat-icon> Electo
+                      </span>
+                    }
+                  </div>
+                } @empty {
+                  <p class="sin-candidatos">Esta lista no tiene candidatos registrados.</p>
+                }
+              </div>
+            }
+          </div>
+        } @empty {
+          <div class="sin-listas">
+            <mat-icon>info</mat-icon>
+            <p>No hay listas disponibles para la asignación de escaños.</p>
+          </div>
+        }
+      </div>
+      <!-- Descarga -->
+      <div class="detalle-calculo">
+        <div>
+          <h3>Detalle del cálculo</h3>
+          <p>Votos, divisores, cocientes y orden global.</p>
+        </div>
+        <button mat-flat-button color="primary" type="button" (click)="descargarExcel()"
+                [disabled]="descargandoExcel()">
+          <mat-icon>{{ descargandoExcel() ? 'hourglass_top' : 'download' }}</mat-icon>
+          {{ descargandoExcel() ? 'Generando Excel...' : 'Descargar Excel' }}
+        </button>
+      </div>
+    } @else {
+      <div class="sin-listas">
+        <mat-icon>info</mat-icon>
+        <p>No hay información disponible para la asignación de escaños.</p>
+      </div>
+    }
+  </div>
+</app-modal>
