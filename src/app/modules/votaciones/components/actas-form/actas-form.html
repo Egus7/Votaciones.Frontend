@@ -133,8 +133,10 @@
             <strong>Resultados electorales</strong>
             - Acta de {{ nombreTipoCandidato(acta.tipoCandidato!) }}
           </label>
-          <p style="padding-top: 2px; font-size: 12px">{{actaDTO.provincia!}} > {{actaDTO.canton!}} >
-            {{actaDTO.parroquia!}} > {{actaDTO.zona!}} > {{actaDTO.descripcionMesa!}}</p>
+          @if (modo != "crear") {
+            <p style="padding-top: 2px; font-size: 12px">{{actaDTO.provincia!}} > {{actaDTO.canton!}}
+              > {{actaDTO.parroquia!}} > {{actaDTO.zona!}} > {{actaDTO.descripcionMesa!}}</p>
+          }
         </div>
         <div class="axis-form-col axis-form-col-9">
           <div class="axis-acta-resultados">

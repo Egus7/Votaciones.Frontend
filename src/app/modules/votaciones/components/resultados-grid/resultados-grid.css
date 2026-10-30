@@ -278,6 +278,29 @@
   .chart-container-bar {
     height: 300px;
   }
+  /** table **/
+  .results-table {
+    width: 100%;
+    min-width: 0 !important;
+    max-width: 100%;
+    table-layout: auto;
+  }
+  .results-table th, .results-table td {
+    padding: 8px 6px;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+  .results-table .results-list-number, .results-table .results-candidate-name,
+  .results-table .axis-table-secondary {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .results-table .results-votes, .results-table .results-percentage {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
 }
 @media (max-width: 575.98px) {
   .results-heading {
@@ -307,6 +330,14 @@
   }
   .results-table-header {
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 399px) {
+  .chart-container-doughnut {
+    overflow: hidden;
+    width: 100%;
+    min-width: 0;
   }
 }
 

@@ -256,6 +256,25 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     responsive: true,
     maintainAspectRatio: false,
     cutout: '68%',
+    onResize: (chart) => {
+      const esMovil = chart.width < 400;
+
+      chart.options.plugins!.legend = {
+        ...chart.options.plugins?.legend,
+        position: 'bottom',
+        align: esMovil ? 'start' : 'center',
+        labels: {
+          ...chart.options.plugins?.legend?.labels,
+          usePointStyle: true,
+          pointStyle: 'circle',
+          padding: esMovil ? 10 : 16,
+          boxWidth: 8,
+          font: {
+            size: esMovil ? 10 : 12,
+          },
+        },
+      };
+    },
     plugins: {
       legend: {
         position: 'bottom',
@@ -264,6 +283,27 @@ export class ResultadosGrid implements OnInit, OnDestroy {
           pointStyle: 'circle',
           padding: 16,
           boxWidth: 8,
+          // Cortar nombres extensos en móviles
+          generateLabels: (chart) => {
+            const generarEtiquetas = Chart.overrides.doughnut.plugins.legend.labels.generateLabels!;
+            const etiquetas = generarEtiquetas(chart);
+            if (chart.width >= 400) {
+              return etiquetas;
+            }
+            const anchoMaximo = chart.width - 85;
+            return etiquetas.map((etiqueta) => {
+              const texto = Array.isArray(etiqueta.text) ? etiqueta.text.join(' ') : etiqueta.text;
+
+              let textoCorto = texto;
+              while (textoCorto.length > 0 &&
+                chart.ctx.measureText(`${textoCorto}...`).width > anchoMaximo) {
+                textoCorto = textoCorto.slice(0, -1);
+              }
+              return {
+                ...etiqueta, text: textoCorto.length < texto.length ? `${textoCorto.trimEnd()}...` : texto,
+              };
+            });
+          },
         },
       },
       datalabels: {
