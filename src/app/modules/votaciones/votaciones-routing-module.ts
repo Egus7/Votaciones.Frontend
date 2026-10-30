@@ -107,14 +107,6 @@ const routes: Routes = [
           permiso: Permisos.ACTAS_VIEW,
         },
       },
-      {
-        path: `${EnlaceSub.Actas}/validate/:id`,
-        component: ActasForm,
-        canActivate: [PermisosGuard],
-        data: {
-          permiso: Permisos.ACTAS_VIEW,
-        },
-      },
       //Resultados
       {
         path: `${EnlaceSub.Resultados}`,

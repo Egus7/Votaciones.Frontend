@@ -22,6 +22,7 @@ export function provideApiConfiguration(rootUrl: string) {
   providedIn: 'root',
 })
 export class ApiConfiguration {
-  rootUrl: string = 'https://localhost:7141';
+  //rootUrl: string = 'https://localhost:7141';
+  rootUrl: string = 'https://votaciones-axis-api-d4fcejb8f2htctdz.westus3-01.azurewebsites.net';
 }
 

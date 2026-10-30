@@ -256,7 +256,7 @@ export class Actas {
     if (!idActa) {
       return;
     }
-    void this.router.navigate([`${Enlace.Votaciones}/${EnlaceSub.Actas}/validate`, idActa]);
+    void this.router.navigate([`${Enlace.Votaciones}/${EnlaceSub.Actas}/view`, idActa]);
   }
   // Filtros
   buscar(): void {

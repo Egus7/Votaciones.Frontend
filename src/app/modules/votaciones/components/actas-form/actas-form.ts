@@ -81,6 +81,7 @@ export class ActasForm implements OnInit {
   readonly mesas = signal<MesaElectoralDto[]>([]);
   // ACTA
   acta: ActaEleccionView = {};
+  actaDTO: ActaDto = {};
 
   constructor(
     private actasService: ActasService,
@@ -349,6 +350,8 @@ export class ActasForm implements OnInit {
         id: this.actaId,
       });
       this.acta = this.mapearDtoToActa(response!) ?? [];
+      //para DTO
+      this.actaDTO = response;
       // Guardar nombres de ubicación
       this.provinciaNombre = response.provincia ?? '';
       this.cantonNombre = response.canton ?? '';
