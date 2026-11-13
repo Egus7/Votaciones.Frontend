@@ -90,19 +90,34 @@
               <tr>
                 <!-- Candidato -->
                 <td><strong>{{ candidato.nombreCandidato }}</strong></td>
-                <!-- Listas -->
+                <!-- Listas / Alianzas -->
                 <td>
-                  <div class="candidato-listas">
-                    @for (lista of candidato.listasCandidato; track lista.listaElectoralId) {
-                      <span class="candidato-lista" [class.candidato-lista-principal]="lista.esPrincipal">
+                  @if (candidato.alianzaElectoral) {
+                    <div class="candidato-listas">
+                      <!-- Fila de alianza -->
+                      <div class="candidato-lista candidato-lista-alianza">
+                        <div class="candidato-alianza-numeros">
+                          @for (lista of candidato.listasCandidato; track lista.listaElectoralId) {
+                            <span>{{ lista.numeroLista }}</span>
+                          }
+                        </div>
+                        <span class="candidato-lista-nombre">{{ candidato.alianzaElectoral }}</span>
+                        <span class="candidato-lista-principal-label">Alianza</span>
+                      </div>
+                    </div>
+                  } @else {
+                    <div class="candidato-listas">
+                      @for (lista of candidato.listasCandidato; track lista.listaElectoralId) {
+                        <span class="candidato-lista" [class.candidato-lista-principal]="lista.esPrincipal">
                         <span class="candidato-lista-numero">{{ lista.numeroLista }}</span>
                         <span class="candidato-lista-nombre">{{ lista.nombreLista }}</span>
-                        @if (lista.esPrincipal) {
-                          <span class="candidato-lista-principal-label">Principal</span>
-                        }
-                      </span>
-                    }
-                  </div>
+                          @if (lista.esPrincipal) {
+                            <span class="candidato-lista-principal-label">Principal</span>
+                          }
+                        </span>
+                      }
+                    </div>
+                  }
                 </td>
                 <!-- Tipo -->
                 <td>{{ candidato.tipoCandidato }}</td>

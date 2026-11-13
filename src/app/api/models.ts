@@ -7,6 +7,7 @@ export type { ActaDto } from './models/acta-dto';
 export type { ActaDtoPaginacionDto } from './models/acta-dto-paginacion-dto';
 export type { ActaEleccion } from './models/acta-eleccion';
 export type { AdmUsuario } from './models/adm-usuario';
+export type { AlianzaElectoralDto } from './models/alianza-electoral-dto';
 export type { AsignacionCandidatoDto } from './models/asignacion-candidato-dto';
 export type { AsignacionConcejalesDto } from './models/asignacion-concejales-dto';
 export type { AsignacionListaDto } from './models/asignacion-lista-dto';

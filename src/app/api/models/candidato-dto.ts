@@ -5,6 +5,7 @@ import { ListaCandidatoDto } from '../models/lista-candidato-dto';
 import { TipoCandidato } from '../models/tipo-candidato';
 export interface CandidatoDto {
   activo?: boolean;
+  alianzaElectoral?: string | null;
   canton?: string | null;
   descripcionEleccion?: string | null;
   eleccion?: string | null;

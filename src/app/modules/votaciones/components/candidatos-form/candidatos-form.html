@@ -192,13 +192,29 @@
             }
           </div>
         </div>
+        @if (requiereAlianza) {
+          <div class="axis-form-col axis-form-col-4">
+            <mat-form-field appearance="outline" class="axis-form-field">
+              <mat-label>Nombre Alianza</mat-label>
+              <input matInput type="text" placeholder="Ingrese el nombre de la alianza" required
+                     [(ngModel)]="nombreAlianza" name="nombreAlianza" maxlength="200"
+                     [readonly]="alianzaExistente">
+              <mat-hint>
+                @if (!nombreAlianza) {
+                  No existe una alianza para estas listas. Ingrese el nombre de la nueva alianza.
+                }
+              </mat-hint>
+            </mat-form-field>
+          </div>
+        }
       </div>
       <!-- FIN FILA 3 -->
       <div class="axis-form-actions">
-        <button mat-raised-button type="button" class="axis-button-secondary" (click)="cancelarFormulario()">
+        <button mat-raised-button type="button" class="axis-button-secondary"
+                (click)="cancelarFormulario()" [disabled]="guardando()">
           <mat-icon>close</mat-icon> Cancelar
         </button>
-        <button mat-flat-button type="submit" class="axis-button-primary">
+        <button mat-flat-button type="submit" class="axis-button-primary" [disabled]="guardando()">
           <mat-icon>save</mat-icon>{{ esEdicion ? 'Actualizar' : 'Guardar' }}
         </button>
       </div>

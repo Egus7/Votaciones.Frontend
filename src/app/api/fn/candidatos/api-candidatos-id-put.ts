@@ -11,6 +11,7 @@ import { Candidato } from '../../models/candidato';
 
 export interface ApiCandidatosIdPut$Params {
   id: string;
+  nombreAlianza?: string;
       body?: Candidato
 }
 
@@ -18,6 +19,7 @@ export function apiCandidatosIdPut(http: HttpClient, rootUrl: string, params: Ap
   const rb = new RequestBuilder(rootUrl, apiCandidatosIdPut.PATH, 'put');
   if (params) {
     rb.path('id', params.id, {});
+    rb.query('nombreAlianza', params.nombreAlianza, {});
     rb.body(params.body, 'application/*+json');
   }
 

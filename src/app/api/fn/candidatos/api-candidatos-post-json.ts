@@ -10,12 +10,14 @@ import { RequestBuilder } from '../../request-builder';
 import { Candidato } from '../../models/candidato';
 
 export interface ApiCandidatosPost$Json$Params {
+  nombreAlianza?: string;
       body?: Candidato
 }
 
 export function apiCandidatosPost$Json(http: HttpClient, rootUrl: string, params?: ApiCandidatosPost$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Candidato>> {
   const rb = new RequestBuilder(rootUrl, apiCandidatosPost$Json.PATH, 'post');
   if (params) {
+    rb.query('nombreAlianza', params.nombreAlianza, {});
     rb.body(params.body, 'application/*+json');
   }
 

@@ -51,6 +51,10 @@ export type { ApiCandidatosIdGet$Json$Params as ApiCandidatosIdGet$Json$Params }
 export { apiCandidatosIdGet$Json as apiCandidatosIdGet$Json } from './fn/candidatos/api-candidatos-id-get-json';
 export type { ApiCandidatosIdPut$Params as ApiCandidatosIdPut$Params } from './fn/candidatos/api-candidatos-id-put';
 export { apiCandidatosIdPut as apiCandidatosIdPut } from './fn/candidatos/api-candidatos-id-put';
+export type { ApiCandidatosAlianzasElectoralesGet$Plain$Params as ApiCandidatosAlianzasElectoralesGet$Plain$Params } from './fn/candidatos/api-candidatos-alianzas-electorales-get-plain';
+export { apiCandidatosAlianzasElectoralesGet$Plain as apiCandidatosAlianzasElectoralesGet$Plain } from './fn/candidatos/api-candidatos-alianzas-electorales-get-plain';
+export type { ApiCandidatosAlianzasElectoralesGet$Json$Params as ApiCandidatosAlianzasElectoralesGet$Json$Params } from './fn/candidatos/api-candidatos-alianzas-electorales-get-json';
+export { apiCandidatosAlianzasElectoralesGet$Json as apiCandidatosAlianzasElectoralesGet$Json } from './fn/candidatos/api-candidatos-alianzas-electorales-get-json';
 export type { ApiCandidatosPost$Plain$Params as ApiCandidatosPost$Plain$Params } from './fn/candidatos/api-candidatos-post-plain';
 export { apiCandidatosPost$Plain as apiCandidatosPost$Plain } from './fn/candidatos/api-candidatos-post-plain';
 export type { ApiCandidatosPost$Json$Params as ApiCandidatosPost$Json$Params } from './fn/candidatos/api-candidatos-post-json';

@@ -9,6 +9,11 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { AlianzaElectoralDto } from '../models/alianza-electoral-dto';
+import { apiCandidatosAlianzasElectoralesGet$Json } from '../fn/candidatos/api-candidatos-alianzas-electorales-get-json';
+import { ApiCandidatosAlianzasElectoralesGet$Json$Params } from '../fn/candidatos/api-candidatos-alianzas-electorales-get-json';
+import { apiCandidatosAlianzasElectoralesGet$Plain } from '../fn/candidatos/api-candidatos-alianzas-electorales-get-plain';
+import { ApiCandidatosAlianzasElectoralesGet$Plain$Params } from '../fn/candidatos/api-candidatos-alianzas-electorales-get-plain';
 import { apiCandidatosCambiarEstadoIdPut } from '../fn/candidatos/api-candidatos-cambiar-estado-id-put';
 import { ApiCandidatosCambiarEstadoIdPut$Params } from '../fn/candidatos/api-candidatos-cambiar-estado-id-put';
 import { apiCandidatosCrearVariosPost } from '../fn/candidatos/api-candidatos-crear-varios-post';
@@ -154,6 +159,53 @@ export class CandidatosService extends BaseService {
   apiCandidatosIdPut(params: ApiCandidatosIdPut$Params, context?: HttpContext): Promise<void> {
     const resp = this.apiCandidatosIdPut$Response(params, context);
     return resp.then((r: StrictHttpResponse<void>): void => r.body);
+  }
+
+  /** Path part for operation `apiCandidatosAlianzasElectoralesGet()` */
+  static readonly ApiCandidatosAlianzasElectoralesGetPath = '/api/Candidatos/alianzas-electorales';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiCandidatosAlianzasElectoralesGet$Plain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiCandidatosAlianzasElectoralesGet$Plain$Response(params?: ApiCandidatosAlianzasElectoralesGet$Plain$Params, context?: HttpContext): Promise<StrictHttpResponse<Array<AlianzaElectoralDto>>> {
+    const obs = apiCandidatosAlianzasElectoralesGet$Plain(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiCandidatosAlianzasElectoralesGet$Plain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiCandidatosAlianzasElectoralesGet$Plain(params?: ApiCandidatosAlianzasElectoralesGet$Plain$Params, context?: HttpContext): Promise<Array<AlianzaElectoralDto>> {
+    const resp = this.apiCandidatosAlianzasElectoralesGet$Plain$Response(params, context);
+    return resp.then((r: StrictHttpResponse<Array<AlianzaElectoralDto>>): Array<AlianzaElectoralDto> => r.body);
+  }
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `apiCandidatosAlianzasElectoralesGet$Json()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiCandidatosAlianzasElectoralesGet$Json$Response(params?: ApiCandidatosAlianzasElectoralesGet$Json$Params, context?: HttpContext): Promise<StrictHttpResponse<Array<AlianzaElectoralDto>>> {
+    const obs = apiCandidatosAlianzasElectoralesGet$Json(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `apiCandidatosAlianzasElectoralesGet$Json$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  apiCandidatosAlianzasElectoralesGet$Json(params?: ApiCandidatosAlianzasElectoralesGet$Json$Params, context?: HttpContext): Promise<Array<AlianzaElectoralDto>> {
+    const resp = this.apiCandidatosAlianzasElectoralesGet$Json$Response(params, context);
+    return resp.then((r: StrictHttpResponse<Array<AlianzaElectoralDto>>): Array<AlianzaElectoralDto> => r.body);
   }
 
   /** Path part for operation `apiCandidatosPost()` */

@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, signal, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Signal, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Enlace, EnlaceSub } from '../../../../Config';
 import { MensajeService } from '../../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../../core/mensajes/manejo-mensajes-error';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatFormField, MatHint, MatInput, MatLabel } from '@angular/material/input';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { LugarVotacionService } from '../../../../core/services/lugar-votacion-service';
@@ -37,6 +37,7 @@ import { Parroquia } from '../../../../api/models/parroquia';
     Modal,
     ListaElectoralModal,
     MatSelect,
+    MatHint,
   ],
   templateUrl: './candidatos-form.html',
   styleUrl: './candidatos-form.css',
@@ -47,6 +48,7 @@ export class CandidatosForm implements OnInit {
   // Tipos de candidatos permitidos para la elección seleccionada.
   readonly tiposCandidato: Signal<TipoCandidato[]>;
   candidato: Candidato = {};
+  nombreAlianza = '';
   //variosCandidatos
   candidatosMultiples: {
     id: number;
@@ -64,7 +66,8 @@ export class CandidatosForm implements OnInit {
   //bolean
   mostrarModalListas = false;
   readonly cargando = signal(false);
-  guardando = false;
+  readonly guardando = signal(false);
+  alianzaExistente = false;
   //ID del candidato obtenido desde la ruta.
   candidatoId: string | null = null;
   //Zona
@@ -82,6 +85,7 @@ export class CandidatosForm implements OnInit {
     private zonasService: LugarVotacionService,
     private route: ActivatedRoute,
     private router: Router,
+    private cdr: ChangeDetectorRef,
     private swalMensaje: MensajeService,
     private manejoMensajeError: ManejoMensajesError,
   ) {
@@ -116,6 +120,9 @@ export class CandidatosForm implements OnInit {
   get listasSeleccionadas(): ListaCandidato[] {
     return this.candidato.listaCandidatos ?? [];
   }
+  get requiereAlianza(): boolean {
+    return this.listasSeleccionadas.length > 1;
+  }
   //NuevoCandidato
   private inicializarNuevoCandidato(): void {
     const eleccion = this.eleccionContexto.eleccion();
@@ -144,6 +151,10 @@ export class CandidatosForm implements OnInit {
       this.cantonNombre = response.canton ?? '';
       this.parroquiaNombre = response.parroquia ?? '';
       this.listasSeleccionadasInfo = this.mapearListasSeleccionadas(response.listasCandidato);
+      if (response.alianzaElectoral) {
+        this.alianzaExistente = true;
+        this.nombreAlianza = response.alianzaElectoral;
+      }
       //cargar
       await this.cargarProvincias();
       await this.cargarUbicacion();
@@ -358,7 +369,8 @@ export class CandidatosForm implements OnInit {
   cerrarModalListas(): void {
     this.mostrarModalListas = false;
   }
-  confirmarListas(): void {
+
+  async confirmarListas() {
     const listas = this.selectorListas?.obtenerSeleccionadas() ?? [];
     // validar que haya listas seleccionadas
     if (listas.length <= 0) {
@@ -367,7 +379,7 @@ export class CandidatosForm implements OnInit {
     }
     // Guardamos la información completa para mostrarla en pantalla
     this.listasSeleccionadasInfo = listas;
-    // Guardamos los datos para la bdd
+    // Guardar relaciones del candidato
     this.candidato.listaCandidatos = listas.map((listaElectoral) => ({
       listaElectoralId: listaElectoral.idListaElectoral,
       candidatoId: this.candidato.idCandidato,
@@ -377,10 +389,44 @@ export class CandidatosForm implements OnInit {
     // Si solo existe una lista, automáticamente es principal.
     if (this.candidato.listaCandidatos!.length === 1) {
       this.candidato.listaCandidatos![0].listaPrincipal = true;
+      this.nombreAlianza = '';
+      this.cerrarModalListas();
+      return;
     }
-
     this.cerrarModalListas();
+    // CONSULTAR ALIANZAS DISPONIBLES
+    try {
+      const eleccionId = this.candidato.eleccionId!;
+      const provinciaId = this.mostrarProvincia() ? this.provinciaId : undefined;
+      const cantonId = this.mostrarCanton() ? this.cantonId : undefined;
+      const parroquiaId = this.mostrarParroquia() ? this.parroquiaId : undefined;
+      const listasIds = listas.map((x) => x.idListaElectoral!);
+
+      const alianzas = await this.candidatosService.apiCandidatosAlianzasElectoralesGet$Json({
+        eleccionId: eleccionId!,
+        provinciaId: provinciaId!,
+        cantonId: cantonId!,
+        parroquiaId: parroquiaId!,
+        listasElectorales: listasIds!,
+      });
+      if (alianzas.length > 0) {
+        this.nombreAlianza = alianzas[0].nombreAlianza ?? '';
+        this.alianzaExistente = true;
+      } else {
+        this.nombreAlianza = '';
+        this.alianzaExistente = false;
+      }
+      this.cdr.detectChanges();
+    } catch (e) {
+      this.nombreAlianza = '';
+      this.alianzaExistente = false;
+      this.cdr.detectChanges();
+      //error
+      const mensajeError = this.manejoMensajeError.getMessage(e);
+      await this.swalMensaje.error('Error', mensajeError);
+    }
   }
+
   esListaPrincipal(listaElectoralId: string | undefined): boolean {
     if (!listaElectoralId) {
       return false;
@@ -427,7 +473,7 @@ export class CandidatosForm implements OnInit {
   }
   //guardarForm
   guardarFormulario(): void {
-    if (this.guardando) {
+    if (this.guardando()) {
       return;
     }
     //registroMultiple
@@ -513,11 +559,21 @@ export class CandidatosForm implements OnInit {
       );
       return;
     }
+
+    if (this.requiereAlianza) {
+      if (!this.alianzaExistente && !this.nombreAlianza?.trim()) {
+        void this.swalMensaje.advertencia(
+          'Datos incompletos',
+          'Debe ingresar nombre de la alianza',
+        );
+        return;
+      }
+    }
     void this.guardarCandidato();
   }
 
   private async guardarCandidato(): Promise<void> {
-    this.guardando = true;
+    this.guardando.set(true);
 
     try {
       // Sincronizar ubicación con el modelo
@@ -529,6 +585,7 @@ export class CandidatosForm implements OnInit {
       if (this.esEdicion && this.candidatoId) {
         response = await this.candidatosService.apiCandidatosIdPut({
           id: this.candidatoId,
+          nombreAlianza: this.requiereAlianza ? this.nombreAlianza.trim() : null!,
           body: this.candidato,
         });
         await this.swalMensaje.exito('Éxito', response!);
@@ -537,6 +594,7 @@ export class CandidatosForm implements OnInit {
         await this.guardarVariosCandidatos();
       } else {
         await this.candidatosService.apiCandidatosPost$Json({
+          nombreAlianza: this.requiereAlianza ? this.nombreAlianza.trim() : null!,
           body: this.candidato,
         });
         void this.swalMensaje.exito('Éxito', 'Candidato registrado correctamente!.');
@@ -547,7 +605,7 @@ export class CandidatosForm implements OnInit {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);
     } finally {
-      this.guardando = false;
+      this.guardando.set(false);
     }
   }
 
@@ -574,6 +632,7 @@ export class CandidatosForm implements OnInit {
     }));
     // endpoint POST de registro múltiple.
     await this.candidatosService.apiCandidatosCrearVariosPost({
+      nombreAlianza: this.requiereAlianza ? this.nombreAlianza.trim() : null!,
       body: candidatos,
     });
 

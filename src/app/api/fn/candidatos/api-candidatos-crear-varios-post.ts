@@ -10,12 +10,14 @@ import { RequestBuilder } from '../../request-builder';
 import { Candidato } from '../../models/candidato';
 
 export interface ApiCandidatosCrearVariosPost$Params {
+  nombreAlianza?: string;
       body?: Array<Candidato>
 }
 
 export function apiCandidatosCrearVariosPost(http: HttpClient, rootUrl: string, params?: ApiCandidatosCrearVariosPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, apiCandidatosCrearVariosPost.PATH, 'post');
   if (params) {
+    rb.query('nombreAlianza', params.nombreAlianza, {});
     rb.body(params.body, 'application/*+json');
   }
 

@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://localhost:7141"
+      "url": "https://votaciones-axis-api-d4fcejb8f2htctdz.westus3-01.azurewebsites.net"
     }
   ],
   "paths": {
@@ -757,6 +757,13 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "nombreAlianza",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -785,10 +792,102 @@
         }
       }
     },
+    "/api/Candidatos/alianzas-electorales": {
+      "get": {
+        "tags": [
+          "Candidatos"
+        ],
+        "parameters": [
+          {
+            "name": "eleccionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "provinciaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cantonId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "parroquiaId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "listasElectorales",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlianzaElectoralDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlianzaElectoralDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlianzaElectoralDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Candidatos": {
       "post": {
         "tags": [
           "Candidatos"
+        ],
+        "parameters": [
+          {
+            "name": "nombreAlianza",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "content": {
@@ -837,6 +936,15 @@
       "post": {
         "tags": [
           "Candidatos"
+        ],
+        "parameters": [
+          {
+            "name": "nombreAlianza",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "content": {
@@ -3172,6 +3280,20 @@
         },
         "additionalProperties": false
       },
+      "AlianzaElectoralDTO": {
+        "type": "object",
+        "properties": {
+          "idAlianzaElectoral": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nombreAlianza": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "AsignacionCandidatoDTO": {
         "type": "object",
         "properties": {
@@ -3240,6 +3362,10 @@
           "numeroLista": {
             "type": "integer",
             "format": "int32"
+          },
+          "numerosLista": {
+            "type": "string",
+            "nullable": true
           },
           "nombreLista": {
             "type": "string",
@@ -3376,6 +3502,11 @@
             "format": "uuid",
             "nullable": true
           },
+          "alianzaElectoralId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
           "activo": {
             "type": "boolean"
           },
@@ -3414,6 +3545,10 @@
           "orden": {
             "type": "integer",
             "format": "int32",
+            "nullable": true
+          },
+          "alianzaElectoral": {
+            "type": "string",
             "nullable": true
           },
           "provincia": {
@@ -3950,6 +4085,10 @@
           "numeroLista": {
             "type": "integer",
             "format": "int32"
+          },
+          "numerosLista": {
+            "type": "string",
+            "nullable": true
           },
           "votos": {
             "type": "integer",
