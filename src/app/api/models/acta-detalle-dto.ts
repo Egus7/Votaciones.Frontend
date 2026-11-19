@@ -4,8 +4,10 @@
 export interface ActaDetalleDto {
   candidatoId?: string | null;
   listaElectoralId?: string;
+  nombreAlianza?: string | null;
   nombreCandidato?: string | null;
   nombreLista?: string | null;
   numeroLista?: number;
+  numerosListasAlianza?: (number | null)[] | null;
   votos?: number;
 }

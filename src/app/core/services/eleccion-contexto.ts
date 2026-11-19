@@ -69,6 +69,12 @@ export class EleccionContexto {
       this.contextoInicializado.set(true);
       return true;
     }
+    // Reutilizar la elección si ya está cargada y corresponde al mismo ID.
+    const actual = this.eleccionSeleccionada();
+    if (actual?.idEleccion === id) {
+      this.contextoInicializado.set(true);
+      return true;
+    }
 
     try {
       const eleccion = await this.eleccionesService.apiEleccionesIdGet$Json({

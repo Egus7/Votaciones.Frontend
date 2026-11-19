@@ -28,6 +28,8 @@ interface ActaDetalleView extends ActaDetalle {
   numeroLista?: number;
   nombreLista?: string | null;
   nombreCandidato?: string | null;
+  nombreAlianza?: string | null;
+  numerosListasAlianza?: (number | null)[] | null;
 }
 interface ActaEleccionView extends ActaEleccion {
   actaDetalles?: ActaDetalleView[];
@@ -162,12 +164,12 @@ export class ActasForm implements OnInit {
   }
 
   // PROVINCIAS
-  private async cargarProvincias(): Promise<void> {
+  private async cargarProvincias(seleccionarPichincha = true): Promise<void> {
     try {
       const response = await this.zonasService.provincias();
       this.provincias.set(response);
       //Seleccionar Pichincha por defecto
-      if (this.acta.tipoCandidato != 'Presidente') {
+      if (seleccionarPichincha && this.acta.tipoCandidato != 'Presidente') {
         const pichincha = response.find(
           (x) => x.nombreProvincia!.trim().toLowerCase() === 'pichincha',
         );
@@ -346,9 +348,14 @@ export class ActasForm implements OnInit {
     this.cargando.set(true);
 
     try {
-      const response = await this.actasService.apiActasIdGet$Json({
-        id: this.actaId,
-      });
+      // Consultar acta y provincias simultáneamente
+      const [response, provincias] = await Promise.all([
+        this.actasService.apiActasIdGet$Json({
+          id: this.actaId!,
+        }),
+        this.zonasService.provincias(),
+      ]);
+
       this.acta = this.mapearDtoToActa(response!) ?? [];
       //para DTO
       this.actaDTO = response;
@@ -358,9 +365,10 @@ export class ActasForm implements OnInit {
       this.parroquiaNombre = response.parroquia ?? '';
       this.zonaNombre = response.zona ?? '';
       this.codigoMesa = response.codigoMesa ?? '';
-      // Reconstruir la ubicación
-      await this.cargarProvincias();
+      // Guardar provincias
+      this.provincias.set(provincias);
       await this.cargarUbicacionActa();
+
     } catch (error) {
       const mensajeError = this.manejoMensajeError.getMessage(error);
       await this.swalMensaje.error('Error', mensajeError);
@@ -390,6 +398,8 @@ export class ActasForm implements OnInit {
           numeroLista: actaDetalle.numeroLista!,
           nombreLista: actaDetalle.nombreLista!,
           nombreCandidato: actaDetalle.nombreCandidato!,
+          nombreAlianza: actaDetalle.nombreAlianza,
+          numerosListasAlianza: actaDetalle.numerosListasAlianza,
         })) ?? [],
     };
   }
@@ -628,5 +638,12 @@ export class ActasForm implements OnInit {
         return estado ?? '—';
     }
   }
+  ordenarNumerosAlianza(numeros: (number | null)[] | null | undefined): string {
+    return (numeros ?? [])
+      .filter((n): n is number => n !== null)
+      .sort((a, b) => a - b)
+      .join('-');
+  }
+
 }
 

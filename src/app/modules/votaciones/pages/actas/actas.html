@@ -11,11 +11,13 @@
     <div class="axis-toolbar">
       <div></div>
       <!-- Registrar -->
-      <button mat-flat-button class="axis-button-primary" type="button" (click)="nuevaActa()">
+      <button mat-flat-button class="axis-button-primary" type="button" (click)="nuevaActa()"
+              [disabled]="cargando()">
         <mat-icon>add</mat-icon> Registrar acta
       </button>
       <!-- Regresar -->
-      <button mat-stroked-button type="button" class="axis-button-secondary" routerLink="/votaciones">
+      <button mat-stroked-button type="button" class="axis-button-secondary" routerLink="/votaciones"
+              [disabled]="cargando()">
         <mat-icon>arrow_back</mat-icon> Regresar a votaciones
       </button>
     </div>
@@ -107,10 +109,12 @@
       </div>
       <!-- Acciones de filtros -->
       <div class="axis-filtros-actions">
-        <button mat-flat-button type="button" class="axis-button-primary" (click)="buscar()">
+        <button mat-flat-button type="button" class="axis-button-primary" (click)="buscar()"
+                [disabled]="cargando()">
           <mat-icon>search</mat-icon> Buscar
         </button>
-        <button mat-raised-button type="button" class="axis-button-secondary" (click)="limpiarFiltros()">
+        <button mat-raised-button type="button" class="axis-button-secondary" (click)="limpiarFiltros()"
+                [disabled]="cargando()">
           <mat-icon>clear</mat-icon> Limpiar
         </button>
       </div>
@@ -168,17 +172,17 @@
                   <div class="axis-table-actions">
                     <!-- Ver -->
                     <button mat-icon-button type="button" class="axis-table-icon-view" title="Ver acta"
-                            (click)="verActa(acta.idActa)">
+                            (click)="verActa(acta.idActa)" [disabled]="cargando()">
                       <mat-icon>visibility</mat-icon>
                     </button>
                     <!-- Editar -->
                     <button mat-icon-button type="button" class="axis-table-icon-edit" title="Editar acta"
-                            (click)="editarActa(acta.idActa)" [disabled]="!puedeEditar(acta)">
+                            (click)="editarActa(acta.idActa)" [disabled]="cargando() || !puedeEditar(acta)">
                       <mat-icon>edit</mat-icon>
                     </button>
                     <!-- Validar -->
                     <button mat-icon-button type="button" class="axis-table-icon-validate" title="Validar acta"
-                            (click)="validarActa(acta.idActa)" [disabled]="!puedeValidar(acta)">
+                            (click)="validarActa(acta.idActa)" [disabled]="cargando() || !puedeValidar(acta)">
                       <mat-icon>verified</mat-icon>
                     </button>
                   </div>

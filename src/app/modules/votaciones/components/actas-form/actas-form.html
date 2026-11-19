@@ -144,15 +144,27 @@
               <div class="axis-acta-resultado">
                 <!-- Lista -->
                 <div class="axis-acta-resultado-lista">
-                  @if (detalle.numeroLista) {
-                    <span class="axis-acta-numero-lista">{{ detalle.numeroLista }}</span>
+                  <!-- Numeros Listas Alianzas -->
+                  @if (detalle.nombreAlianza) {
+                    <span class="axis-acta-numero-lista">
+                      {{ ordenarNumerosAlianza(detalle.numerosListasAlianza) }}
+                    </span>
+                  <!-- Sin alianza -->
+                  } @else {
+                    @if (detalle.numeroLista) {
+                      <span class="axis-acta-numero-lista">{{ detalle.numeroLista }}</span>
+                    }
                   }
                   <div class="axis-acta-lista-info">
                     @if (acta.tipoCandidato !== 'ConcejalUrbano' &&
                     acta.tipoCandidato !== 'ConcejalRural') {
                       <span><strong>{{ detalle.nombreCandidato || '—' }}</strong></span>
                     }
-                    <strong>{{ detalle.nombreLista || '—' }}</strong>
+                    @if (detalle.nombreAlianza) {
+                      <strong>{{ detalle.nombreAlianza }}</strong>
+                    } @else {
+                      <strong>{{ detalle.nombreLista || '—' }}</strong>
+                    }
                   </div>
                 </div>
                 <!-- Votos -->
@@ -248,16 +260,17 @@
       }
       <!-- ACCIONES -->
       <div class="axis-form-actions">
-        <button mat-stroked-button type="button" class="axis-button-secondary" (click)="cancelarFormulario()">
+        <button mat-stroked-button type="button" class="axis-button-secondary"
+                (click)="cancelarFormulario()" [disabled]="guardando()">
           <mat-icon>close</mat-icon> Regresar
         </button>
         @if (modo === 'crear') {
-          <button mat-flat-button type="submit" class="axis-button-primary">
+          <button mat-flat-button type="submit" class="axis-button-primary" [disabled]="guardando()">
             <mat-icon>save</mat-icon> Registrar
           </button>
         }
         @if (modo === 'editar') {
-          <button mat-flat-button type="submit" class="axis-button-primary">
+          <button mat-flat-button type="submit" class="axis-button-primary" [disabled]="guardando()">
             <mat-icon>save</mat-icon> Actualizar
           </button>
         }

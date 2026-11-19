@@ -114,7 +114,8 @@
         </div>
         <!-- ACCIONES -->
         <div class="d-flex justify-content-end gap-2 mt-3">
-          <button mat-stroked-button type="button" class="axis-button-secondary" (click)="regresar()">
+          <button mat-stroked-button type="button" class="axis-button-secondary" (click)="regresar()"
+                  [disabled]="cargando()">
             <mat-icon>arrow_back</mat-icon> Regresar
           </button>
           <button mat-flat-button color="primary" type="button" [disabled]="cargando()"
