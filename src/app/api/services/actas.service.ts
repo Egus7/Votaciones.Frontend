@@ -68,4 +68,9 @@ export class ActasService {
   async apiActasCambiarEstadoIdPut(params: { id: string; nuevoEstado?: EstadoActa }): Promise<void> {
     await this.supabase.rpc('actas_cambiar_estado', { p_id: params.id, p_nuevo_estado: params.nuevoEstado });
   }
+
+  // Elimina todas las actas de prueba. La Edge Function valida la contraseña y el rol Administrador.
+  apiActasEliminarPruebasPost(params: { body: { password: string } }): Promise<string> {
+    return this.supabase.invocar('actas-eliminar-pruebas', { password: params.body.password });
+  }
 }

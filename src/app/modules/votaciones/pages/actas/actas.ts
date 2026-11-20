@@ -22,6 +22,10 @@ import { Canton } from '../../../../api/models/canton';
 import { Parroquia } from '../../../../api/models/parroquia';
 import { Zona } from '../../../../api/models/zona';
 import { LugarVotacionService } from '../../../../core/services/lugar-votacion-service';
+import { AuthCoreServiceCore } from '../../../../core/auth/auth-core.service';
+
+// Rol que puede eliminar las actas de prueba (el backend también lo valida)
+const ROL_ADMINISTRADOR = 'Administrador';
 
 @Component({
   selector: 'app-actas',
@@ -72,6 +76,7 @@ export class Actas {
     private router: Router,
     private swalMensaje: MensajeService,
     private manejoMensajeError: ManejoMensajesError,
+    private authService: AuthCoreServiceCore,
   ) {
     //filtro de tiposCandidato por tipo Eleccion
     this.tiposCandidato = this.eleccionContexto.tiposCandidato;
@@ -237,6 +242,38 @@ export class Actas {
   //Acciones
   nuevaActa(): void {
     void this.router.navigate([`${Enlace.Votaciones}/${EnlaceSub.Actas}/new`]);
+  }
+
+  get esAdministrador(): boolean {
+    return this.authService.getUsuario()?.nombreRol?.toLowerCase() === ROL_ADMINISTRADOR.toLowerCase();
+  }
+
+  // Elimina todas las actas de prueba, previa confirmación con la contraseña del administrador
+  async eliminarActasPrueba(): Promise<void> {
+    const password = await this.swalMensaje.confirmarConPassword(
+      'Eliminar actas de prueba',
+      'Se eliminarán todas las actas (cabecera y detalle), su registro en la bitácora y se reabrirán las mesas cerradas.',
+    );
+    if (!password) {
+      return;
+    }
+
+    this.cargando.set(true);
+    try {
+      const mensaje = await this.actasService.apiActasEliminarPruebasPost({ body: { password } });
+      await this.swalMensaje.exito('Actas eliminadas', mensaje);
+    } catch (error) {
+      const mensajeError = this.manejoMensajeError.getMessage(error);
+      await this.swalMensaje.error('No se eliminaron las actas', mensajeError);
+    } finally {
+      this.cargando.set(false);
+    }
+
+    const eleccionId = this.eleccionContexto.eleccion()?.idEleccion;
+    if (eleccionId) {
+      this.paginaActual = ConfigPage.page;
+      await this.cargarActas(eleccionId);
+    }
   }
   verActa(idActa: string | undefined): void {
     if (!idActa) {

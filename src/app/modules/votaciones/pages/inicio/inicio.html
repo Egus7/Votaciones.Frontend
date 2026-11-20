@@ -25,58 +25,66 @@
         </div>
       </div>
     }
-    <!-- Opciones -->
+    <!-- Opciones (solo las permitidas por el rol del usuario) -->
     <div class="dashboard-options">
       <!-- Candidatos -->
-      <button mat-icon-button type="button" class="dashboard-option"
-              [routerLink]="['', Enlace.Votaciones, EnlaceSub.Candidatos]">
-        <div class="dashboard-option-icon">
-          <mat-icon>people</mat-icon>
-        </div>
-        <div class="dashboard-option-content">
-          <h2>Candidatos</h2>
-          <p>Gestión de candidatos y listas electorales.</p>
-        </div>
-        <mat-icon class="dashboard-option-arrow">chevron_right</mat-icon>
-      </button>
+      @if (tienePermiso(Permisos.CANDIDATOS_VIEW)) {
+        <button mat-icon-button type="button" class="dashboard-option"
+                [routerLink]="['', Enlace.Votaciones, EnlaceSub.Candidatos]">
+          <div class="dashboard-option-icon">
+            <mat-icon>people</mat-icon>
+          </div>
+          <div class="dashboard-option-content">
+            <h2>Candidatos</h2>
+            <p>Gestión de candidatos y listas electorales.</p>
+          </div>
+          <mat-icon class="dashboard-option-arrow">chevron_right</mat-icon>
+        </button>
+      }
       <!-- Mesas -->
-      <button mat-icon-button type="button" class="dashboard-option"
-              [routerLink]="['', Enlace.Votaciones, EnlaceSub.Mesas]">
-        <div class="dashboard-option-icon">
-          <mat-icon>how_to_vote</mat-icon>
-        </div>
-        <div class="dashboard-option-content">
-          <h2>Mesas</h2>
-          <p>Consulta y gestión de mesas electorales.</p>
-        </div>
-        <mat-icon class="dashboard-option-arrow">chevron_right</mat-icon>
-      </button>
+      @if (tienePermiso(Permisos.MESAS_VIEW)) {
+        <button mat-icon-button type="button" class="dashboard-option"
+                [routerLink]="['', Enlace.Votaciones, EnlaceSub.Mesas]">
+          <div class="dashboard-option-icon">
+            <mat-icon>how_to_vote</mat-icon>
+          </div>
+          <div class="dashboard-option-content">
+            <h2>Mesas</h2>
+            <p>Consulta y gestión de mesas electorales.</p>
+          </div>
+          <mat-icon class="dashboard-option-arrow">chevron_right</mat-icon>
+        </button>
+      }
       <!-- Actas -->
-      <button mat-icon-button type="button" class="dashboard-option"
-              [routerLink]="['', Enlace.Votaciones, EnlaceSub.Actas]">
-        <div class="dashboard-option-icon">
-          <mat-icon>description</mat-icon>
-        </div>
-        <div class="dashboard-option-content">
-          <h2>Actas</h2>
-          <p>Registro, edición y validación de actas.</p>
-        </div>
-        <mat-icon class="dashboard-option-arrow">
-          chevron_right
-        </mat-icon>
-      </button>
+      @if (tienePermiso(Permisos.ACTAS_VIEW)) {
+        <button mat-icon-button type="button" class="dashboard-option"
+                [routerLink]="['', Enlace.Votaciones, EnlaceSub.Actas]">
+          <div class="dashboard-option-icon">
+            <mat-icon>description</mat-icon>
+          </div>
+          <div class="dashboard-option-content">
+            <h2>Actas</h2>
+            <p>Registro, edición y validación de actas.</p>
+          </div>
+          <mat-icon class="dashboard-option-arrow">
+            chevron_right
+          </mat-icon>
+        </button>
+      }
       <!-- Resultados -->
-      <button mat-icon-button type="button" class="dashboard-option"
-              [routerLink]="['', Enlace.Votaciones, EnlaceSub.Resultados]">
-        <div class="dashboard-option-icon">
-          <mat-icon>bar_chart</mat-icon>
-        </div>
-        <div class="dashboard-option-content">
-          <h2>Resultados</h2>
-          <p>Consulta de resultados electorales.</p>
-        </div>
-        <mat-icon class="dashboard-option-arrow">chevron_right</mat-icon>
-      </button>
+      @if (tienePermiso(Permisos.RESULTADOS_VIEW)) {
+        <button mat-icon-button type="button" class="dashboard-option"
+                [routerLink]="['', Enlace.Votaciones, EnlaceSub.Resultados]">
+          <div class="dashboard-option-icon">
+            <mat-icon>bar_chart</mat-icon>
+          </div>
+          <div class="dashboard-option-content">
+            <h2>Resultados</h2>
+            <p>Consulta de resultados electorales.</p>
+          </div>
+          <mat-icon class="dashboard-option-arrow">chevron_right</mat-icon>
+        </button>
+      }
     </div>
   </div>
 </div>

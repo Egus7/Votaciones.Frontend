@@ -6,9 +6,10 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { EleccionContexto } from '../../../../core/services/eleccion-contexto';
 import { Router } from '@angular/router';
-import { Enlace, EnlaceSub } from '../../../../Config';
+import { Enlace, EnlaceSub, Permisos } from '../../../../Config';
 import { MensajeService } from '../../../../core/mensajes/mensaje-service';
 import { ManejoMensajesError } from '../../../../core/mensajes/manejo-mensajes-error';
+import { PermisosService } from '../../../../core/services/permisos-service';
 
 @Component({
   selector: 'app-home',
@@ -24,11 +25,19 @@ export class Home implements OnInit {
     private router: Router,
     private swalMensaje: MensajeService,
     private manejoMensajeError: ManejoMensajesError,
+    private permisosService: PermisosService,
   ) {}
 
   get elecciones() {
     return this.eleccionContexto.elecciones;
   }
+
+  // Los permisos los carga el menú lateral al iniciar sesión
+  tienePermiso(permiso: string): boolean {
+    return this.permisosService.tienePermiso(permiso);
+  }
+
+  protected readonly Permisos = Permisos;
 
   async ngOnInit() {
     this.eleccionContexto.limpiar();

@@ -19,56 +19,76 @@
       <mat-icon>home</mat-icon>
       <span>Inicio</span>
     </a>
-    <!-- ADMINISTRACIÓN -->
-    <div class="axis-sidebar-section">
-      <span class="axis-sidebar-section-title">Administración</span>
-      <!-- Configuración -->
-      <div class="axis-sidebar-subsection">
-        <div class="axis-sidebar-subsection-title">
-          <mat-icon>settings</mat-icon>
-          <span>Configuración</span>
-        </div>
-        <a [routerLink]="[Enlace.Admin, EnlaceSub.Elecciones]" routerLinkActive="axis-sidebar-item-active"
-          class="axis-sidebar-item axis-sidebar-item-sub" data-tooltip="Elecciones">
-          <mat-icon>how_to_vote</mat-icon>
-          <span>Elecciones</span>
-        </a>
-        <a [routerLink]="[Enlace.Admin, EnlaceSub.Seguridad, EnlaceSub.Bitacora]"
-           routerLinkActive="axis-sidebar-item-active" class="axis-sidebar-item axis-sidebar-item-sub"
-           data-tooltip="Bitácora">
-          <mat-icon>history</mat-icon>
-          <span>Bitácora</span>
-        </a>
+    <!-- ADMINISTRACIÓN (solo las opciones permitidas por el rol) -->
+    @let verElecciones = tienePermiso(Permisos.ELECCIONES_VIEW);
+    @let verBitacora = tienePermiso(Permisos.BITACORA_VIEW);
+    @let verUsuarios = tienePermiso(Permisos.USUARIOS_VIEW);
+    @let verRoles = tienePermiso(Permisos.ROLES_VIEW);
+    @if (verElecciones || verBitacora || verUsuarios || verRoles) {
+      <div class="axis-sidebar-section">
+        <span class="axis-sidebar-section-title">Administración</span>
+        <!-- Configuración -->
+        @if (verElecciones || verBitacora) {
+          <div class="axis-sidebar-subsection">
+            <div class="axis-sidebar-subsection-title">
+              <mat-icon>settings</mat-icon>
+              <span>Configuración</span>
+            </div>
+            @if (verElecciones) {
+              <a [routerLink]="[Enlace.Admin, EnlaceSub.Elecciones]" routerLinkActive="axis-sidebar-item-active"
+                class="axis-sidebar-item axis-sidebar-item-sub" data-tooltip="Elecciones">
+                <mat-icon>how_to_vote</mat-icon>
+                <span>Elecciones</span>
+              </a>
+            }
+            @if (verBitacora) {
+              <a [routerLink]="[Enlace.Admin, EnlaceSub.Seguridad, EnlaceSub.Bitacora]"
+                 routerLinkActive="axis-sidebar-item-active" class="axis-sidebar-item axis-sidebar-item-sub"
+                 data-tooltip="Bitácora">
+                <mat-icon>history</mat-icon>
+                <span>Bitácora</span>
+              </a>
+            }
+          </div>
+        }
+        <!-- Seguridad -->
+        @if (verUsuarios || verRoles) {
+          <div class="axis-sidebar-subsection">
+            <div class="axis-sidebar-subsection-title">
+              <mat-icon>security</mat-icon>
+              <span>Seguridad</span>
+            </div>
+            @if (verUsuarios) {
+              <a [routerLink]="[Enlace.Admin, EnlaceSub.Seguridad, EnlaceSub.Usuarios]"
+                routerLinkActive="axis-sidebar-item-active" class="axis-sidebar-item axis-sidebar-item-sub"
+                data-tooltip="Usuarios">
+                <mat-icon>people</mat-icon>
+                <span>Usuarios</span>
+              </a>
+            }
+            @if (verRoles) {
+              <a [routerLink]="[Enlace.Admin, EnlaceSub.Seguridad, EnlaceSub.Roles]"
+                 routerLinkActive="axis-sidebar-item-active" class="axis-sidebar-item axis-sidebar-item-sub"
+                 data-tooltip="Roles">
+                <mat-icon>admin_panel_settings</mat-icon>
+                <span>Roles</span>
+              </a>
+            }
+          </div>
+        }
       </div>
-      <!-- Seguridad -->
-      <div class="axis-sidebar-subsection">
-        <div class="axis-sidebar-subsection-title">
-          <mat-icon>security</mat-icon>
-          <span>Seguridad</span>
-        </div>
-        <a [routerLink]="[Enlace.Admin, EnlaceSub.Seguridad, EnlaceSub.Usuarios]"
-          routerLinkActive="axis-sidebar-item-active" class="axis-sidebar-item axis-sidebar-item-sub"
-          data-tooltip="Usuarios">
-          <mat-icon>people</mat-icon>
-          <span>Usuarios</span>
-        </a>
-        <a [routerLink]="[Enlace.Admin, EnlaceSub.Seguridad, EnlaceSub.Roles]"
-           routerLinkActive="axis-sidebar-item-active" class="axis-sidebar-item axis-sidebar-item-sub"
-           data-tooltip="Roles">
-          <mat-icon>admin_panel_settings</mat-icon>
-          <span>Roles</span>
-        </a>
-      </div>
-    </div>
+    }
     <!-- VOTACIONES -->
-    <div class="axis-sidebar-section">
-      <span class="axis-sidebar-section-title">Votaciones</span>
-      <a [routerLink]="[Enlace.Votaciones, EnlaceSub.Listas]" routerLinkActive="axis-sidebar-item-active"
-         class="axis-sidebar-item" data-tooltip="Lista electoral">
-        <mat-icon>list_alt</mat-icon>
-        <span>Lista electoral</span>
-      </a>
-    </div>
+    @if (tienePermiso(Permisos.LISTAS_VIEW)) {
+      <div class="axis-sidebar-section">
+        <span class="axis-sidebar-section-title">Votaciones</span>
+        <a [routerLink]="[Enlace.Votaciones, EnlaceSub.Listas]" routerLinkActive="axis-sidebar-item-active"
+           class="axis-sidebar-item" data-tooltip="Lista electoral">
+          <mat-icon>list_alt</mat-icon>
+          <span>Lista electoral</span>
+        </a>
+      </div>
+    }
     <!-- SEPARADOR -->
     <div class="axis-sidebar-divider"></div>
     <!-- CUENTA -->

@@ -66,11 +66,13 @@
                             (click)="seleccionarEleccion(eleccion)">
                       Ingresar
                     </button>
-                    <!-- Resultados -->
-                    <button mat-flat-button color="primary" type="button" (click)="verResultados(eleccion)"
-                            [disabled]="eleccion.estado != 'Activa' && eleccion.estado != 'Cerrada'">
-                      Resultados
-                    </button>
+                    <!-- Resultados (solo con permiso de resultados) -->
+                    @if (tienePermiso(Permisos.RESULTADOS_VIEW)) {
+                      <button mat-flat-button color="primary" type="button" (click)="verResultados(eleccion)"
+                              [disabled]="eleccion.estado != 'Activa' && eleccion.estado != 'Cerrada'">
+                        Resultados
+                      </button>
+                    }
                   </div>
                 </div>
               </div>
