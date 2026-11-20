@@ -4,12 +4,17 @@ import { LoginResponseDto } from '../../api/models/login-response-dto';
 import { AuthService as ApiAuthService } from '../../api/services/auth.service';
 import { EstadoSesion } from '../../Config';
 import { Router } from '@angular/router';
+import { supabase, SupabaseConfig } from '../supabase/supabase.service';
+
+interface SesionGuardada {
+  access_token?: string;
+  refresh_token?: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthCoreServiceCore {
-  private readonly tokenKey = 'auth_token';
   private readonly userKey = 'auth_user';
 
   constructor(
@@ -22,16 +27,13 @@ export class AuthCoreServiceCore {
       body: loginDto,
     });
 
-    if (response.token) {
-      localStorage.setItem(this.tokenKey, response.token);
-    }
-
     localStorage.setItem(this.userKey, JSON.stringify(response));
     return response;
   }
 
+  // Token de acceso actual de Supabase (se renueva automáticamente con el refresh token).
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return this.leerSesion()?.access_token ?? null;
   }
 
   getUsuario(): LoginResponseDto | null {
@@ -40,44 +42,40 @@ export class AuthCoreServiceCore {
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem(this.userKey);
+    this.clearSession();
     void this.router.navigate(['/login']);
   }
+
   clearSession(): void {
-    localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
+    localStorage.removeItem(SupabaseConfig.storageKey);
+    void supabase.auth.signOut({ scope: 'local' });
   }
 
   getEstadoSesion(): EstadoSesion {
-    const token = this.getToken();
-    // No existe token
-    if (!token) {
+    const sesion = this.leerSesion();
+    // No existe sesión
+    if (!sesion) {
       return EstadoSesion.NoAutenticado;
     }
-
-    try {
-      const partes = token.split('.');
-      // Un JWT válido debe tener 3 partes
-      if (partes.length !== 3) {
-        return EstadoSesion.Invalido;
-      }
-      const payload = JSON.parse(atob(partes[1]));
-      // El claim exp es obligatorio para nuestra validación
-      if (!payload.exp) {
-        return EstadoSesion.Invalido;
-      }
-      //Expiro el token
-      const expiracion = payload.exp * 1000;
-      if (Date.now() >= expiracion) {
-        return EstadoSesion.Expirado;
-      }
-      return EstadoSesion.Autenticado;
-    } catch {
+    // Sin tokens no se puede renovar la sesión
+    if (!sesion.access_token || !sesion.refresh_token) {
       return EstadoSesion.Invalido;
     }
+    // Supabase renueva el access token con el refresh token; la sesión sigue vigente hasta cerrarla
+    return EstadoSesion.Autenticado;
   }
+
   isAuthenticated(): boolean {
     return this.getEstadoSesion() === EstadoSesion.Autenticado;
+  }
+
+  private leerSesion(): SesionGuardada | null {
+    try {
+      const valor = localStorage.getItem(SupabaseConfig.storageKey);
+      return valor ? (JSON.parse(valor) as SesionGuardada) : null;
+    } catch {
+      return null;
+    }
   }
 }

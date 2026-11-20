@@ -29,6 +29,10 @@ export class ManejoMensajesError {
         return error.message;
       }
     }
+    // Errores de Supabase (RPC / Edge Functions) ya traen el mensaje del backend
+    if (error instanceof Error && error.message) {
+      return error.message;
+    }
     return 'Ocurrió un error inesperado.';
   }
 

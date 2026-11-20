@@ -290,12 +290,11 @@ export class MesasElectoralForm implements OnInit {
     this.cargandoPreview.set(true);
 
     try {
-      const response = await this.mesasService.apiMesasElectoralCodigoMesaGet({
+      const preview = await this.mesasService.apiMesasElectoralCodigoMesaGet({
         eleccionId: eleccion.idEleccion,
         zonaId: this.mesaElectoral.zonaId,
         tipoMesa: this.mesaElectoral.tipoMesa,
       });
-      const preview = JSON.parse(response ?? '');
       this.codigoMesaPreview = preview.codigoMesa ?? '';
       this.descripcionMesaPreview = preview.descripcion ?? '';
     } catch (error) {

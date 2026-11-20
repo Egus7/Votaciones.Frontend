@@ -23,8 +23,8 @@ import { DecimalPipe } from '@angular/common';
 import { Subscription } from 'rxjs';
 import {
   ResultadosActualizadosEvent,
-  ResultadosSignalrService,
-} from '../../../../core/services/resultados-signalr.service';
+  ResultadosTiempoRealService,
+} from '../../../../core/services/resultados-tiempo-real.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { Chart, ChartConfiguration, Plugin } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -342,7 +342,7 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     private lugarVotacionService: LugarVotacionService,
     private eleccionContexto: EleccionContexto,
     private mesasService: MesasElectoralService,
-    private resultadosSignalr: ResultadosSignalrService,
+    private resultadosTiempoReal: ResultadosTiempoRealService,
     private router: Router,
     private swalMensaje: MensajeService,
     private manejoMensajeError: ManejoMensajesError,
@@ -366,7 +366,7 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     };
     this.tipoCandidato = state?.dignidad?.tipoCandidato;
 
-    this.suscripcionResultados = this.resultadosSignalr.resultadosActualizados$.subscribe(
+    this.suscripcionResultados = this.resultadosTiempoReal.resultadosActualizados$.subscribe(
       (evento) => {
         void this.procesarResultadosActualizados(evento);
       },
@@ -394,7 +394,7 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     }
 
     try {
-      await this.resultadosSignalr.unirseAResultados(this.eleccionId, this.tipoCandidato);
+      await this.resultadosTiempoReal.unirseAResultados(this.eleccionId, this.tipoCandidato);
     } catch (error) {
       // SignalR es complementario: no impedir la consulta normal.
       console.error('No se pudo conectar a las notificaciones de resultados.', error);
@@ -454,7 +454,7 @@ export class ResultadosGrid implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.suscripcionResultados?.unsubscribe();
 
-    void this.resultadosSignalr.salirDeResultados().catch((error) => {
+    void this.resultadosTiempoReal.salirDeResultados().catch((error) => {
       console.error('Error al salir del grupo de resultados.', error);
     });
   }
@@ -496,7 +496,7 @@ export class ResultadosGrid implements OnInit, OnDestroy {
     this.resultado.set(null);
 
     if (!this.tipoCandidato) {
-      await this.resultadosSignalr.salirDeResultados();
+      await this.resultadosTiempoReal.salirDeResultados();
       return;
     }
 
