@@ -1,0 +1,29 @@
+/* Botón "Eliminar actas prueba": encima de la tabla, alineado a la derecha */
+.actas-acciones-tabla {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-sm, 8px);
+}
+
+/* Rojo explícito: se definen los tokens de Angular Material y el color directo */
+.actas-boton-eliminar {
+  --mat-button-filled-container-color: var(--color-danger);
+  --mat-button-filled-label-text-color: #ffffff;
+  --mat-button-filled-icon-color: #ffffff;
+  --mdc-filled-button-container-color: var(--color-danger);
+  --mdc-filled-button-label-text-color: #ffffff;
+  background-color: var(--color-danger) !important;
+  color: #ffffff !important;
+  min-height: var(--button-height);
+  border-radius: 7px !important;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.actas-boton-eliminar:hover:not(:disabled) {
+  filter: brightness(0.92);
+}
+
+.actas-boton-eliminar:disabled {
+  opacity: 0.6;
+}

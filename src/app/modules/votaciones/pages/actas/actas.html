@@ -20,14 +20,6 @@
               [disabled]="cargando()">
         <mat-icon>arrow_back</mat-icon> Regresar a votaciones
       </button>
-      <!-- Eliminar actas de prueba (solo rol Administrador) -->
-      @if (esAdministrador) {
-        <span class="axis-toolbar-spacer"></span>
-        <button mat-flat-button type="button" class="axis-button-danger" (click)="eliminarActasPrueba()"
-                [disabled]="cargando()">
-          <mat-icon>delete_forever</mat-icon> Eliminar actas prueba
-        </button>
-      }
     </div>
     <!-- Filtros -->
     <div class="axis-table-filters">
@@ -127,6 +119,15 @@
         </button>
       </div>
     </div>
+    <!-- Eliminar actas de prueba (solo rol Administrador), arriba de la tabla a la derecha -->
+    @if (esAdministrador) {
+      <div class="actas-acciones-tabla">
+        <button mat-flat-button type="button" class="actas-boton-eliminar" (click)="eliminarActasPrueba()"
+                [disabled]="cargando()">
+          <mat-icon>delete_forever</mat-icon> Eliminar actas prueba
+        </button>
+      </div>
+    }
     <!-- Tabla -->
     <div class="axis-table-container">
       @if (cargando()) {
