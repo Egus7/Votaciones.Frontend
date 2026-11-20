@@ -37,6 +37,8 @@ import { apiActasPost$Json } from '../fn/actas/api-actas-post-json';
 import { ApiActasPost$Json$Params } from '../fn/actas/api-actas-post-json';
 import { apiActasPost$Plain } from '../fn/actas/api-actas-post-plain';
 import { ApiActasPost$Plain$Params } from '../fn/actas/api-actas-post-plain';
+import { apiActasEliminarPruebasPost } from '../fn/actas/api-actas-eliminar-pruebas-post';
+import { ApiActasEliminarPruebasPost$Params } from '../fn/actas/api-actas-eliminar-pruebas-post';
 
 @Injectable({ providedIn: 'root' })
 export class ActasService extends BaseService {
@@ -327,6 +329,18 @@ export class ActasService extends BaseService {
   apiActasCambiarEstadoIdPut(params: ApiActasCambiarEstadoIdPut$Params, context?: HttpContext): Promise<void> {
     const resp = this.apiActasCambiarEstadoIdPut$Response(params, context);
     return resp.then((r: StrictHttpResponse<void>): void => r.body);
+  }
+
+  /** Path part for operation `apiActasEliminarPruebasPost()` */
+  static readonly ApiActasEliminarPruebasPostPath = '/api/Actas/eliminar-pruebas';
+
+  /**
+   * Elimina todas las actas de prueba (solo rol Administrador, con su contraseña).
+   * Devuelve el mensaje con la cantidad de actas eliminadas.
+   */
+  apiActasEliminarPruebasPost(params?: ApiActasEliminarPruebasPost$Params, context?: HttpContext): Promise<string> {
+    const obs = apiActasEliminarPruebasPost(this.http, this.rootUrl, params, context);
+    return firstValueFrom(obs).then((r: StrictHttpResponse<string>): string => r.body);
   }
 
 }
