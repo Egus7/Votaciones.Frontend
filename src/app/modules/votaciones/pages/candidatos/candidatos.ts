@@ -86,7 +86,7 @@ export class Candidatos {
         pageSize: this.pageSize,
         busqueda: this.busqueda!,
         tipoCandidato: this.tipoCandidato!,
-        listaElectoralId: this.listaElectoralId!,
+        listaElectoralId: this.listaElectoralId! || undefined,
       });
 
       this.candidatos.set(response.items ?? []);
